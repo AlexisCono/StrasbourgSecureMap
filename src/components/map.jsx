@@ -9,6 +9,7 @@ import {
   startItiAnimation,
 } from "./itineraryFct.jsx";
 
+
 import { icons } from "../constants/icons";
 
 mapboxgl.accessToken =

@@ -1,38 +1,300 @@
 .buttonHref {
-  display: inline-block;
-  background-color: #005caa;
-  color: #fff;
+  padding: 1em 2em;
+  font-family: Arial Narrow, sans-serif;
   border: none;
-  padding: 2% 4%;
-  margin: 2%;
-  border-radius: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
   cursor: pointer;
-  font-size: 110%;
-  transition: background-color 0.3s ease;
-  text-decoration: none; /* Supprimer le soulignement du texte à l'intérieur du bouton */
+  color: #a9acff;
+  transition: all 1000ms;
+  text-decoration: none;
+  font-size: 15px;
+  position: relative;
+  overflow: hidden;
+  outline: 2px solid #d1cfff;
 }
 
 .buttonHref:hover {
-  background-color: #97bf0b;
+  color: #ffffff;
+  transform: scale(1.1);
+  outline: 2px solid #a9acff;
+  box-shadow: 4px 5px 17px -4px #a9acff;
 }
+
+.buttonHref::before {
+  content: "";
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: #a9acff;
+  transform: skewX(45deg);
+  z-index: -1;
+  transition: width 1000ms;
+}
+
+.buttonHref:hover::before {
+  width: 250%;
+}
+
+
 
 .buttonRetourAcc {
-  display: inline-block;
-  background-color: #97BF0B;
-  color: #fff;
-  border: none;
-  padding: 15% 40%;
-  margin: 0%;
-  border-radius: 15px;
+  padding: 1em 2em;
+  border: #70bdca;
+  margin-left: 20px;
+  margin-top: 3px;
+  margin-bottom:3px ;
+  font-family: Arial Narrow, sans-serif;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
   cursor: pointer;
-  font-size: 110%;
-  transition: background-color 0.3s ease;
-  text-decoration: none; /* Supprimer le soulignement du texte à l'intérieur du bouton */
-}
-.buttonRetourAcc:hover {
-  background-color: #a4b7e0;
+  color: #2c9caf;
+  transition: all 1000ms;
+  text-decoration: none;
+  font-size: 15px;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Centrage horizontal */
 }
 
+.buttonRetourAcc:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+  outline: none;
+  box-shadow: 4px 5px 17px -4px #268391;
+}
+
+.buttonRetourAcc::before {
+  content: "";
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: #2c9caf;
+  transform: skewX(45deg);
+  z-index: -1;
+  transition: width 1000ms;
+}
+
+.buttonRetourAcc:hover::before {
+  width: 250%;
+}
+ 
+.buttonModeItineraire {
+  padding: 1em 2em;
+  border: none;
+  font-family: Arial Narrow, sans-serif;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #2c9caf;
+  transition: all 1000ms;
+  text-decoration: none;
+  font-size: 15px;
+  position: relative;
+  overflow: hidden;
+  outline: 2px solid #2c9caf;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Centrage horizontal */
+}
+
+.buttonModeItineraire:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+  outline: 2px solid #70bdca;
+  box-shadow: 4px 5px 17px -4px #268391;
+}
+
+.buttonModeItineraire::before {
+  content: "";
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: #2c9caf;
+  transform: skewX(45deg);
+  z-index: -1;
+  transition: width 1000ms;
+}
+
+.buttonModeItineraire:hover::before {
+  width: 250%;
+}
+
+.buttonAjouterIcone{
+  padding: 1em 2em;
+  border: none;
+  font-family: Arial Narrow, sans-serif;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #2c9caf;
+  transition: all 1000ms;
+  text-decoration: none;
+  font-size: 15px;
+  position: relative;
+  overflow: hidden;
+  outline: 2px solid #2c9caf;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Centrage horizontal */
+}
+
+.buttonAjouterIcone:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+  outline: 2px solid #70bdca;
+  box-shadow: 4px 5px 17px -4px #268391;
+}
+
+.buttonAjouterIcone::before {
+  content: "";
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: #2c9caf;
+  transform: skewX(45deg);
+  z-index: -1;
+  transition: width 1000ms;
+}
+
+.buttonAjouterIcone:hover::before {
+  width: 250%;
+}
+
+.modeJour{
+  font-family: Arial Narrow, sans-serif;
+}
+
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #73C0FC;
+  transition: background-color 0.4s; /* Ajoutez une transition pour le changement de couleur de fond */
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  left: 2px;
+  bottom: 2px;
+  z-index: 2;
+  background-color: #e8e8e8;
+  transition: transform 0.4s, background-color 0.4s; /* Ajoutez une transition pour le changement de couleur de fond et la transformation */
+}
+
+
+.sun svg {
+  position: absolute;
+  top: 6px;
+  left: 36px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.moon svg {
+  fill: #73C0FC;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+}
+
+/* .switch:hover */.sun svg {
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+ 
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* .switch:hover */.moon svg {
+  animation: tilt 5s linear infinite;
+}
+
+@keyframes tilt {
+ 
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.input:checked + .slider {
+  background-color: #183153;
+}
+
+.input:focus + .slider {
+  box-shadow: 0 0 1px #183153;
+}
+
+.input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+
+ 
 .mapboxgl-popup-close-button {
   font-size: 24px; /* Ajustez la taille de la croix selon vos préférences */
   line-height: 24px; /* Assurez-vous que la ligne correspond à la taille pour centrer la croix */
@@ -46,3 +308,8 @@
 .mapboxgl-popup-close-button:hover {
   transform: scale(1.1); /* Effet d'échelle au survol pour agrandir légèrement la croix */
 }
+
+
+
+
+

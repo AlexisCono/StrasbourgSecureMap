@@ -3,26 +3,58 @@
   padding: 0;
   box-sizing: border-box;
 }
+body {
+  font-family: 'Arial Narrow', sans-serif;
+}
 
 .App-header {
-  background-color: #1A5FA0 ;
+/* Basic dimensions and centering */
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+
+/* Dark mode colors and gradient */
+background: #121212; /* Fallback for browsers that don't support gradients */
+background: linear-gradient(
+  135deg,
+  #00196c 25%,
+  #00114d 25%,
+  #00114d 50%,
+  #00196c 50%,
+  #00196c 75%,
+  #00114d 75%,
+  #00114d
+);
+background-size: 40px 40px;
+
+/* Animation */
+animation: move 4s linear infinite;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 html {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
 
 .banner {
-  padding: 20px;
-  background-color: #135089;
+  padding: 5px;
+  background-color: #00114d;
 }
 
 .logo {
@@ -39,12 +71,13 @@ html {
 }
 
 #title {
-  color: #ffffff;
+  color: #d1cfff;
   text-align: center;
-  font-family: "bignoodletitling", sans-serif;
+  font-family:Arial Narrow, sans-serif;;
   display: flex; /* Utilisation de flexbox */
   justify-content: center; /* Centrage horizontal */
   align-items: center; /* Centrage vertical */
+  font-size: 25px; /* Taille de police ajustée */
 }
 
 .buttonAccueil {
@@ -52,4 +85,3 @@ html {
   flex-direction: row;
   justify-content: center; /* Centrage horizontal */
 }
-

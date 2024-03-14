@@ -2,13 +2,20 @@ import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
 import { addIcon } from "./iconsFct.jsx";
-import { initRoute,updateRoute, deleteLastCoordinates, startItiAnimation} from "./itineraryFct.jsx";
+import {
+  initRoute,
+  updateRoute,
+  deleteLastCoordinates,
+  startItiAnimation,
+} from "./itineraryFct.jsx";
+
+import { icons } from "../constants/icons";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
 
 const Map = () => {
-  const [selectedIcon, setSelectedIcon] = useState("barrier");
+  const [selectedIcon, setSelectedIcon] = useState(null);
   const [count, setCount] = useState({
     barrier: 0,
     policecar: 0,
@@ -25,7 +32,7 @@ const Map = () => {
   const [itiCoordinates, setItiCoordinates] = useState([]);
   const handleDeleteLastCoordinate = () => {
     // Appel de la fonction deleteLastCoordinates ici
-    deleteLastCoordinates(map.current,itiCoordinates,'route1'); // Supposons que 'coordinates' soit votre tableau de coordonnées
+    deleteLastCoordinates(map.current, itiCoordinates, "route1"); // Supposons que 'coordinates' soit votre tableau de coordonnées
   };
 
   const handleStartAnimation = () => {
@@ -46,7 +53,7 @@ const Map = () => {
       zoom: zoom,
     });
 
-    initRoute(map.current, itiCoordinates, 'route1');
+    initRoute(map.current, itiCoordinates, "route1");
 
     // Ajout de la couche pour la 3D et initialisation des parcours
     // Nettoyage de la carte lors du démontage du composant
@@ -58,16 +65,16 @@ const Map = () => {
     const clickHandler = (e) => {
       if (mode === "itinerary") {
         itiCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
-        updateRoute(map.current, itiCoordinates, 'route1');
+        updateRoute(map.current, itiCoordinates, "route1");
       } else if (mode === "addIcon") {
         const iconCoordinates = e.lngLat;
-        const imageUrl = `./image/${selectedIcon}.png`;
+        const imageUrl = `icons/${selectedIcon.path}`;
         addIcon(
           map.current,
           iconCoordinates,
           imageUrl,
           setCount,
-          selectedIcon
+          selectedIcon.label
         );
       }
     };
@@ -80,10 +87,14 @@ const Map = () => {
     };
   }, [selectedIcon, mode, count, itiCoordinates]); // Effectue l'effet lors du changement d'icône
 
-  const iconImages = ["policeman", "policecar", "barrier"];
-
   return (
-    <div style={{ display: "flex", flexDirection: "row", backgroundColor:'#7fb9f0' }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#7fb9f0",
+      }}
+    >
       {/* Liste des éléments à gauche de la carte */}
       <ul style={{ listStyle: "square", padding: 20, marginRight: "50px" }}>
         <li>
@@ -116,11 +127,11 @@ const Map = () => {
             {/* Choix Icones */}
             <label>Sélectionner une icône :</label>
             <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
-              {iconImages.map((icon) => (
+              {Object.values(icons).map((icon, index) => (
                 <img
-                  key={icon}
-                  src={`image/${icon}.png`}
-                  alt={icon}
+                  key={index}
+                  src={`icons/${icon.path}`}
+                  alt={icon.label}
                   style={{
                     width: "30px",
                     height: "30px",
@@ -157,8 +168,7 @@ const Map = () => {
             <button onClick={handleDeleteLastCoordinate}>
               Delete last coordinate
             </button>
-            <button onClick={handleStartAnimation}>Start
-            </button>
+            <button onClick={handleStartAnimation}>Start</button>
           </div>
         )}
       </ul>
@@ -168,7 +178,6 @@ const Map = () => {
         ref={mapContainer}
         style={{ width: "1625px", height: "743px" }}
       />
-
     </div>
   );
 };

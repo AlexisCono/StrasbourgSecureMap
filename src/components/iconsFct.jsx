@@ -1,12 +1,11 @@
 import mapboxgl from "mapbox-gl";
-import '../styles/Popup.css'
+import "../styles/Popup.css";
 let markerCoordinatesArray = [];
 // Structure de données pour stocker les informations sur les marqueurs
 const markerData = [];
 
-export function addIcon(map, coordinates, imageUrl, setCount, type) {
-
-  const el = document.createElement('div');
+export function addIcon(map, coordinates, imageUrl, setCount, label) {
+  const el = document.createElement("div");
   const zoom = map.getZoom();
   const size = 30 * Math.pow(1.2, zoom - 15);
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
@@ -17,7 +16,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, type) {
   for (const markerCoordinates of markerCoordinatesArray) {
     const distance = Math.sqrt(
       Math.pow(markerCoordinates.x - newMarkerCoordinates.x, 2) +
-      Math.pow(markerCoordinates.y - newMarkerCoordinates.y, 2)
+        Math.pow(markerCoordinates.y - newMarkerCoordinates.y, 2)
     );
 
     if (distance < iconDistanceThreshold) {
@@ -27,17 +26,17 @@ export function addIcon(map, coordinates, imageUrl, setCount, type) {
     }
   }
 
-  el.className = 'marker';
+  el.className = "marker";
   el.style.backgroundImage = `url(${imageUrl})`; // Utilisation de l'URL de l'image importée
-  el.style.width = size + 'px'; // Taille initiale du marqueur
-  el.style.height = size + 'px';
-  el.style.backgroundSize = 'cover';
-  el.style.borderRadius = '100%';
-  el.style.cursor = 'pointer';
+  el.style.width = size + "px"; // Taille initiale du marqueur
+  el.style.height = size + "px";
+  el.style.backgroundSize = "cover";
+  el.style.borderRadius = "100%";
+  el.style.cursor = "pointer";
 
   const popupContent = `
     <div class="popup-content">
-      <h3>${type}</h3>
+      <h3>${label}</h3>
       <label for="heurePose">Heure de pose :</label>
       <input type="time" id="heurePose" name="heurePose"><br><br>
       <label for="heureDepose">Heure de dépose :</label>
@@ -46,9 +45,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, type) {
     </div>
 `;
 
-
-  const popup = new mapboxgl.Popup({ offset: 25 })
-    .setHTML(popupContent);
+  const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
 
   const marker = new mapboxgl.Marker(el)
     .setLngLat(coordinates)
@@ -56,36 +53,36 @@ export function addIcon(map, coordinates, imageUrl, setCount, type) {
     .addTo(map);
 
   // Gestion de la suppression de l'icône associé
-  popup.on('open', () => {
-    document.getElementById('deleteButton').addEventListener('click', () => {
+  popup.on("open", () => {
+    document.getElementById("deleteButton").addEventListener("click", () => {
       marker.remove(); // Supprimer l'icône
-      const index = markerCoordinatesArray.findIndex(coords => coords === newMarkerCoordinates);
+      const index = markerCoordinatesArray.findIndex(
+        (coords) => coords === newMarkerCoordinates
+      );
       if (index !== -1) {
         markerCoordinatesArray.splice(index, 1); // Supprimer les coordonnées du tableau
       }
       popup.remove(); // Supprimer le popup
-      decreaseCount(setCount,type)
+      decreaseCount(setCount, label);
     });
   });
 
-  map.on('zoom', () => {
+  map.on("zoom", () => {
     const zoom = map.getZoom();
     const newSize = 30 * Math.pow(1.2, zoom - 15); // Ajustez le facteur de zoom selon votre préférence
-    el.style.width = newSize + 'px';
-    el.style.height = newSize + 'px';
+    el.style.width = newSize + "px";
+    el.style.height = newSize + "px";
   });
 
-  
-  
-  incrementCount(setCount, type);
+  incrementCount(setCount, label);
   markerCoordinatesArray.push(newMarkerCoordinates);
 
   // Enregistrer les informations du marqueur dans la structure de données
   const markerInfo = {
     coordinates: coordinates,
     imageUrl: imageUrl,
-    type: type,
-    popup: popup
+    type: label,
+    popup: popup,
     // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
   };
 
@@ -93,7 +90,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, type) {
 }
 
 export function getMarkerInfo(coordinates) {
-  return markerData.find(marker => marker.coordinates === coordinates);
+  return markerData.find((marker) => marker.coordinates === coordinates);
 }
 
 export function incrementCount(setCount, type) {

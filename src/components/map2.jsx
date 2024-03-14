@@ -266,6 +266,13 @@ const Map = () => {
         </Menu>
         </Sidebar>
       
+        
+       
+    
+
+    
+  
+
       
       {/* Carte */}
       <div

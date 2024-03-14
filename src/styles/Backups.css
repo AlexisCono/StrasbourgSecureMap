@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* 100% de la hauteur de la vue */
+  }
+  
+.logoBackupsPage, .links {
+    width: 50%; /* Chaque élément prend la moitié de la largeur */
+    height: 100%; /* Prend toute la hauteur de .container */
+    display: flex;
+    justify-content: center; /* Centrer les éléments horizontalement */
+    align-items: center; /* Centrer les éléments verticalement */
+}
+
+.logo img {
+    max-width: 100%; /* Assurez-vous que le logo ne dépasse pas de la boîte */
+}
+
+.links ul {
+    color: black;
+    padding: 0;
+}
+
+.links li {
+    margin-bottom: 50px; /* Espace entre les liens */
+}
+
+.links a {
+    text-decoration: none; /* Supprimez le soulignement des liens */
+    color: black; /* Couleur des liens */
+}
+
+.separator {
+    border-left: 5px solid #4f4b4b; /* Bordure séparatrice grise plus large */
+    height: 90%; /* Prend toute la hauteur de .container */
+    margin-left: 70px; /* Marge de 20px de chaque côté pour éviter de commencer dès le début et de s'arrêter avant la fin */
+    margin-top: 35px;
+}
+  
+  

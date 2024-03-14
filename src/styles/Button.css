@@ -1,0 +1,48 @@
+.buttonHref {
+  display: inline-block;
+  background-color: #005caa;
+  color: #fff;
+  border: none;
+  padding: 2% 4%;
+  margin: 2%;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 110%;
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Supprimer le soulignement du texte à l'intérieur du bouton */
+}
+
+.buttonHref:hover {
+  background-color: #97bf0b;
+}
+
+.buttonRetourAcc {
+  display: inline-block;
+  background-color: #97BF0B;
+  color: #fff;
+  border: none;
+  padding: 15% 40%;
+  margin: 0%;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 110%;
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* Supprimer le soulignement du texte à l'intérieur du bouton */
+}
+.buttonRetourAcc:hover {
+  background-color: #a4b7e0;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 24px; /* Ajustez la taille de la croix selon vos préférences */
+  line-height: 24px; /* Assurez-vous que la ligne correspond à la taille pour centrer la croix */
+  width: 24px; /* Définissez également la largeur de la croix pour laisser de l'espace autour */
+  height: 24px; /* Définissez également la hauteur de la croix pour laisser de l'espace autour */
+  color: #000; /* Couleur de la croix */
+  font-weight: bold; /* Optionnel : pour une croix plus visible */
+  transition: transform 0.2s ease; /* Ajoutez une transition pour une animation douce */
+}
+
+.mapboxgl-popup-close-button:hover {
+  transform: scale(1.1); /* Effet d'échelle au survol pour agrandir légèrement la croix */
+}

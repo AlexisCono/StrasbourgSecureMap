@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App-header {
+  background-color: #1A5FA0 ;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.banner {
+  padding: 20px;
+  background-color: #135089;
+}
+
+.logo {
+  width: 20vw; /* La largeur du logo est de 50% de la largeur de l'écran */
+  max-width: 100%; /* La largeur maximale du logo est égale à 100% de la largeur de son conteneur */
+  height: auto; /* La hauteur du logo s'ajuste automatiquement pour conserver les proportions */
+}
+
+.bannerTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#title {
+  color: #ffffff;
+  text-align: center;
+  font-family: "bignoodletitling", sans-serif;
+  display: flex; /* Utilisation de flexbox */
+  justify-content: center; /* Centrage horizontal */
+  align-items: center; /* Centrage vertical */
+}
+
+.buttonAccueil {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Centrage horizontal */
+}
+

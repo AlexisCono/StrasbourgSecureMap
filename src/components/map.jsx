@@ -6,6 +6,7 @@ import { initRoute, updateRoute, deleteLastCoordinates, startItiAnimation } from
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
+import { initZone,updateZone } from "./zone.jsx";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
@@ -18,7 +19,7 @@ const Map = () => {
     policeman: 0,
   });
 
-  const [mode, setMode] = useState("itinerary");
+  const [mode, setMode] = useState();
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -26,6 +27,7 @@ const Map = () => {
   const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
 
   const [itiCoordinates, setItiCoordinates] = useState([]);
+  const [zoneCoordinates, setZoneCoordinates] = useState([]);
 
   const handleDeleteLastCoordinate = () => {
     // Appel de la fonction deleteLastCoordinates ici
@@ -51,11 +53,11 @@ const Map = () => {
     });
 
     initRoute(map.current, itiCoordinates, "route1");
-
+    initZone(map.current,zoneCoordinates,"zone1");
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [itiCoordinates]); // Effectue l'effet uniquement lors du montage initial
+  }, [itiCoordinates,zoneCoordinates]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -73,7 +75,11 @@ const Map = () => {
           setCount,
           selectedIcon.label
         );
+      } else if (mode === "zone"){
+        zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
+        updateZone(map.current,zoneCoordinates,"zone1")
       }
+
     };
 
     map.current.on("click", clickHandler);
@@ -87,6 +93,7 @@ const Map = () => {
     mode,
     count,
     itiCoordinates,
+    zoneCoordinates
   ]); // Effectue l'effet lors du changement d'icône
 
   return (
@@ -175,6 +182,15 @@ const Map = () => {
                 </p>
               </div>
             )}
+          </SubMenu>
+          <SubMenu
+            backgroundColor="#d1cfff"
+            label="Définition d'une zone"
+            onClick={() => setMode("zone")}
+          >
+           {mode === "addIcon" && (
+            <br/>
+           )} 
           </SubMenu>
         </Menu>
       </Sidebar>

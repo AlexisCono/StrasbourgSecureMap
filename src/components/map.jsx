@@ -12,12 +12,13 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
 
 const Map = () => {
-  const [selectedIcon, setSelectedIcon] = useState("barrier");
-  const [count, setCount] = useState({
-    barrier: 0,
-    policecar: 0,
-    policeman: 0,
-  });
+  const [selectedIcon, setSelectedIcon] = useState(undefined);
+
+  const initialCountState = Object.fromEntries(
+    Object.values(icons).map((icon, index) => [index, 0])
+  );
+
+  const [count, setCount] = useState({ initialCountState });
 
   const [mode, setMode] = useState();
 
@@ -169,20 +170,20 @@ const Map = () => {
                     />
                   ))}
                 </div>
-
-                {/* Nombre d'objets */}
-                <p style={{ marginLeft: "10px" }}>
-                  Nombre de barrière : {count.barrier}
-                </p>
-                <p style={{ marginLeft: "10px" }}>
-                  Nombre de policecar : {count.policecar}
-                </p>
-                <p style={{ marginLeft: "10px" }}>
-                  Nombre de policeman : {count.policeman}
-                </p>
               </div>
             )}
           </SubMenu>
+
+          <SubMenu label="Détails">
+            <ul>
+              {Object.values(icons).map((icon, index) => (
+                <li key={index}>
+                  {icon.label} : {count.index}
+                </li>
+              ))}
+            </ul>
+          </SubMenu>
+          
           <SubMenu
             backgroundColor="#d1cfff"
             label="Définition d'une zone"
@@ -191,6 +192,7 @@ const Map = () => {
            {mode === "addIcon" && (
             <br/>
            )} 
+
           </SubMenu>
         </Menu>
       </Sidebar>

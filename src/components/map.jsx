@@ -247,7 +247,7 @@ const Map = () => {
             <ul>
               {Object.values(icons).map((icon, index) => (
                 <li key={index}>
-                  {icon.label} : {index.count}
+                  {icon.label} : {count.index}
                 </li>
               ))}
             </ul>

@@ -110,7 +110,6 @@ export function updateRoute(map, coordinates, id_route) {
       }
     }]
   };
-
   map.getSource(id_route).setData(route);
   map.getSource('point').setData(point);
 }
@@ -123,11 +122,9 @@ export function deleteLastCoordinates(map, coordinates, id_route) {
 
 export function startItiAnimation(map, positions) {
   if (!map || !positions || positions.length === 0) return;
-  const intermediateCoordinates = addIntermediateCoordinates(positions,3);
-  console.log(intermediateCoordinates)
+  const intermediateCoordinates = addIntermediateCoordinates(positions,10);
   let index = 0; // Indice actuel dans le tableau de positions
 
-  // Fonction pour changer la position de l'image toutes les 0,5 secondes
   function animate() {
     // Vérifier si l'indice est dans la plage des positions
     if (index < intermediateCoordinates.length) {

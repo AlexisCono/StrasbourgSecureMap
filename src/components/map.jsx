@@ -11,12 +11,13 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
 
 const Map = () => {
-  const [selectedIcon, setSelectedIcon] = useState("barrier");
-  const [count, setCount] = useState({
-    barrier: 0,
-    policecar: 0,
-    policeman: 0,
-  });
+  const [selectedIcon, setSelectedIcon] = useState(undefined);
+
+  const initialCountState = Object.fromEntries(
+    Object.values(icons).map((icon, index) => [index, 0])
+  );
+
+  const [count, setCount] = useState({ initialCountState });
 
   const [mode, setMode] = useState("addIcon");
   const [modeIti, setModeIti] = useState("iti1");
@@ -245,7 +246,9 @@ const Map = () => {
           <SubMenu label="Détails">
             <ul>
               {Object.values(icons).map((icon, index) => (
-                <li key={index}>`{icon.label} :`</li>
+                <li key={index}>
+                  {icon.label} : {index.count}
+                </li>
               ))}
             </ul>
           </SubMenu>

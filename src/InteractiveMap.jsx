@@ -1,5 +1,5 @@
 import React from "react";
-import Map from "./components/map2";
+import Map from "./components/map";
 import Banner from "./Banner";
 import Button from "./Button";
 import "./styles/Button.css";
@@ -8,7 +8,7 @@ function InteractiveMap() {
   return (
     <div>
       <Banner>
-        <Button href="/" classe="buttonRetourAcc" >
+        <Button href="/" classe="buttonRetourAcc">
           MENU
         </Button>
       </Banner>

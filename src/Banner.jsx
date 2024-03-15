@@ -7,13 +7,8 @@ const Banner = ({ children }) => {
     <div>
       <header className="banner">
         <div className="bannerTitle">
-          <img
-            src="../public/image/logo_tous.png"
-            alt="logo_SSM_TPS_strasbourg"
-            className="logo"
-          />
           <div>{children}</div>
-          <h1 id="title">Strasbourg Secure Map</h1>
+          <h1 id="title" style={{ textAlign: "center", margin: "0 auto" }}>STRASBOURG SECURE MAP</h1>
         </div>
       </header>
     </div>

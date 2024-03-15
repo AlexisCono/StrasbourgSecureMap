@@ -19,6 +19,7 @@ const Map = () => {
   });
 
   const [mode, setMode] = useState("itinerary");
+  const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -88,10 +89,29 @@ const Map = () => {
     count,
     itiCoordinates,
   ]); // Effectue l'effet lors du changement d'icône
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
+  };
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <Sidebar backgroundColor="#d1cfff">
+    <div style={{ display: "flex", height: "100vh" }}>
+      <Sidebar collapsed={!sidebarOpen} width="200px" backgroundColor="#d1cfff">
+        {/* Contenu de la sidebar */}
+        <div style={{ position: 'relative' }}>
+    {/* Bouton pour ouvrir/fermer la sidebar */}
+    <button
+      onClick={toggleSidebar}
+      style={{
+        position: "absolute",
+        top: "50%",
+        right: 0,
+        transform: "translateY(-50%)",
+        zIndex: 999
+      }}
+    >
+      {sidebarOpen ? "Fermer la sidebar" : "Ouvrir la sidebar"}
+    </button>
         <Menu
           transitionDuration={500}
           menuItemStyles={{
@@ -115,7 +135,7 @@ const Map = () => {
                 {/* Parcours 1 */}
                   Parcours 1
                 <br />
-                <button onClick={() => handleDeleteLastCoordinate}>
+                <button onClick={handleDeleteLastCoordinate}>
                   <img
                     src={`./public/image/return.png`}
                     alt="return"
@@ -177,16 +197,21 @@ const Map = () => {
             )}
           </SubMenu>
         </Menu>
+        </div>
       </Sidebar>
 
       {/* Carte */}
       <div
         id="map-container"
         ref={mapContainer}
-        style={{ width: "1625px", height: "743px" }}
+        style={{ flex: 1,position:'relative' }} // Ajustement pour occuper tout l'espace restant
       ></div>
+
+      {/* Bouton pour ouvrir/fermer la sidebar */}
+      
     </div>
   );
 };
+
 
 export default Map;

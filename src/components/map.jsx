@@ -238,22 +238,19 @@ const Map = () => {
                     />
                   ))}
                 </div>
-
-                {/* Nombre d'objets */}
-                <p style={{ marginLeft: "10px" }}>
-                  Nombre de barrière : {count.barrier}
-                </p>
-                <p style={{ marginLeft: "10px" }}>
-                  Nombre de policecar : {count.policecar}
-                </p>
-                <p style={{ marginLeft: "10px" }}>
-                  Nombre de policeman : {count.policeman}
-                </p>
               </div>
             )}
           </SubMenu>
 
-          <SubMenu label="Mode Nuit/ Mode Jour">
+          <SubMenu label="Détails">
+            <ul>
+              {Object.values(icons).map((icon, index) => (
+                <li key={index}>`{icon.label} :`</li>
+              ))}
+            </ul>
+          </SubMenu>
+
+          <SubMenu label="Mode Nuit / Mode Jour">
             <div style={{ marginLeft: "10px" }}>
               <br />
 
@@ -281,7 +278,7 @@ const Map = () => {
               </label>
               <div style={{ height: "10px" }}></div>
               <span className="modeJour">
-                {nightMode ? "Mode Nuit" : "MODE JOUR"}
+                {nightMode ? "Mode Nuit" : "Mode Jour"}
               </span>
             </div>
           </SubMenu>

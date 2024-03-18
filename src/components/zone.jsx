@@ -9,7 +9,7 @@ export function initZone(map, coordinates, zoneId) {
           'coordinates': [coordinates] // Une seule ligne est suffisante pour définir une zone fermée
         }
       };
-  
+
       map.addSource(zoneId, {
         'type': 'geojson',
         'data': zone

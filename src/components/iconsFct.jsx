@@ -4,6 +4,7 @@ let markerCoordinatesArray = [];
 // Structure de données pour stocker les informations sur les marqueurs
 const markerData = [];
 
+
 export function addIcon(map, coordinates, imageUrl, setCount, label) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
@@ -37,6 +38,8 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
   const popupContent = `
     <div class="popup-content">
       <h3>${label}</h3>
+      <label for="quantite">Quantité :</label>
+      <input type="number" id="quantite" name="quantite"><br><br>
       <label for="heurePose">Heure de pose :</label>
       <input type="time" id="heurePose" name="heurePose"><br><br>
       <label for="heureDepose">Heure de dépose :</label>
@@ -54,6 +57,10 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
 
   // Gestion de la suppression de l'icône associé
   popup.on("open", () => {
+    const quantiteInput = document.getElementById("quantite");
+    const heurePoseInput = document.getElementById("heurePose");
+    const heureDeposeInput = document.getElementById("heureDepose");
+
     document.getElementById("deleteButton").addEventListener("click", () => {
       marker.remove(); // Supprimer l'icône
       const index = markerCoordinatesArray.findIndex(
@@ -64,6 +71,27 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
       }
       popup.remove(); // Supprimer le popup
       decreaseCount(setCount, label);
+    });
+
+    popup.on("close", () => {
+      const quantity = quantiteInput.value;
+      const heurePose = heurePoseInput.value;
+      const heureDepose = heureDeposeInput.value;
+
+      // Enregistrer les informations du marqueur dans la structure de données
+      const markerInfo = {
+        coordinates: coordinates,
+        imageUrl: imageUrl,
+        type: label,
+        quantite: quantity,
+        heurePose: heurePose,
+        heureDepose: heureDepose,
+        popup: popup,
+        // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
+      };
+      console.log("New marker added:", markerInfo);
+
+      markerData.push(markerInfo);
     });
   });
 
@@ -76,17 +104,6 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
 
   incrementCount(setCount, label);
   markerCoordinatesArray.push(newMarkerCoordinates);
-
-  // Enregistrer les informations du marqueur dans la structure de données
-  const markerInfo = {
-    coordinates: coordinates,
-    imageUrl: imageUrl,
-    type: label,
-    popup: popup,
-    // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
-  };
-
-  markerData.push(markerInfo);
 }
 
 export function getMarkerInfo(coordinates) {
@@ -103,6 +120,42 @@ export function incrementCount(setCount, label) {
     })
   );
 }
+
+export function compareTime(time1, time2) {
+  const [hour1, minute1] = time1.split(':').map(Number);
+  const [hour2, minute2] = time2.split(':').map(Number);
+
+  // Comparaison des heures
+  if (hour1 < hour2) {
+      return -1;
+  } else if (hour1 > hour2) {
+      return 1;
+  } else {
+      // Si les heures sont égales, comparer les minutes
+      if (minute1 < minute2) {
+          return -1;
+      } else if (minute1 > minute2) {
+          return 1;
+      } else {
+          return 0; // Les heures et les minutes sont égales
+      }
+  }
+}
+
+export function filterMarkersByTime(appTime) {
+  markerData.forEach(marker => {
+      const heurePose = marker.heurePose;
+      const heureDepose = marker.heureDepose;
+
+      // Comparez les heures avec la fonction compareTime
+      if (compareTime(heurePose, appTime) <= 0 && compareTime(appTime, heureDepose) <= 0) {
+          marker.popup.setLngLat(marker.coordinates); // Replacez le popup à sa position d'origine
+      } else {
+          marker.popup.setLngLat([0, 0]); // Déplacez le popup hors de la vue de l'utilisateur
+      }
+  });
+}
+
 
 export function decreaseCount(setCount, label) {
   setCount((prevCount) =>

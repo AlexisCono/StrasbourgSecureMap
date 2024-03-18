@@ -15,6 +15,7 @@ mapboxgl.accessToken =
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
+
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
     countIcons: 0,
@@ -23,6 +24,9 @@ const Map = () => {
 
   const [appTime, setAppTime] = useState(new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
   const [mode, setMode] = useState();
+
+  const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
+
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -95,16 +99,37 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
+
   }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
 
   useEffect(() => {
     filterMarkersByTime(appTime);
   }, [appTime]);
   
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
+  };
+
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <Sidebar backgroundColor="#d1cfff">
+    <div style={{ display: "flex", height: "100vh" }}>
+      <Sidebar collapsed={!sidebarOpen} width="200px" backgroundColor="#d1cfff">
+        {/* Contenu de la sidebar */}
+        <div style={{ position: 'relative' }}>
+    {/* Bouton pour ouvrir/fermer la sidebar */}
+    <button className="boutonSidebar"
+      onClick={toggleSidebar}
+      style={{
+        marginTop:"450px",
+        position: "absolute",
+        marginLeft:"8px",
+        marginRight:"10px",
+        zIndex: 999
+      }}
+    >
+      {sidebarOpen ? "Fermer" : "Ouvrir"}
+    </button>
         <Menu
           transitionDuration={500}
           menuItemStyles={{
@@ -119,7 +144,7 @@ const Map = () => {
           }}
         >
           <SubMenu
-            label="Mode Itinéraire"
+            label={<span style={{ fontSize: '15px' }}>🗺️​ Itinéraire / Zone</span>}
             backgroundColor="#d1cfff"
             onClick={() => setMode("itinerary")}
           >
@@ -128,7 +153,7 @@ const Map = () => {
                 {/* Parcours 1 */}
                 Parcours 1
                 <br />
-                <button onClick={() => handleDeleteLastCoordinate}>
+                <button onClick={handleDeleteLastCoordinate}>
                   <img
                     src={`./public/image/return.png`}
                     alt="return"
@@ -141,7 +166,7 @@ const Map = () => {
           </SubMenu>
           <SubMenu
             backgroundColor="#d1cfff"
-            label="Pose et dépose d'objet"
+            label={<span style={{ fontSize: '15px' }}>🏗️​ Elmts de Sécurisation</span>}
             onClick={() => setMode("addIcon")}
           >
             {mode === "addIcon" && (
@@ -202,16 +227,21 @@ const Map = () => {
             {mode === "addIcon" && <br />}
           </SubMenu>
         </Menu>
+        </div>
       </Sidebar>
       <Clock onTimeChange={handleTimeChange} />
       {/* Carte */}
       <div
         id="map-container"
         ref={mapContainer}
-        style={{ width: "1625px", height: "743px" }}
+        style={{ flex: 1,position:'relative' }} // Ajustement pour occuper tout l'espace restant
       ></div>
+
+      {/* Bouton pour ouvrir/fermer la sidebar */}
+      
     </div>
   );
 };
+
 
 export default Map;

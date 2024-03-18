@@ -53,15 +53,20 @@ html {
 }
 
 .banner {
-  padding: 5px;
+  padding: 2px;
   background-color: #00114d;
+  text-align: center;
 }
 
 .logo {
-  width: 20vw; /* La largeur du logo est de 50% de la largeur de l'écran */
-  max-width: 100%; /* La largeur maximale du logo est égale à 100% de la largeur de son conteneur */
-  height: auto; /* La hauteur du logo s'ajuste automatiquement pour conserver les proportions */
+  width: 100px; /* Taille du logo en pixels */
+  height: auto; 
+  display: flex;
+  justify-content: center; /* Centrer les boutons horizontalement */
+  margin-top: 20px; /* Ajoute une marge en haut des boutons *//* La hauteur du logo s'ajuste automatiquement pour conserver les proportions */
 }
+
+
 
 .bannerTitle {
   display: flex;
@@ -84,4 +89,17 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: center; /* Centrage horizontal */
+}
+
+.homePageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Ajoute une marge en haut */
 }

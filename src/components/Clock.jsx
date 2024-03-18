@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types"; // Importez PropTypes
-
+import "../styles/Clock.css"
 const Clock = ({ onTimeChange }) => {
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
@@ -11,10 +11,18 @@ const Clock = ({ onTimeChange }) => {
     };
 
     return (
-        <div>
-            <label htmlFor="clock">Heure :</label>
-            <input type="time" id="clock" value={currentTime} onChange={handleTimeChange} />
-        </div>
+        <div style={{ fontFamily: "Consolas,monaco,monospace", display: 'flex', alignItems: 'center' }} className="clock-container">
+          <div style={{ border: '1px solid #00114d', background: '#00114d', padding: '5px', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>  
+           
+            
+  <label htmlFor="clock" style={{ fontSize: '14px', fontFamily:'Consolas,monaco,monospace', color: '#2c9caf', marginLeft: '5px',marginRight:'5px' }}>HEURE</label>
+  <input className="Horloge" type="time" id="clock" value={currentTime} onChange={handleTimeChange} style={{ color: '#00114d', border: 'none',display: 'flex', outline: 'none' }} />
+</div>
+</div>
+
+
+
+    
     );
 };
 

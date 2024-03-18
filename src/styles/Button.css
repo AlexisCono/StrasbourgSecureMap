@@ -1,11 +1,11 @@
 .buttonHref {
   padding: 1em 2em;
-  font-family: Arial Narrow, sans-serif;
+  font-family: Consolas,monaco,monospace;
   border: none;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
-  text-transform: uppercase;
+  text-transform: none;
   cursor: pointer;
   color: #a9acff;
   transition: all 800ms;
@@ -48,7 +48,7 @@
   margin-left: 10px;
   margin-top: 3px;
   margin-bottom:3px ;
-  font-family: Arial Narrow, sans-serif;
+  font-family: Consolas,monaco,monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -93,7 +93,7 @@
 .buttonModeItineraire {
   padding: 1em 2em;
   border: none;
-  font-family: Arial Narrow, sans-serif;
+  font-family: Consolas,monaco,monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -138,7 +138,7 @@
 .buttonAjouterIcone{
   padding: 1em 2em;
   border: none;
-  font-family: Arial Narrow, sans-serif;
+  font-family: Consolas,monaco,monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -182,7 +182,7 @@
 
 .boutonSidebar{
   padding: 1em 2em;
-  font-family: Arial Narrow, sans-serif;
+  font-family: Consolas,monaco,monospace;
   border: none;
   border-radius: 5px;
   font-weight: bold;
@@ -193,7 +193,11 @@
   transition: all 100ms;
   text-decoration: none;
   font-size: 8px;
-  position: relative;
+  margin-left:10%;
+  bottom: -150%; /* Positionné à 5% du bas du conteneur parent (la sidebar) */
+  left: 0%; 
+  /* Positionné horizontalement au centre de la sidebar */ /* Centrage horizontal */
+  position: absolute;
   overflow: hidden;
   outline: 2px solid #d1cfff;
 }
@@ -203,6 +207,7 @@
   transform: scale(1.1);
   outline: 2px solid #a9acff;
   box-shadow: 4px 5px 17px -4px #a9acff;
+  
 }
 
 .boutonSidebar::before {

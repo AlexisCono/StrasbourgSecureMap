@@ -8,6 +8,9 @@ import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
 import { initZone,updateZone } from "./zone.jsx";
 import Clock from "./Clock.jsx";
+import "../styles/Clock.css"
+import "../styles/Icones.css"
+
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
@@ -110,26 +113,34 @@ const Map = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
   };
-
+  
+    // État local pour stocker le terme de recherche
+    const [searchTerm, setSearchTerm] = useState("");
+  
+    // Fonction de gestion de la saisie de texte
+    const handleSearchChange = (event) => {
+      setSearchTerm(event.target.value);
+    };
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
+     
       <Sidebar collapsed={!sidebarOpen} width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: 'relative' }}>
     {/* Bouton pour ouvrir/fermer la sidebar */}
+    
     <button className="boutonSidebar"
       onClick={toggleSidebar}
-      style={{
-        marginTop:"450px",
-        position: "absolute",
-        marginLeft:"8px",
-        marginRight:"10px",
+      style={{ 
         zIndex: 999
+        
       }}
     >
       {sidebarOpen ? "Fermer" : "Ouvrir"}
     </button>
+       
+       
         <Menu
           transitionDuration={500}
           menuItemStyles={{
@@ -143,8 +154,10 @@ const Map = () => {
             },
           }}
         >
+
+
           <SubMenu
-            label={<span style={{ fontSize: '15px' }}>🗺️​ Itinéraire / Zone</span>}
+            label={<span style={{ fontSize: '15px' }}>〰️​​ Itinéraire</span>}
             backgroundColor="#d1cfff"
             onClick={() => setMode("itinerary")}
           >
@@ -164,15 +177,32 @@ const Map = () => {
               </div>
             )}
           </SubMenu>
+
+
           <SubMenu
             backgroundColor="#d1cfff"
-            label={<span style={{ fontSize: '15px' }}>🏗️​ Elmts de Sécurisation</span>}
+            label="🗺️ Zone"
+            onClick={() => setMode("zone")}
+          >
+            {mode === "addIcon" && <br />}
+          </SubMenu>
+
+
+          <SubMenu
+            backgroundColor="#d1cfff"
+            label={<span style={{ fontSize: '15px' }}>🏗️​ Sécurisation</span>}
             onClick={() => setMode("addIcon")}
           >
             {mode === "addIcon" && (
               <div>
+                  <input className="RechercherIcone" style={{marginTop:"5%",marginLeft:'5%',marginBottom:'5%'}}
+              type="text"
+              placeholder="Rechercher ..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
                 {/* Choix Icones */}
-                <label style={{ marginLeft: "10px" }}>
+                <label style={{ fontSize:'10px', marginTop:'10%', marginLeft: "10px" }}>
                   Sélectionner une icône :
                 </label>
                 <div
@@ -184,27 +214,34 @@ const Map = () => {
                     marginLeft: "10px",
                   }}
                 >
-                  {Object.values(icons).map((icon, index) => (
-                    <img
-                      key={index}
-                      src={`icons/${icon.path}`}
-                      alt={icon.label}
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        cursor: "pointer",
-                        border:
-                          selectedIcon === icon ? "2px solid #17A71B" : "none",
-                      }}
-                      onClick={() => setSelectedIcon(icon)}
-                    />
-                  ))}
+          
+        {Object.values(icons)
+          .filter((icon) =>
+            icon.label.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map((icon, index) => (
+            <img
+              key={index}
+              src={`icons/${icon.path}`}
+              alt={icon.label}
+              style={{ marginTop:"2%",marginBottom:"5%",
+                width: "30px",
+                height: "30px",
+                cursor: "pointer",
+                border:
+                  selectedIcon === icon ? "0px solid #17A71B" : "none",
+              }}
+              onClick={() => setSelectedIcon(icon)}
+            />
+          ))}
                 </div>
               </div>
-            )}
+            )
+            }
           </SubMenu>
 
-          <SubMenu label="Détails">
+
+          <SubMenu label="🗒️​ Détails">
             <ul>
               {Object.values(count).map(
                 (icon, index) =>
@@ -218,26 +255,22 @@ const Map = () => {
               )}
             </ul>
           </SubMenu>
-
-          <SubMenu
-            backgroundColor="#d1cfff"
-            label="Définition d'une zone"
-            onClick={() => setMode("zone")}
-          >
-            {mode === "addIcon" && <br />}
-          </SubMenu>
+          
+          
         </Menu>
+        
         </div>
       </Sidebar>
-      <Clock onTimeChange={handleTimeChange} />
+
+      
       {/* Carte */}
       <div
         id="map-container"
         ref={mapContainer}
-        style={{ flex: 1,position:'relative' }} // Ajustement pour occuper tout l'espace restant
-      ></div>
-
-      {/* Bouton pour ouvrir/fermer la sidebar */}
+        style={{ flex: 1,position:'relative' }} 
+        // Ajustement pour occuper tout l'espace restant
+      ><Clock style={{zIndex: 999}} onTimeChange={handleTimeChange} /></div>
+    
       
     </div>
   );

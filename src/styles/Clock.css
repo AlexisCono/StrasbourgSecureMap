@@ -1,0 +1,45 @@
+.Horloge {
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid hsl(236, 92%, 66%);
+    outline: none;
+    transition: 200ms ease-in;
+    padding-left: 1rem;
+    margin-left:10px;
+    margin-right:10px;
+    background-color: #d3d4fd;
+  }
+  
+  .Horloge:focus {
+    border-bottom: 4px solid hsl(236, 92%, 66%);
+    padding-top: 2px;
+  }
+  
+  .Horloge::placeholder {
+    color: hsl(236, 92%, 66%);
+    opacity: 0.5;
+  }
+
+  .clock-container {
+    margin-top:2%;
+    margin-Left:2%;
+    position: relative; /* Assurez-vous que la position est relative ou absolue */
+    z-index: 1000; /* Valeur de z-index plus grande que celle de la carte */
+  }
+
+  .clock-container label {
+    font-size: 10px; /* Diminuer la taille de la police */
+    color: #025387 
+    
+    /* Changer la couleur du texte */
+  }
+  
+  .clock-container input {
+    margin-Left:2%;
+    margin-right:2%;
+    font-size: 15px; /* Diminuer la taille de la police */
+    color: #003d63; /* Changer la couleur du texte */
+    border: 2px solid #025387; /* Modifier la taille de l'encadrement et la couleur */
+  }
+
+ 

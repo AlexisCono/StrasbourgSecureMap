@@ -9,8 +9,8 @@ const HomePage = () => {
     <div>
       <Banner />
       <header className="App-header">
-      <img src="./image/logoSSM.png" alt="HomePage_logoSSM" style={{ width: '25%', height: 'auto', marginTop: '-100px'}} />        
-      <div className="buttonAccueil" style={{ marginTop: '20px'}}>
+      <img src="./image/logoSSM.png" alt="HomePage_logoSSM" style={{ width: '20%', height: 'auto', marginTop: '-40px'}} />        
+      <div className="buttonAccueil" style={{ marginTop: '85px'}}>
         <Button href="/interactive_map" classe="buttonHref">
           Nouveau projet
         </Button>

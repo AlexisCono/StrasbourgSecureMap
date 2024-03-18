@@ -100,17 +100,17 @@ const Map = () => {
         {/* Contenu de la sidebar */}
         <div style={{ position: 'relative' }}>
     {/* Bouton pour ouvrir/fermer la sidebar */}
-    <button
+    <button className="boutonSidebar"
       onClick={toggleSidebar}
       style={{
+        marginTop:"450px",
         position: "absolute",
-        top: "50%",
-        right: 0,
-        transform: "translateY(-50%)",
+        marginLeft:"8px",
+        marginRight:"10px",
         zIndex: 999
       }}
     >
-      {sidebarOpen ? "Fermer la sidebar" : "Ouvrir la sidebar"}
+      {sidebarOpen ? "Fermer" : "Ouvrir"}
     </button>
         <Menu
           transitionDuration={500}
@@ -126,7 +126,7 @@ const Map = () => {
           }}
         >
           <SubMenu
-            label="Mode Itinéraire"
+            label={<span style={{ fontSize: '15px' }}>🗺️​ Itinéraire / Zone</span>}
             backgroundColor="#d1cfff"
             onClick={() => setMode("itinerary")}
           >
@@ -148,7 +148,7 @@ const Map = () => {
           </SubMenu>
           <SubMenu
             backgroundColor="#d1cfff"
-            label="Pose et dépose d'objet"
+            label={<span style={{ fontSize: '15px' }}>🏗️​ Elmts de Sécurisation</span>}
             onClick={() => setMode("addIcon")}
           >
             {mode === "addIcon" && (

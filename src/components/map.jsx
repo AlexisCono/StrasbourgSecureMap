@@ -207,7 +207,7 @@ const Map = () => {
                 </label>
                 <div
                   style={{
-                    fontfamily: " Arial Narrow, sansserif",
+                  
                     display: "flex",
                     gap: "10px",
                     marginTop: "5px",
@@ -224,12 +224,12 @@ const Map = () => {
               key={index}
               src={`icons/${icon.path}`}
               alt={icon.label}
-              style={{ marginTop:"2%",marginBottom:"5%",
+              style={{ 
                 width: "30px",
                 height: "30px",
                 cursor: "pointer",
                 border:
-                  selectedIcon === icon ? "0px solid #17A71B" : "none",
+                  selectedIcon === icon ? "2px solid #17A71B" : "none",
               }}
               onClick={() => setSelectedIcon(icon)}
             />

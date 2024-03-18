@@ -35,6 +35,8 @@ const Map = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
 
+  const [searchText, setSearchText] = useState("");
+
   const mapContainer = useRef(null);
   const map = useRef(null);
 
@@ -132,6 +134,14 @@ const Map = () => {
     return acc;
   }, {});
 
+  // Fonction pour filtrer les icônes en fonction du texte de recherche
+  const filteredIcons = Object.entries(iconsByCategory).filter(
+    ([category, icons]) =>
+      icons.some((icon) =>
+        icon.label.toLowerCase().includes(searchText.toLowerCase())
+      )
+  );
+
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <Sidebar collapsed={!sidebarOpen} width="200px" backgroundColor="#d1cfff">
@@ -198,32 +208,49 @@ const Map = () => {
 
             <SubMenu
               backgroundColor="#d1cfff"
-              label={<span style={{ fontSize: "15px" }}>🏗️​ Sécurisation</span>}
+              label={
+                <span style={{ fontSize: "15px" }}>Elmts de Sécurisation</span>
+              }
               onClick={() => setMode("addIcon")}
             >
               {mode === "addIcon" && (
                 <div>
-                  {/* Parcours des catégories et affichage des sous-menus */}
-                  {Object.entries(iconsByCategory).map(([category, icons]) => (
+                  {/* Champ de recherche */}
+                  <input
+                    type="text"
+                    placeholder="Rechercher une icône..."
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    style={{ marginBottom: "10px" }}
+                  />
+
+                  {/* Parcours des catégories filtrées et affichage des sous-menus */}
+                  {filteredIcons.map(([category, icons]) => (
                     <SubMenu key={category} label={category}>
-                      {/* Affichage des icônes pour chaque catégorie */}
-                      {icons.map((icon, index) => (
-                        <img
-                          key={index}
-                          src={`icons/${icon.path}`}
-                          alt={icon.label}
-                          style={{
-                            width: "30px",
-                            height: "30px",
-                            cursor: "pointer",
-                            border:
-                              selectedIcon === icon
-                                ? "2px solid #17A71B"
-                                : "none",
-                          }}
-                          onClick={() => setSelectedIcon(icon)}
-                        />
-                      ))}
+                      {/* Affichage des icônes filtrées pour chaque catégorie */}
+                      {icons
+                        .filter((icon) =>
+                          icon.label
+                            .toLowerCase()
+                            .includes(searchText.toLowerCase())
+                        )
+                        .map((icon, index) => (
+                          <img
+                            key={index}
+                            src={`icons/${icon.path}`}
+                            alt={icon.label}
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              cursor: "pointer",
+                              border:
+                                selectedIcon === icon
+                                  ? "2px solid #17A71B"
+                                  : "none",
+                            }}
+                            onClick={() => setSelectedIcon(icon)}
+                          />
+                        ))}
                     </SubMenu>
                   ))}
                 </div>

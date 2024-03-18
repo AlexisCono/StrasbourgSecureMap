@@ -2,11 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
 import { addIcon } from "./iconsFct.jsx";
-import { initRoute, updateRoute, deleteLastCoordinates, startItiAnimation } from "./itineraryFct.jsx";
+import {
+  initRoute,
+  updateRoute,
+  deleteLastCoordinates,
+  startItiAnimation,
+} from "./itineraryFct.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
-import { initZone,updateZone } from "./zone.jsx";
+import { initZone, updateZone } from "./zone.jsx";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
@@ -14,11 +19,11 @@ mapboxgl.accessToken =
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
-  const initialCountState = Object.fromEntries(
-    Object.values(icons).map((icon, index) => [index, 0])
-  );
-
-  const [count, setCount] = useState({ initialCountState });
+  const countForIcons = Object.values(icons).map((icon) => ({
+    label: icon.label,
+    countIcons: 0,
+  }));
+  const [count, setCount] = useState(countForIcons);
 
   const [mode, setMode] = useState();
 
@@ -27,8 +32,8 @@ const Map = () => {
 
   const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
 
-  const [itiCoordinates, setItiCoordinates] = useState([]);
-  const [zoneCoordinates, setZoneCoordinates] = useState([]);
+  const [itiCoordinates] = useState([]);
+  const [zoneCoordinates] = useState([]);
 
   const handleDeleteLastCoordinate = () => {
     // Appel de la fonction deleteLastCoordinates ici
@@ -54,11 +59,11 @@ const Map = () => {
     });
 
     initRoute(map.current, itiCoordinates, "route1");
-    initZone(map.current,zoneCoordinates,"zone1");
+    initZone(map.current, zoneCoordinates, "zone1");
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [itiCoordinates,zoneCoordinates]); // Effectue l'effet uniquement lors du montage initial
+  }, [itiCoordinates, zoneCoordinates]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -76,11 +81,10 @@ const Map = () => {
           setCount,
           selectedIcon.label
         );
-      } else if (mode === "zone"){
+      } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
-        updateZone(map.current,zoneCoordinates,"zone1")
+        updateZone(map.current, zoneCoordinates, "zone1");
       }
-
     };
 
     map.current.on("click", clickHandler);
@@ -89,13 +93,7 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [
-    selectedIcon,
-    mode,
-    count,
-    itiCoordinates,
-    zoneCoordinates
-  ]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
 
   return (
     <div style={{ display: "flex", height: "100%" }}>
@@ -121,7 +119,7 @@ const Map = () => {
             {mode === "itinerary" && (
               <div style={{ marginLeft: "10px" }}>
                 {/* Parcours 1 */}
-                  Parcours 1
+                Parcours 1
                 <br />
                 <button onClick={() => handleDeleteLastCoordinate}>
                   <img
@@ -176,23 +174,25 @@ const Map = () => {
 
           <SubMenu label="Détails">
             <ul>
-              {Object.values(icons).map((icon, index) => (
-                <li key={index}>
-                  {icon.label} : {count.index}
-                </li>
-              ))}
+              {Object.values(count).map(
+                (icon, index) =>
+                  icon.countIcons !== 0 && (
+                    <li key={index}>
+                      <p>
+                        {icon.label} : {icon.countIcons}
+                      </p>
+                    </li>
+                  )
+              )}
             </ul>
           </SubMenu>
-          
+
           <SubMenu
             backgroundColor="#d1cfff"
             label="Définition d'une zone"
             onClick={() => setMode("zone")}
           >
-           {mode === "addIcon" && (
-            <br/>
-           )} 
-
+            {mode === "addIcon" && <br />}
           </SubMenu>
         </Menu>
       </Sidebar>

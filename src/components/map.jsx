@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
-import { addIcon } from "./iconsFct.jsx";
+import { addIcon, filterMarkersByTime } from "./iconsFct.jsx";
 import { initRoute, updateRoute, deleteLastCoordinates, startItiAnimation } from "./itineraryFct.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
 import { initZone,updateZone } from "./zone.jsx";
+import Clock from "./Clock.jsx";
+
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
@@ -19,6 +21,7 @@ const Map = () => {
     policeman: 0,
   });
 
+  const [appTime, setAppTime] = useState(new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
   const [mode, setMode] = useState();
 
   const mapContainer = useRef(null);
@@ -37,6 +40,11 @@ const Map = () => {
   const handleStartAnimation = () => {
     // Appelez la fonction startAnimation avec les paramètres nécessaires
     startItiAnimation(map.current, itiCoordinates);
+  };
+
+  // Fonction pour mettre à jour l'heure de l'application
+  const handleTimeChange = (newTime) => {
+    setAppTime(newTime);
   };
 
   useEffect(() => {
@@ -95,6 +103,11 @@ const Map = () => {
     itiCoordinates,
     zoneCoordinates
   ]); // Effectue l'effet lors du changement d'icône
+
+  useEffect(() => {
+    filterMarkersByTime(appTime);
+  }, [appTime]);
+  
 
   return (
     <div style={{ display: "flex", height: "100%" }}>
@@ -194,7 +207,7 @@ const Map = () => {
           </SubMenu>
         </Menu>
       </Sidebar>
-
+      <Clock onTimeChange={handleTimeChange} />
       {/* Carte */}
       <div
         id="map-container"

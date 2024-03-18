@@ -209,7 +209,9 @@ const Map = () => {
             <SubMenu
               backgroundColor="#d1cfff"
               label={
-                <span style={{ fontSize: "15px" }}>Elmts de Sécurisation</span>
+                <span style={{ fontSize: "15px" }}>
+                  🏗️ Elmts de Sécurisation
+                </span>
               }
               onClick={() => setMode("addIcon")}
             >

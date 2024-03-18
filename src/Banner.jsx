@@ -8,7 +8,7 @@ const Banner = ({ children }) => {
       <header className="banner">
         <div className="bannerTitle">
           <div>{children}</div>
-          <h1 id="title" style={{ textAlign: "center", margin: "0 auto" }}>STRASBOURG SECURE MAP</h1>
+          <h1 id="title" style={{ textAlign: "center", margin: "0 auto" }}>Strasbourg Secure Map</h1>
         </div>
       </header>
     </div>

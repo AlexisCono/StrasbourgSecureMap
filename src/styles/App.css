@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 body {
-  font-family: 'Arial Narrow', sans-serif;
+  font-family:  Consolas,monaco,monospace;
+  
 }
 
 .App-header {
@@ -78,7 +79,7 @@ html {
 #title {
   color: #d1cfff;
   text-align: center;
-  font-family:Arial Narrow, sans-serif;;
+  font-family:Consolas,monaco,monospace;
   display: flex; /* Utilisation de flexbox */
   justify-content: center; /* Centrage horizontal */
   align-items: center; /* Centrage vertical */

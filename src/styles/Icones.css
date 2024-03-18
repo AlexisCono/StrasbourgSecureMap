@@ -1,0 +1,22 @@
+.RechercherIcone {
+    padding: 10px;
+    width: 120px;
+    border: none;
+    outline: none;
+    display: flex;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px #a9acff;
+    font-size: 10px;
+    transition: width 0.3s;
+    font-family: Consolas,monaco,monospace;
+  }
+  
+  .RechercherIcone:focus {
+    outline: 1px solid blue;
+    box-shadow: none;
+    width: 150px;
+  }
+  
+  .RechercherIcone::placeholder {
+    color: blue;
+  }

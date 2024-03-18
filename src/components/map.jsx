@@ -217,11 +217,16 @@ const Map = () => {
                 <div>
                   {/* Champ de recherche */}
                   <input
+                    className="RechercherIcone"
+                    style={{
+                      marginTop: "5%",
+                      marginLeft: "5%",
+                      marginBottom: "5%",
+                    }}
                     type="text"
-                    placeholder="Rechercher une icône..."
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    style={{ marginBottom: "10px" }}
+                    placeholder="Rechercher ..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
                   />
 
                   {/* Parcours des catégories filtrées et affichage des sous-menus */}

@@ -15,8 +15,7 @@ import { initZone, updateZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
@@ -194,11 +193,7 @@ const Map = () => {
 
             <SubMenu
               backgroundColor="#d1cfff"
-              label={
-                <span style={{ fontSize: "15px" }}>
-                  🏗️ Sécurisation
-                </span>
-              }
+              label={<span style={{ fontSize: "15px" }}>🏗️ Sécurisation</span>}
               onClick={() => setMode("addIcon")}
             >
               {mode === "addIcon" && (
@@ -219,7 +214,16 @@ const Map = () => {
 
                   {/* Parcours des catégories filtrées et affichage des sous-menus */}
                   {filteredIcons.map(([category, icons]) => (
-                  <SubMenu key={category} style={{ display: "flex", flexWrap: "wrap", justifyContent: "center",fontSize:"80%"}} label={category}>
+                    <SubMenu
+                      key={category}
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        fontSize: "80%",
+                      }}
+                      label={category}
+                    >
                       {/* Affichage des icônes filtrées pour chaque catégorie */}
                       {icons
                         .filter((icon) =>
@@ -228,32 +232,36 @@ const Map = () => {
                             .includes(searchTerm.toLowerCase())
                         )
                         .map((icon, index) => (
-                          <div key={index} style={{ textAlign: "center", margin: "10%" }}>
-                          <img
+                          <div
                             key={index}
-                            src={`icons/${icon.path}`}
-                            alt={icon.label}
-                            style={{
-                              width: "25%",
-                              height: "25%",
-                              marginLeft:"5%",
-                              marginRight:"5%",
-                              marginTop:"0.5%",
-                              marginBottom:"0.2%",
-                              cursor: "pointer",
-                              border:
-                                selectedIcon === icon
-                                  ? "2px solid #17A71B"
-                                  : "none",
-                            }}
-                            onClick={() => setSelectedIcon(icon)}
-                          />
+                            style={{ textAlign: "center", margin: "10%" }}
+                          >
+                            <img
+                              key={index}
+                              src={`icons/${icon.path}`}
+                              alt={icon.label}
+                              style={{
+                                width: "25%",
+                                height: "25%",
+                                marginLeft: "5%",
+                                marginRight: "5%",
+                                marginTop: "0.5%",
+                                marginBottom: "0.2%",
+                                cursor: "pointer",
+                                border:
+                                  selectedIcon === icon
+                                    ? "2px solid #17A71B"
+                                    : "none",
+                              }}
+                              onClick={() => setSelectedIcon(icon)}
+                            />
 
-                           <div style={{ fontSize: "10px", marginTop: "2%" }}>{icon.label}</div>
-                           </div>
-                           
+                            <div style={{ fontSize: "10px", marginTop: "2%" }}>
+                              {icon.label}
+                            </div>
+                          </div>
                         ))}
-                   </SubMenu>
+                    </SubMenu>
                   ))}
                 </div>
               )}

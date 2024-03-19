@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
+<<<<<<< HEAD
 import { addIcon, filterMarkersByTime } from "./iconsFct.jsx";
 import { initRoute, updateRoute, deleteLastCoordinates, startItiAnimation } from "./itineraryFct.jsx";
 import "../styles/Button.css";
@@ -11,6 +12,21 @@ import Clock from "./Clock.jsx";
 import "../styles/Clock.css"
 import "../styles/Icones.css"
 
+=======
+import { addIcon, getTotalQuantity, } from "./iconsFct.jsx";
+import {
+  initRoute,
+  updateRoute,
+  deleteLastCoordinates,
+  startItiAnimation,
+} from "./itineraryFct.jsx";
+import "../styles/Button.css";
+import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
+import { icons } from "../constants/icons.js";
+import { initZone, updateZone } from "./zone.jsx";
+import "../styles/Clock.css";
+import "../styles/Icones.css";
+>>>>>>> Alexis2
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWxleGlzY29ubyIsImEiOiJjbHRnMHAxZHEwZHg4Mmxxd29yem96cW81In0.dm0ZihVmXRT_T7S6IHDFzg";
@@ -24,12 +40,19 @@ const Map = () => {
     countIcons: 0,
   }));
   const [count, setCount] = useState(countForIcons);
+<<<<<<< HEAD
 
   const [appTime, setAppTime] = useState(new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+=======
+>>>>>>> Alexis2
   const [mode, setMode] = useState();
 
   const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
 
+<<<<<<< HEAD
+=======
+  const [searchText, setSearchText] = useState("");
+>>>>>>> Alexis2
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -49,10 +72,6 @@ const Map = () => {
     startItiAnimation(map.current, itiCoordinates);
   };
 
-  // Fonction pour mettre à jour l'heure de l'application
-  const handleTimeChange = (newTime) => {
-    setAppTime(newTime);
-  };
 
   useEffect(() => {
     const lng = 7.7482;
@@ -88,7 +107,7 @@ const Map = () => {
           iconCoordinates,
           imageUrl,
           setCount,
-          selectedIcon.label
+          selectedIcon.label,
         );
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
@@ -105,6 +124,7 @@ const Map = () => {
 
   }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
 
+<<<<<<< HEAD
   useEffect(() => {
     filterMarkersByTime(appTime);
   }, [appTime]);
@@ -121,12 +141,42 @@ const Map = () => {
     const handleSearchChange = (event) => {
       setSearchTerm(event.target.value);
     };
+=======
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
+  };
+
+  // État local pour stocker le terme de recherche
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Fonction de gestion de la saisie de texte
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  // Regroupe les icônes par catégorie
+  const iconsByCategory = Object.values(icons).reduce((acc, icon) => {
+    if (!acc[icon.category]) {
+      acc[icon.category] = [];
+    }
+    acc[icon.category].push(icon);
+    return acc;
+  }, {});
+
+  // Fonction pour filtrer les icônes en fonction du texte de recherche
+  const filteredIcons = Object.entries(iconsByCategory).filter(
+    ([category, icons]) =>
+      icons.some((icon) =>
+        icon.label.toLowerCase().includes(searchText.toLowerCase())
+      )
+  );
+>>>>>>> Alexis2
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-     
       <Sidebar collapsed={!sidebarOpen} width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
+<<<<<<< HEAD
         <div style={{ position: 'relative' }}>
     {/* Bouton pour ouvrir/fermer la sidebar */}
     
@@ -259,19 +309,160 @@ const Map = () => {
           
         </Menu>
         
+=======
+        <div style={{ position: "relative" }}>
+          {/* Bouton pour ouvrir/fermer la sidebar */}
+
+          <button
+            className="boutonSidebar"
+            onClick={toggleSidebar}
+            style={{
+              zIndex: 999,
+            }}
+          >
+            {sidebarOpen ? "Fermer" : "Ouvrir"}
+          </button>
+
+          <Menu
+            transitionDuration={500}
+            menuItemStyles={{
+              button: ({ level, active, disabled }) => {
+                // only apply styles on first level elements of the tree
+                if (level === 0)
+                  return {
+                    color: disabled ? "#d1cfff" : "#025387", // Couleur de la police
+                    backgroundColor: active ? "##BDE5FF" : "#d1cfff",
+                  };
+              },
+            }}
+          >
+            <SubMenu
+              label={<span style={{ fontSize: "15px" }}>〰️​​ Itinéraire</span>}
+              backgroundColor="#d1cfff"
+              onClick={() => setMode("itinerary")}
+            >
+              {mode === "itinerary" && (
+                <div style={{ marginLeft: "10px" }}>
+                  {/* Parcours 1 */}
+                  Parcours 1
+                  <br />
+                  <button onClick={handleDeleteLastCoordinate}>
+                    <img
+                      src={`./public/image/return.png`}
+                      alt="return"
+                      style={{
+                        width: "30px",
+                        height: "18px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </button>
+                  <button onClick={handleStartAnimation}>Start</button>
+                </div>
+              )}
+            </SubMenu>
+
+            <SubMenu
+              backgroundColor="#d1cfff"
+              label="🗺️ Zone"
+              onClick={() => setMode("zone")}
+            >
+              {mode === "addIcon" && <br />}
+            </SubMenu>
+
+            <SubMenu
+              backgroundColor="#d1cfff"
+              label={
+                <span style={{ fontSize: "15px" }}>
+                  🏗️ Elmts de Sécurisation
+                </span>
+              }
+              onClick={() => setMode("addIcon")}
+            >
+              {mode === "addIcon" && (
+                <div>
+                  {/* Champ de recherche */}
+                  <input
+                    className="RechercherIcone"
+                    style={{
+                      marginTop: "5%",
+                      marginLeft: "5%",
+                      marginBottom: "5%",
+                    }}
+                    type="text"
+                    placeholder="Rechercher ..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                  />
+
+                  {/* Parcours des catégories filtrées et affichage des sous-menus */}
+                  {filteredIcons.map(([category, icons]) => (
+                    <SubMenu key={category} label={category}>
+                      {/* Affichage des icônes filtrées pour chaque catégorie */}
+                      {icons
+                        .filter((icon) =>
+                          icon.label
+                            .toLowerCase()
+                            .includes(searchText.toLowerCase())
+                        )
+                        .map((icon, index) => (
+                          <img
+                            key={index}
+                            src={`icons/${icon.path}`}
+                            alt={icon.label}
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              cursor: "pointer",
+                              border:
+                                selectedIcon === icon
+                                  ? "2px solid #17A71B"
+                                  : "none",
+                            }}
+                            onClick={() => setSelectedIcon(icon)}
+                          />
+                        ))}
+                    </SubMenu>
+                  ))}
+                </div>
+              )}
+            </SubMenu>
+
+            <SubMenu label="🗒️​ Détails">
+              <ul>
+                {Object.values(count).map(
+                  (icon, index) =>
+                    getTotalQuantity(icon.label) !== 0 && (
+                      <li key={index}>
+                        <p>
+                          {icon.label} : {getTotalQuantity(icon.label)}
+                        </p>
+                      </li>
+                    )
+                )}
+              </ul>
+            </SubMenu>
+          </Menu>
+>>>>>>> Alexis2
         </div>
       </Sidebar>
 
-      
       {/* Carte */}
       <div
         id="map-container"
         ref={mapContainer}
+<<<<<<< HEAD
         style={{ flex: 1,position:'relative' }} 
         // Ajustement pour occuper tout l'espace restant
       ><Clock style={{zIndex: 999}} onTimeChange={handleTimeChange} /></div>
     
       
+=======
+        style={{ flex: 1, position: "relative" }}
+        // Ajustement pour occuper tout l'espace restant
+      >
+      </div>
+>>>>>>> Alexis2
     </div>
   );
 };

@@ -254,10 +254,10 @@ const Map = () => {
               <ul>
                 {Object.values(count).map(
                   (icon, index) =>
-                    getTotalQuantity(icon.label) !== 0 && (
+                    icon.countIcons !== 0 && (
                       <li key={index}>
                         <p>
-                          {icon.label} : {getTotalQuantity(icon.label)}
+                          {icon.label} : {icon.countIcons}
                         </p>
                       </li>
                     )

@@ -89,20 +89,27 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
   markerData.push(markerInfo);
 }
 
-export function getMarkerInfo(coordinates) {
-  return markerData.find((marker) => marker.coordinates === coordinates);
+export function incrementCount(setCount, label) {
+  setCount((prevCount) =>
+    prevCount.map((iconCount) => {
+      if (iconCount.label === label) {
+        return {
+          ...iconCount,
+          countIcons: iconCount.countIcons + 1,
+        };
+      }
+      return iconCount;
+    })
+  );
 }
 
-export function incrementCount(setCount, type) {
-  setCount((prevCount) => ({
-    ...prevCount,
-    [type]: prevCount[type] + 1,
-  }));
-}
-
-export function decreaseCount(setCount, type) {
-  setCount((prevCount) => ({
-    ...prevCount,
-    [type]: prevCount[type] - 1,
-  }));
+export function decreaseCount(setCount, label) {
+  setCount((prevCount) =>
+    prevCount.map((iconCount) => {
+      if (iconCount.label === label && iconCount.countIcons > 0) {
+        return { ...iconCount, countIcons: iconCount.countIcons - 1 };
+      }
+      return iconCount;
+    })
+  );
 }

@@ -2,7 +2,6 @@ import mapboxgl from "mapbox-gl";
 import "../styles/Popup.css";
 
 let markerCoordinatesArray = [];
-let quantityCount = {}; // Objet pour stocker le total des quantités pour chaque label
 
 export function addIcon(map, coordinates, imageUrl, setCount, label) {
   const el = document.createElement("div");
@@ -38,7 +37,9 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     <div class="popup-content">
       <h3>${label}</h3>
       <label for="quantite">Quantité :</label>
-      <input type="number" id="quantite" name="quantite" value="${quantityCount[label] || 0}"><br><br>
+      <input type="number" id="quantite" name="quantite" value="${
+        quantityCount[label] || 0
+      }"><br><br>
       <label for="heurePose">Heure de pose :</label>
       <input type="time" id="heurePose" name="heurePose"><br><br>
       <label for="heureDepose">Heure de dépose :</label>
@@ -54,17 +55,10 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     .setPopup(popup)
     .addTo(map);
 
-  // Mettre à jour le total de quantité pour ce label
-  if (!quantityCount[label]) {
-    quantityCount[label] = 0;
-  }
-  quantityCount[label]++;
-
   // Gestion de la suppression de l'icône associé
   popup.on("open", () => {
     document.getElementById("deleteButton").addEventListener("click", () => {
       marker.remove(); // Supprimer l'icône
-      quantityCount[label]--; // Décrémenter la quantité de cet objet
       const index = markerCoordinatesArray.findIndex(
         (coords) => coords === newMarkerCoordinates
       );
@@ -84,28 +78,23 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
   markerCoordinatesArray.push(newMarkerCoordinates);
 }
 
-// Fonction pour obtenir le total des quantités pour un label donné
-export function getTotalQuantity(label) {
-  return quantityCount[label] || 0;
-}
-
 export function compareTime(time1, time2) {
-  const [hour1, minute1] = time1.split(':').map(Number);
-  const [hour2, minute2] = time2.split(':').map(Number);
+  const [hour1, minute1] = time1.split(":").map(Number);
+  const [hour2, minute2] = time2.split(":").map(Number);
 
   // Comparaison des heures
   if (hour1 < hour2) {
-      return -1;
+    return -1;
   } else if (hour1 > hour2) {
-      return 1;
+    return 1;
   } else {
-      // Si les heures sont égales, comparer les minutes
-      if (minute1 < minute2) {
-          return -1;
-      } else if (minute1 > minute2) {
-          return 1;
-      } else {
-          return 0; // Les heures et les minutes sont égales
-      }
+    // Si les heures sont égales, comparer les minutes
+    if (minute1 < minute2) {
+      return -1;
+    } else if (minute1 > minute2) {
+      return 1;
+    } else {
+      return 0; // Les heures et les minutes sont égales
+    }
   }
 }

@@ -12,7 +12,7 @@ const Banner = ({ children }) => {
       <header className="banner">
         <div className="bannerTitle">
           <div>{children}</div>
-          <h1 id="title" style={{ textAlign: "center", margin: "0 auto" }}>Strasbourg Secure Map</h1>
+          <h1 id="title" style={{ textAlign: "center", marginLeft:"7.5%" }}>Strasbourg Secure Map</h1>
           <Button href="/" classe="buttonRetourAcc">
           MENU
         </Button>

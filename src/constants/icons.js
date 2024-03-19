@@ -22,37 +22,37 @@ export const icons = {
   concrete_block_2_5m: {
     path: "/concrete_block_2_5m.png",
     label: "Mégabloc de 2.5m",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   concrete_block_1_25m: {
     path: "/concrete_block_1_25m.png",
     label: "Mégabloc de 1.25m",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   concrete_block_1_25m_palette: {
     path: "/concrete_block_1_25m_palette.png",
     label: "Mégabloc de 1.25m sur palette",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   longrine_2m: {
     path: "/longrine_2m.png",
     label: "Longrine 2m",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   longrine_1m: {
     path: "/longrine_1m.png",
     label: "Longrine 1m",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   large_pyramidal_plots: {
     path: "/large_pyramidal_plots.png",
     label: "Gros plots pyramidaux",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   small_pyramidal_plots: {
     path: "/small_pyramidal_plots.png",
     label: "Petits plots pyramidaux",
-    category: "Éléments en béton",
+    category: "Élmts béton",
   },
   polybenne_truck: {
     path: "/polybenne_truck.png",
@@ -107,51 +107,51 @@ export const icons = {
   security_barricade: {
     path: "/security_barricade.png",
     label: "Herses",
-    category: "Éléments de sécurisation",
+    category: "Sécurisation",
   },
   gazebo: {
     path: "/barnum.png",
     label: "Tonnelles",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   furniture: {
     path: "/furniture.png",
     label: "Mobilier (Tables, chaises, bancs…)",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   arch: {
     path: "/arch.png",
     label: "Arche",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   sports_trough: {
     path: "/sports_trough.png",
     label: "Auge sportive",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   water_fountain: {
     path: "/water_fountain.png",
     label: "Fontaine à eau",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   wind_dancer: {
     path: "/wind_dancer.png",
     label: "Wind dancer",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   banner: {
     path: "/banner.png",
     label: "Banderole",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   flag: {
     path: "/flag.png",
     label: "Oriflamme",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
   podium: {
     path: "/podium.png",
     label: "Podium / Estrade",
-    category: "Éléments d’animation",
+    category: "Animation",
   },
 };

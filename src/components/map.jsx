@@ -196,7 +196,7 @@ const Map = () => {
               backgroundColor="#d1cfff"
               label={
                 <span style={{ fontSize: "15px" }}>
-                  🏗️ Elmts de Sécurisation
+                  🏗️ Sécurisation
                 </span>
               }
               onClick={() => setMode("addIcon")}
@@ -219,22 +219,27 @@ const Map = () => {
 
                   {/* Parcours des catégories filtrées et affichage des sous-menus */}
                   {filteredIcons.map(([category, icons]) => (
-                    <SubMenu key={category} label={category}>
+                  <SubMenu key={category} style={{ display: "flex", flexWrap: "wrap", justifyContent: "center",fontSize:"80%"}} label={category}>
                       {/* Affichage des icônes filtrées pour chaque catégorie */}
                       {icons
                         .filter((icon) =>
                           icon.label
                             .toLowerCase()
-                            .includes(searchText.toLowerCase())
+                            .includes(searchTerm.toLowerCase())
                         )
                         .map((icon, index) => (
+                          <div key={index} style={{ textAlign: "center", margin: "10%" }}>
                           <img
                             key={index}
                             src={`icons/${icon.path}`}
                             alt={icon.label}
                             style={{
-                              width: "30px",
-                              height: "30px",
+                              width: "25%",
+                              height: "25%",
+                              marginLeft:"5%",
+                              marginRight:"5%",
+                              marginTop:"0.5%",
+                              marginBottom:"0.2%",
                               cursor: "pointer",
                               border:
                                 selectedIcon === icon
@@ -243,8 +248,12 @@ const Map = () => {
                             }}
                             onClick={() => setSelectedIcon(icon)}
                           />
+
+                           <div style={{ fontSize: "10px", marginTop: "2%" }}>{icon.label}</div>
+                           </div>
+                           
                         ))}
-                    </SubMenu>
+                   </SubMenu>
                   ))}
                 </div>
               )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
-import { addIcon, getTotalQuantity, } from "./iconsFct.jsx";
+import { addIcon } from "./iconsFct.jsx";
 import {
   initRoute,
   updateRoute,
@@ -50,7 +50,6 @@ const Map = () => {
     startItiAnimation(map.current, itiCoordinates);
   };
 
-
   useEffect(() => {
     const lng = 7.7482;
     const lat = 48.5828;
@@ -85,7 +84,7 @@ const Map = () => {
           iconCoordinates,
           imageUrl,
           setCount,
-          selectedIcon.label,
+          selectedIcon.label
         );
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
@@ -100,7 +99,6 @@ const Map = () => {
       map.current.off("click", clickHandler);
     };
   }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
-
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
@@ -276,8 +274,7 @@ const Map = () => {
         ref={mapContainer}
         style={{ flex: 1, position: "relative" }}
         // Ajustement pour occuper tout l'espace restant
-      >
-      </div>
+      ></div>
     </div>
   );
 };

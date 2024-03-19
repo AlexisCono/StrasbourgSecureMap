@@ -1,7 +1,8 @@
 import mapboxgl from "mapbox-gl";
 import "../styles/Popup.css";
-
 let markerCoordinatesArray = [];
+// Structure de données pour stocker les informations sur les marqueurs
+const markerData = [];
 
 export function addIcon(map, coordinates, imageUrl, setCount, label) {
   const el = document.createElement("div");
@@ -11,7 +12,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
-  // Vérifier la distance entre les nouvelles coordonnées et les coordonnées des icônes existantes
+  // Vérifier la distance entre les nouvelles coordonnées et les coordonnées des icônes existants
   for (const markerCoordinates of markerCoordinatesArray) {
     const distance = Math.sqrt(
       Math.pow(markerCoordinates.x - newMarkerCoordinates.x, 2) +
@@ -36,10 +37,6 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
   const popupContent = `
     <div class="popup-content">
       <h3>${label}</h3>
-      <label for="quantite">Quantité :</label>
-      <input type="number" id="quantite" name="quantite" value="${
-        quantityCount[label] || 0
-      }"><br><br>
       <label for="heurePose">Heure de pose :</label>
       <input type="time" id="heurePose" name="heurePose"><br><br>
       <label for="heureDepose">Heure de dépose :</label>
@@ -66,6 +63,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
         markerCoordinatesArray.splice(index, 1); // Supprimer les coordonnées du tableau
       }
       popup.remove(); // Supprimer le popup
+      decreaseCount(setCount, label);
     });
   });
 
@@ -75,26 +73,36 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     el.style.width = newSize + "px";
     el.style.height = newSize + "px";
   });
+
+  incrementCount(setCount, label);
   markerCoordinatesArray.push(newMarkerCoordinates);
+
+  // Enregistrer les informations du marqueur dans la structure de données
+  const markerInfo = {
+    coordinates: coordinates,
+    imageUrl: imageUrl,
+    type: label,
+    popup: popup,
+    // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
+  };
+
+  markerData.push(markerInfo);
 }
 
-export function compareTime(time1, time2) {
-  const [hour1, minute1] = time1.split(":").map(Number);
-  const [hour2, minute2] = time2.split(":").map(Number);
+export function getMarkerInfo(coordinates) {
+  return markerData.find((marker) => marker.coordinates === coordinates);
+}
 
-  // Comparaison des heures
-  if (hour1 < hour2) {
-    return -1;
-  } else if (hour1 > hour2) {
-    return 1;
-  } else {
-    // Si les heures sont égales, comparer les minutes
-    if (minute1 < minute2) {
-      return -1;
-    } else if (minute1 > minute2) {
-      return 1;
-    } else {
-      return 0; // Les heures et les minutes sont égales
-    }
-  }
+export function incrementCount(setCount, type) {
+  setCount((prevCount) => ({
+    ...prevCount,
+    [type]: prevCount[type] + 1,
+  }));
+}
+
+export function decreaseCount(setCount, type) {
+  setCount((prevCount) => ({
+    ...prevCount,
+    [type]: prevCount[type] - 1,
+  }));
 }

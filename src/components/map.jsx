@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
-import { addIcon, filterMarkersByTime } from "./iconsFct.jsx";
+import { addIcon, getTotalQuantity, } from "./iconsFct.jsx";
 import {
   initRoute,
   updateRoute,
@@ -27,10 +27,6 @@ const Map = () => {
     countIcons: 0,
   }));
   const [count, setCount] = useState(countForIcons);
-
-  const [appTime, setAppTime] = useState(
-    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  );
   const [mode, setMode] = useState();
 
   const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
@@ -55,10 +51,6 @@ const Map = () => {
     startItiAnimation(map.current, itiCoordinates);
   };
 
-  // Fonction pour mettre à jour l'heure de l'application
-  const handleTimeChange = (newTime) => {
-    setAppTime(newTime);
-  };
 
   useEffect(() => {
     const lng = 7.7482;
@@ -94,7 +86,7 @@ const Map = () => {
           iconCoordinates,
           imageUrl,
           setCount,
-          selectedIcon.label
+          selectedIcon.label,
         );
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
@@ -110,9 +102,6 @@ const Map = () => {
     };
   }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
 
-  useEffect(() => {
-    filterMarkersByTime(appTime);
-  }, [appTime]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
@@ -268,10 +257,10 @@ const Map = () => {
               <ul>
                 {Object.values(count).map(
                   (icon, index) =>
-                    icon.countIcons !== 0 && (
+                    getTotalQuantity(icon.label) !== 0 && (
                       <li key={index}>
                         <p>
-                          {icon.label} : {icon.countIcons}
+                          {icon.label} : {getTotalQuantity(icon.label)}
                         </p>
                       </li>
                     )
@@ -289,7 +278,6 @@ const Map = () => {
         style={{ flex: 1, position: "relative" }}
         // Ajustement pour occuper tout l'espace restant
       >
-        <Clock style={{ zIndex: 999 }} onTimeChange={handleTimeChange} />
       </div>
     </div>
   );

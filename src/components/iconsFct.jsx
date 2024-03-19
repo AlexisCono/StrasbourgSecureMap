@@ -1,9 +1,8 @@
 import mapboxgl from "mapbox-gl";
 import "../styles/Popup.css";
-let markerCoordinatesArray = [];
-// Structure de données pour stocker les informations sur les marqueurs
-const markerData = [];
 
+let markerCoordinatesArray = [];
+let quantityCount = {}; // Objet pour stocker le total des quantités pour chaque label
 
 export function addIcon(map, coordinates, imageUrl, setCount, label) {
   const el = document.createElement("div");
@@ -13,7 +12,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
-  // Vérifier la distance entre les nouvelles coordonnées et les coordonnées des icônes existants
+  // Vérifier la distance entre les nouvelles coordonnées et les coordonnées des icônes existantes
   for (const markerCoordinates of markerCoordinatesArray) {
     const distance = Math.sqrt(
       Math.pow(markerCoordinates.x - newMarkerCoordinates.x, 2) +
@@ -39,7 +38,7 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     <div class="popup-content">
       <h3>${label}</h3>
       <label for="quantite">Quantité :</label>
-      <input type="number" id="quantite" name="quantite"><br><br>
+      <input type="number" id="quantite" name="quantite" value="${quantityCount[label] || 0}"><br><br>
       <label for="heurePose">Heure de pose :</label>
       <input type="time" id="heurePose" name="heurePose"><br><br>
       <label for="heureDepose">Heure de dépose :</label>
@@ -55,14 +54,17 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     .setPopup(popup)
     .addTo(map);
 
+  // Mettre à jour le total de quantité pour ce label
+  if (!quantityCount[label]) {
+    quantityCount[label] = 0;
+  }
+  quantityCount[label]++;
+
   // Gestion de la suppression de l'icône associé
   popup.on("open", () => {
-    const quantiteInput = document.getElementById("quantite");
-    const heurePoseInput = document.getElementById("heurePose");
-    const heureDeposeInput = document.getElementById("heureDepose");
-
     document.getElementById("deleteButton").addEventListener("click", () => {
       marker.remove(); // Supprimer l'icône
+      quantityCount[label]--; // Décrémenter la quantité de cet objet
       const index = markerCoordinatesArray.findIndex(
         (coords) => coords === newMarkerCoordinates
       );
@@ -70,28 +72,6 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
         markerCoordinatesArray.splice(index, 1); // Supprimer les coordonnées du tableau
       }
       popup.remove(); // Supprimer le popup
-      decreaseCount(setCount, label);
-    });
-
-    popup.on("close", () => {
-      const quantity = quantiteInput.value;
-      const heurePose = heurePoseInput.value;
-      const heureDepose = heureDeposeInput.value;
-
-      // Enregistrer les informations du marqueur dans la structure de données
-      const markerInfo = {
-        coordinates: coordinates,
-        imageUrl: imageUrl,
-        type: label,
-        quantite: quantity,
-        heurePose: heurePose,
-        heureDepose: heureDepose,
-        popup: popup,
-        // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
-      };
-      console.log("New marker added:", markerInfo);
-
-      markerData.push(markerInfo);
     });
   });
 
@@ -101,24 +81,12 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     el.style.width = newSize + "px";
     el.style.height = newSize + "px";
   });
-
-  incrementCount(setCount, label);
   markerCoordinatesArray.push(newMarkerCoordinates);
 }
 
-export function getMarkerInfo(coordinates) {
-  return markerData.find((marker) => marker.coordinates === coordinates);
-}
-
-export function incrementCount(setCount, label) {
-  setCount((prevCount) =>
-    prevCount.map((iconCount) => {
-      if (iconCount.label === label) {
-        return { ...iconCount, countIcons: iconCount.countIcons + 1 };
-      }
-      return iconCount;
-    })
-  );
+// Fonction pour obtenir le total des quantités pour un label donné
+export function getTotalQuantity(label) {
+  return quantityCount[label] || 0;
 }
 
 export function compareTime(time1, time2) {
@@ -140,30 +108,4 @@ export function compareTime(time1, time2) {
           return 0; // Les heures et les minutes sont égales
       }
   }
-}
-
-export function filterMarkersByTime(appTime) {
-  markerData.forEach(marker => {
-      const heurePose = marker.heurePose;
-      const heureDepose = marker.heureDepose;
-
-      // Comparez les heures avec la fonction compareTime
-      if (compareTime(heurePose, appTime) <= 0 && compareTime(appTime, heureDepose) <= 0) {
-          marker.popup.setLngLat(marker.coordinates); // Replacez le popup à sa position d'origine
-      } else {
-          marker.popup.setLngLat([0, 0]); // Déplacez le popup hors de la vue de l'utilisateur
-      }
-  });
-}
-
-
-export function decreaseCount(setCount, label) {
-  setCount((prevCount) =>
-    prevCount.map((iconCount) => {
-      if (iconCount.label === label && iconCount.countIcons > 0) {
-        return { ...iconCount, countIcons: iconCount.countIcons - 1 };
-      }
-      return iconCount;
-    })
-  );
 }

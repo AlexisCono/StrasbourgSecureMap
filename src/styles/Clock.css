@@ -22,7 +22,7 @@
 
   .clock-container {
     margin-top:2%;
-    margin-Left:2%;
+    margin-Left:6px;
     position: relative; /* Assurez-vous que la position est relative ou absolue */
     z-index: 1000; /* Valeur de z-index plus grande que celle de la carte */
   }

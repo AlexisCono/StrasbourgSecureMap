@@ -12,7 +12,6 @@ import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
 import { initZone, updateZone } from "./zone.jsx";
-import Clock from "./Clock.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
 

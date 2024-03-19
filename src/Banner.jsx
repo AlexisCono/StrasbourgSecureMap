@@ -1,15 +1,23 @@
 import React from "react";
 import "./styles/App.css";
 import PropTypes from "prop-types";
+import Button from "./Button";
+import "./styles/Button.css";
 
 const Banner = ({ children }) => {
+  
+
   return (
     <div>
       <header className="banner">
         <div className="bannerTitle">
           <div>{children}</div>
           <h1 id="title" style={{ textAlign: "center", margin: "0 auto" }}>Strasbourg Secure Map</h1>
+          <Button style={{marginRight:"23px"}} href="/" classe="buttonRetourAcc">
+          MENU
+        </Button>
         </div>
+        
       </header>
     </div>
   );

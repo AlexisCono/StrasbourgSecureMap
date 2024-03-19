@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Map from "./components/map";
 import Banner from "./Banner";
-import Button from "./Button";
-import "./styles/Button.css";
 import Clock from "./components/Clock";
-
+import "./styles/Clock.css";
 function InteractiveMap() {
   
   const [appTime, setAppTime] = useState(
@@ -18,11 +16,12 @@ function InteractiveMap() {
   return (
     <div>
       <Banner>
-        <Button href="/" classe="buttonRetourAcc">
-          MENU
-        </Button>
-        <Clock style={{ zIndex: 999 }} onTimeChange={handleTimeChange} />
+        
+        <div style={{marginLeft:"1%"}}>
+        <Clock style={{ zIndex: 999}} onTimeChange={handleTimeChange} />
+        </div>
       </Banner>
+      
       <Map />
     </div>
   );

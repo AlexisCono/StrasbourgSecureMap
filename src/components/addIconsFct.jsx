@@ -7,7 +7,13 @@ let markerCoordinatesArray = [];
 // Structure de données pour stocker les informations sur les marqueurs
 const markerData = [];
 
-export function addIcon(map, coordinates, selectedIcon) {
+export function addIcon(
+  map,
+  coordinates,
+  selectedIcon,
+  formValues,
+  setFormValues
+) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
   const size = 30 * Math.pow(1.2, zoom - 15);
@@ -39,7 +45,13 @@ export function addIcon(map, coordinates, selectedIcon) {
 
   const popupContent = document.createElement("div");
 
-  createRoot(popupContent).render(<PopUp label={selectedIcon.label} />);
+  createRoot(popupContent).render(
+    <PopUp
+      label={selectedIcon.label}
+      formValues={formValues}
+      setFormValues={setFormValues}
+    />
+  );
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);
 

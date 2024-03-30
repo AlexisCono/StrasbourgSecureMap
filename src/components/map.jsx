@@ -20,6 +20,12 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
+  const [formValues, setFormValues] = useState({
+    quantities: 1,
+    startHours: "",
+    endHours: "",
+  });
+
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
     countIcons: 0,
@@ -76,8 +82,16 @@ const Map = () => {
         itiCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
         updateRoute(map.current, itiCoordinates, "route1");
       } else if (mode === "addIcon") {
-        const iconCoordinates = e.lngLat;
-        addIcon(map.current, iconCoordinates, selectedIcon);
+        if (selectedIcon) {
+          const iconCoordinates = e.lngLat;
+          addIcon(
+            map.current,
+            iconCoordinates,
+            selectedIcon,
+            formValues,
+            setFormValues
+          );
+        }
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
         updateZone(map.current, zoneCoordinates, "zone1");
@@ -90,7 +104,7 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates, formValues]); // Effectue l'effet lors du changement d'icône
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar

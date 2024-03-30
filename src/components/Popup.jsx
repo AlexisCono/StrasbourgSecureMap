@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
 
-const PopUp = ({ label }) => {
-  const [formValues, setFormValues] = useState({
-    quantities: 1,
-    startHours: undefined,
-    endHours: undefined,
-  });
-
+const PopUp = ({ label, formValues, setFormValues }) => {
   const updateFormValues = (key, value) => {
     setFormValues({
       ...formValues,

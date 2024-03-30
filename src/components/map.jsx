@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
-import { addIcon } from "./iconsFct.jsx";
+import { addIcon } from "./addIconsFct.jsx";
 import {
   initRoute,
   updateRoute,
@@ -34,7 +34,7 @@ const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
+  // const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
 
   const [itiCoordinates] = useState([]);
   const [zoneCoordinates] = useState([]);
@@ -57,7 +57,7 @@ const Map = () => {
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: day_style,
+      style: "mapbox://styles/mapbox/outdoors-v11",
       center: [lng, lat],
       zoom: zoom,
     });
@@ -77,14 +77,7 @@ const Map = () => {
         updateRoute(map.current, itiCoordinates, "route1");
       } else if (mode === "addIcon") {
         const iconCoordinates = e.lngLat;
-        const imageUrl = `icons/${selectedIcon.path}`;
-        addIcon(
-          map.current,
-          iconCoordinates,
-          imageUrl,
-          setCount,
-          selectedIcon.label
-        );
+        addIcon(map.current, iconCoordinates, selectedIcon);
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
         updateZone(map.current, zoneCoordinates, "zone1");
@@ -158,7 +151,7 @@ const Map = () => {
             }}
           >
             <SubMenu
-              label={<span style={{ fontSize: "15px" }}>〰️​​ Itinéraire</span>}
+              label={<span style={{ fontSize: "15px" }}>〰️ Itinéraire</span>}
               backgroundColor="#d1cfff"
               onClick={() => setMode("itinerary")}
             >

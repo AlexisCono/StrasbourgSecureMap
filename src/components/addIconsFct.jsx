@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import "../styles/Popup.css";
-import Popup from "./Popup";
+import PopUp from "./PopUp";
 import { createRoot } from "react-dom/client";
 
 let markerCoordinatesArray = [];
@@ -39,7 +39,7 @@ export function addIcon(map, coordinates, selectedIcon) {
 
   const popupContent = document.createElement("div");
 
-  createRoot(popupContent).render(<Popup label={selectedIcon.label} />);
+  createRoot(popupContent).render(<PopUp label={selectedIcon.label} />);
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);
 

@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Popup = ({ label }) => {
+const PopUp = ({ label }) => {
   const [formvalues, setFormValues] = useState({
     quantities: 1,
     startHours: undefined,
@@ -47,9 +47,9 @@ const Popup = ({ label }) => {
   );
 };
 
-Popup.propTypes = {
+PopUp.propTypes = {
   label: PropTypes.string.isRequired,
   map: PropTypes.object.isRequired,
 };
 
-export default Popup;
+export default PopUp;

@@ -25,8 +25,8 @@ const Map = () => {
     countIcons: 0,
   }));
   const [count, setCount] = useState(countForIcons);
-  const [mode, setMode] = useState();
 
+  const [mode, setMode] = useState();
   const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
 
   const [searchText, setSearchText] = useState("");

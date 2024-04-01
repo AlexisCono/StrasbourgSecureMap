@@ -26,6 +26,13 @@ const Map = () => {
     endHours: "",
   });
 
+  const updateFormValues = (key, value) => {
+    setFormValues({
+      ...formValues,
+      [key]: value,
+    });
+  };
+
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
     countIcons: 0,
@@ -89,7 +96,7 @@ const Map = () => {
             iconCoordinates,
             selectedIcon,
             formValues,
-            setFormValues
+            updateFormValues
           );
         }
       } else if (mode === "zone") {

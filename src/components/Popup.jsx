@@ -1,15 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
+import { updateRoute } from "./itineraryFct";
 
-const PopUp = ({ label, formValues, setFormValues }) => {
-  const updateFormValues = (key, value) => {
-    setFormValues({
-      ...formValues,
-      [key]: value,
-    });
-  };
-
+const PopUp = ({ label, formValues, updateFormValues }) => {
   return (
     <div className="popup-content">
       <h2>{label}</h2>
@@ -19,6 +13,7 @@ const PopUp = ({ label, formValues, setFormValues }) => {
         name="quantities"
         id="quantitiesInput" // Ajout de l'attribut id
         value={formValues.quantities}
+        min="1"
         onChange={(event) => updateFormValues("quantities", event.target.value)}
       />
       <h3>Heure de pose :</h3>
@@ -45,7 +40,7 @@ const PopUp = ({ label, formValues, setFormValues }) => {
 PopUp.propTypes = {
   label: PropTypes.string.isRequired,
   formValues: PropTypes.object.isRequired,
-  setFormValues: PropTypes.func.isRequired,
+  updateRoute: PropTypes.func.isRequired,
 };
 
 export default PopUp;

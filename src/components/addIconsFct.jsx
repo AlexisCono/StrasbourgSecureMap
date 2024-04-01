@@ -12,7 +12,7 @@ export function addIcon(
   coordinates,
   selectedIcon,
   formValues,
-  setFormValues
+  updateFormValues
 ) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
@@ -49,7 +49,7 @@ export function addIcon(
     <PopUp
       label={selectedIcon.label}
       formValues={formValues}
-      setFormValues={setFormValues}
+      updateFormValues={updateFormValues}
     />
   );
 

@@ -1,10 +1,13 @@
 import mapboxgl from "mapbox-gl";
-import "../styles/Popup.css";
+import "../styles/popUp.css";
+import PopUp from "./PopUp";
+import { createRoot } from "react-dom/client";
+
 let markerCoordinatesArray = [];
 // Structure de données pour stocker les informations sur les marqueurs
 const markerData = [];
 
-export function addIcon(map, coordinates, imageUrl, setCount, label) {
+export function addIcon(map, coordinates, selectedIcon, onSubmit) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
   const size = 30 * Math.pow(1.2, zoom - 15);
@@ -27,25 +30,20 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
   }
 
   el.className = "marker";
-  el.style.backgroundImage = `url(${imageUrl})`; // Utilisation de l'URL de l'image importée
+  el.style.backgroundImage = `url(icons/${selectedIcon.path})`; // Utilisation de l'URL de l'image importée
   el.style.width = size + "px"; // Taille initiale du marqueur
   el.style.height = size + "px";
   el.style.backgroundSize = "cover";
   el.style.borderRadius = "100%";
   el.style.cursor = "pointer";
 
-  const popupContent = `
-    <div class="popup-content">
-      <h3>${label}</h3>
-      <label for="heurePose">Heure de pose :</label>
-      <input type="time" id="heurePose" name="heurePose"><br><br>
-      <label for="heureDepose">Heure de dépose :</label>
-      <input type="time" id="heureDepose" name="heureDepose"><br><br>
-      <button id="deleteButton">Supprimer</button>
-    </div>
-`;
+  const popupContent = document.createElement("div");
 
-  const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+  createRoot(popupContent).render(
+    <PopUp label={selectedIcon.label} onSubmit={onSubmit} />
+  );
+
+  const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);
 
   const marker = new mapboxgl.Marker(el)
     .setLngLat(coordinates)
@@ -63,7 +61,6 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
         markerCoordinatesArray.splice(index, 1); // Supprimer les coordonnées du tableau
       }
       popup.remove(); // Supprimer le popup
-      decreaseCount(setCount, label);
     });
   });
 
@@ -74,42 +71,16 @@ export function addIcon(map, coordinates, imageUrl, setCount, label) {
     el.style.height = newSize + "px";
   });
 
-  incrementCount(setCount, label);
   markerCoordinatesArray.push(newMarkerCoordinates);
 
   // Enregistrer les informations du marqueur dans la structure de données
   const markerInfo = {
     coordinates: coordinates,
-    imageUrl: imageUrl,
-    type: label,
+    imageUrl: selectedIcon.path,
+    type: selectedIcon.label,
     popup: popup,
     // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
   };
 
   markerData.push(markerInfo);
-}
-
-export function incrementCount(setCount, label) {
-  setCount((prevCount) =>
-    prevCount.map((iconCount) => {
-      if (iconCount.label === label) {
-        return {
-          ...iconCount,
-          countIcons: iconCount.countIcons + 1,
-        };
-      }
-      return iconCount;
-    })
-  );
-}
-
-export function decreaseCount(setCount, label) {
-  setCount((prevCount) =>
-    prevCount.map((iconCount) => {
-      if (iconCount.label === label && iconCount.countIcons > 0) {
-        return { ...iconCount, countIcons: iconCount.countIcons - 1 };
-      }
-      return iconCount;
-    })
-  );
 }

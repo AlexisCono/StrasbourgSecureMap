@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
-import { addIcon } from "./iconsFct.jsx";
+import { addIcon } from "./addIconsFct.jsx";
 import {
   initRoute,
   updateRoute,
@@ -20,13 +20,33 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
+  const onIconSubmit = (iconValues) => {
+    console.log(iconValues);
+  };
+
+  // const [formValues, setFormValues] = useState({
+  //   quantities: 1,
+  //   startHours: "00:00",
+  //   endHours: "00:00",
+  // });
+
+  // const updateFormValues = useCallback(
+  //   (key, value) => {
+  //     setFormValues({
+  //       ...formValues,
+  //       [key]: value,
+  //     });
+  //   },
+  //   [formValues, setFormValues]
+  // );
+
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
     countIcons: 0,
   }));
   const [count, setCount] = useState(countForIcons);
-  const [mode, setMode] = useState();
 
+  const [mode, setMode] = useState();
   const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
 
   const [searchText, setSearchText] = useState("");
@@ -34,7 +54,7 @@ const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
+  // const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
 
   const [itiCoordinates] = useState([]);
   const [zoneCoordinates] = useState([]);
@@ -57,7 +77,7 @@ const Map = () => {
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: day_style,
+      style: "mapbox://styles/mapbox/outdoors-v11",
       center: [lng, lat],
       zoom: zoom,
     });
@@ -76,15 +96,10 @@ const Map = () => {
         itiCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
         updateRoute(map.current, itiCoordinates, "route1");
       } else if (mode === "addIcon") {
-        const iconCoordinates = e.lngLat;
-        const imageUrl = `icons/${selectedIcon.path}`;
-        addIcon(
-          map.current,
-          iconCoordinates,
-          imageUrl,
-          setCount,
-          selectedIcon.label
-        );
+        if (selectedIcon) {
+          const iconCoordinates = e.lngLat;
+          addIcon(map.current, iconCoordinates, selectedIcon, onIconSubmit);
+        }
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
         updateZone(map.current, zoneCoordinates, "zone1");
@@ -97,7 +112,7 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar

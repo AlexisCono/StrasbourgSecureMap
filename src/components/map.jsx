@@ -158,7 +158,7 @@ const Map = () => {
             }}
           >
             <SubMenu
-              label={<span style={{ fontSize: "15px" }}>〰️​​ Itinéraire</span>}
+              label={<span style={{ fontSize: "15px" }}>〰️ Itinéraire</span>}
               backgroundColor="#d1cfff"
               onClick={() => setMode("itinerary")}
             >

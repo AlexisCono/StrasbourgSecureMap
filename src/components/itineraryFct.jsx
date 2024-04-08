@@ -4,7 +4,7 @@ function calculateIconSize(zoom) {
   return zoom ? 2 * Math.pow(1.2, zoom - 15) : 30; // Valeur par défaut : 30
 }
 
-export function initRoute(map, coordinates, id_route) {
+export function initRoute(map, coordinates, id_route,color) {
   if (!map || !coordinates || !id_route) return;
 
   map.on('style.load', () => {
@@ -38,7 +38,7 @@ export function initRoute(map, coordinates, id_route) {
       './public/image/running.png',
       (error, image) => {
         if (error) throw error;
-        map.addImage('running', image);
+        map.addImage('running_'+id_route, image);
       }
     );
 
@@ -47,7 +47,7 @@ export function initRoute(map, coordinates, id_route) {
       'data': route
     });
 
-    map.addSource('point', {
+    map.addSource('point_'+id_route, {
       'type': 'geojson',
       'data': point
     });
@@ -58,16 +58,16 @@ export function initRoute(map, coordinates, id_route) {
       'type': 'line',
       'paint': {
         'line-width': 8,
-        'line-color': '#7A24B6',
+        'line-color': color,
       }
     });
 
     map.addLayer({
-      'id': 'point',
-      'source': 'point',
+      'id': 'point_'+id_route,
+      'source': 'point_'+id_route,
       'type': 'symbol',
       'layout': {
-        'icon-image': 'running',
+        'icon-image': 'running_'+id_route,
         'icon-size': size / 30, // Normalise la taille de l'icône entre 0 et 1
         'icon-rotate': ['get', 'bearing'],
         'icon-rotation-alignment': 'map',
@@ -80,14 +80,14 @@ export function initRoute(map, coordinates, id_route) {
     map.on('zoom', () => {
       const newZoom = map.getZoom();
       const newSize = calculateIconSize(newZoom);
-      map.setLayoutProperty('point', 'icon-size', newSize / 30);
+      map.setLayoutProperty('point_'+id_route, 'icon-size', newSize / 30);
     });
   });
 }
 
 export function updateRoute(map, coordinates, id_route) {
   if (!map || !coordinates || !id_route) return;
-
+  console.log()
   const route = {
     'type': 'FeatureCollection',
     'features': [{
@@ -111,7 +111,7 @@ export function updateRoute(map, coordinates, id_route) {
     }]
   };
   map.getSource(id_route).setData(route);
-  map.getSource('point').setData(point);
+  map.getSource('point_'+id_route).setData(point);
 }
 
 export function deleteLastCoordinates(map, coordinates, id_route) {
@@ -120,8 +120,8 @@ export function deleteLastCoordinates(map, coordinates, id_route) {
   updateRoute(map, coordinates, id_route);
 }
 
-export function startItiAnimation(map, positions) {
-  if (!map || !positions || positions.length === 0) return;
+export function startItiAnimation(map, positions,id_route,vitesse) {
+  if (!map || !positions || positions.length === 0 || !id_route) return;
   const intermediateCoordinates = addIntermediateCoordinates(positions,10);
   let index = 0; // Indice actuel dans le tableau de positions
 
@@ -130,7 +130,7 @@ export function startItiAnimation(map, positions) {
     if (index < intermediateCoordinates.length) {
       if (index === intermediateCoordinates.length-1) {
         const currentCoordinate = intermediateCoordinates[index];
-        changeImagePosition(map, currentCoordinate);
+        changeImagePosition(map, currentCoordinate,id_route);
         return
       }
       const currentCoordinate = intermediateCoordinates[index];
@@ -139,10 +139,10 @@ export function startItiAnimation(map, positions) {
       // Calculer la distance entre les coordonnées actuelle et suivante
       const dist = distance(currentCoordinate, nextCoordinate, { units: 'kilometers' });
       // Convertir la distance en millisecondes pour déterminer le pas de temps
-      const timeStep = dist * 10000; // 1 km correspond à 1 seconde
+      const timeStep = dist * 60000/vitesse; // 1 km correspond à 1 seconde
 
       // Changer la position de l'image en utilisant la fonction changeImagePosition
-      changeImagePosition(map, currentCoordinate);
+      changeImagePosition(map, currentCoordinate,id_route);
       setTimeout(() => {
         index++; // Passer à la prochaine position dans le tableau
         animate(); // Appeler récursivement la fonction animate pour passer à la position suivante
@@ -185,8 +185,9 @@ export function addIntermediateCoordinates(coordinates, numberOfPoints) {
   return newCoordinates;
 }
 
-export function changeImagePosition(map, newPosition) {
-  if (!map || !newPosition) return;
+export function changeImagePosition(map, newPosition,id_route) {
+
+  if (!map || !newPosition || !id_route) return;
   // Créer un objet de point avec la nouvelle position
   const newPoint = {
     'type': 'FeatureCollection',
@@ -201,5 +202,5 @@ export function changeImagePosition(map, newPosition) {
   };
 
   // Mettre à jour la source de données du point sur la carte avec la nouvelle position
-  map.getSource('point').setData(newPoint);
+  map.getSource('point_'+id_route).setData(newPoint);
 }

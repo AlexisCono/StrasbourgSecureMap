@@ -10,12 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.4.3",
     "@syncfusion/ej2-react-buttons": "^25.1.35",
     "@syncfusion/ej2-react-grids": "^25.1.35",
     "@syncfusion/ej2-react-navigations": "^25.1.35",
     "@trendmicro/react-sidenav": "^0.5.0",
     "@turf/turf": "^6.5.0",
-    "mapbox-gl": "^3.0.0",
+    "mapbox-gl": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.1.6",

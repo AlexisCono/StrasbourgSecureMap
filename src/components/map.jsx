@@ -11,7 +11,7 @@ import {
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
-import { initZone, updateZone } from "./zone.jsx";
+import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
 
@@ -19,6 +19,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
+  const [toggleZone, setToggleZone] = useState(false);
 
   const onIconSubmit = (iconValues) => {
     console.log(iconValues);
@@ -47,26 +48,59 @@ const Map = () => {
   const [count, setCount] = useState(countForIcons);
 
   const [mode, setMode] = useState();
-  const [sidebarOpen, setSidebarOpen] = useState(false); // État pour suivre si la sidebar est ouverte ou fermée
 
   const [searchText, setSearchText] = useState("");
 
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  // const day_style = "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz";
 
-  const [itiCoordinates] = useState([]);
-  const [zoneCoordinates] = useState([]);
+  const [selectedRoute,setSelectedRoute] = useState("route1");
+  const [itiCoordinates1, setItiCoordinates1] = useState([]);
+  const [itiCoordinates2, setItiCoordinates2] = useState([]);
 
-  const handleDeleteLastCoordinate = () => {
-    // Appel de la fonction deleteLastCoordinates ici
-    deleteLastCoordinates(map.current, itiCoordinates, "route1"); // Supposons que 'coordinates' soit votre tableau de coordonnées
+  const [selectedZone,setSelectedZone] = useState("zone1")
+  const [zoneCoordinates1,setZoneCoordinates1] = useState([]);
+  const [zoneCoordinates2,setZoneCoordinates2] = useState([]);
+  const [zoneCoordinates3,setZoneCoordinates3] = useState([]);
+  
+
+  const vit_course = 8;
+  const vit_marche = 5;
+
+  const handleToggleZone = () => {
+    setToggleZone(prevState => !prevState);
   };
 
-  const handleStartAnimation = () => {
+  const handleChangeRoute = () => {
+    setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
+  };
+
+  const handleChangeZone = () => {
+    setSelectedZone((prevSelectedZone) => {
+      switch (prevSelectedZone) {
+        case "zone1":
+          return "zone2";
+        case "zone2":
+          return "zone3";
+        case "zone3":
+          return "zone1";
+        default:
+          return prevSelectedZone;
+      }
+    });
+  };
+  
+  
+
+  const handleDeleteLastCoordinate = (itiCoordinates) => {
+    // Appel de la fonction deleteLastCoordinates ici
+    deleteLastCoordinates(map.current, itiCoordinates, selectedRoute); // Supposons que 'coordinates' soit votre tableau de coordonnées
+  };
+
+  const handleStartAnimation = (itiCoordinates,vitesse) => {
     // Appelez la fonction startAnimation avec les paramètres nécessaires
-    startItiAnimation(map.current, itiCoordinates);
+    startItiAnimation(map.current, itiCoordinates,selectedRoute,vitesse);
   };
 
   useEffect(() => {
@@ -77,33 +111,50 @@ const Map = () => {
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/outdoors-v11",
+      style: "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz",
       center: [lng, lat],
       zoom: zoom,
     });
 
-    initRoute(map.current, itiCoordinates, "route1");
-    initZone(map.current, zoneCoordinates, "zone1");
+    initRoute(map.current,itiCoordinates1, "route1",'#4254f5');
+    initRoute(map.current,itiCoordinates2, "route2",'#52db40 ');
+
+    //initZone(map.current, zoneCoordinates1, "zone1");
+    //initZone(map.current, zoneCoordinates2, "zone2");
+    //initZone(map.current, zoneCoordinates3, "zone3");
+
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [itiCoordinates, zoneCoordinates]); // Effectue l'effet uniquement lors du montage initial
+  }, [itiCoordinates1,itiCoordinates2, zoneCoordinates1, zoneCoordinates2, zoneCoordinates3]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
     const clickHandler = (e) => {
       if (mode === "itinerary") {
-        itiCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
-        updateRoute(map.current, itiCoordinates, "route1");
-      } else if (mode === "addIcon") {
+        const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
+        if (selectedRoute === "route1") {
+            const newCoordinates = [...itiCoordinates1, updatedCoordinates];
+            setItiCoordinates1(newCoordinates);
+            updateRoute(map.current, newCoordinates, selectedRoute);
+        } else if (selectedRoute === "route2") {
+            const newCoordinates = [...itiCoordinates2, updatedCoordinates];
+            setItiCoordinates2(newCoordinates);
+            updateRoute(map.current, newCoordinates, selectedRoute);
+        }
+      }
+      else if (mode === "zone") {
+        const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
+        if (selectedZone === "zone1"){
+          initializeDrawZone(map.current)
+        }
+      } 
+      else if (mode === "addIcon") {
         if (selectedIcon) {
           const iconCoordinates = e.lngLat;
           addIcon(map.current, iconCoordinates, selectedIcon, onIconSubmit);
         }
-      } else if (mode === "zone") {
-        zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
-        updateZone(map.current, zoneCoordinates, "zone1");
-      }
+      } 
     };
 
     map.current.on("click", clickHandler);
@@ -112,11 +163,8 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [selectedIcon, mode, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode,selectedRoute, itiCoordinates1,itiCoordinates2,selectedZone]); // Effectue l'effet lors du changement d'icône
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar
-  };
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
@@ -144,21 +192,9 @@ const Map = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar collapsed={!sidebarOpen} width="200px" backgroundColor="#d1cfff">
+      <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
-          {/* Bouton pour ouvrir/fermer la sidebar */}
-
-          <button
-            className="boutonSidebar"
-            onClick={toggleSidebar}
-            style={{
-              zIndex: 999,
-            }}
-          >
-            {sidebarOpen ? "Fermer" : "Ouvrir"}
-          </button>
-
           <Menu
             transitionDuration={500}
             menuItemStyles={{
@@ -179,22 +215,53 @@ const Map = () => {
             >
               {mode === "itinerary" && (
                 <div style={{ marginLeft: "10px" }}>
-                  {/* Parcours 1 */}
-                  Parcours 1
-                  <br />
-                  <button onClick={handleDeleteLastCoordinate}>
-                    <img
-                      src={`./public/image/return.png`}
-                      alt="return"
-                      style={{
-                        width: "30px",
-                        height: "18px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </button>
-                  <button onClick={handleStartAnimation}>Start</button>
-                </div>
+                {/* Bouton pour changer d'itinéraire */}
+                <button onClick={handleChangeRoute}>
+                  Changer d&apos;itinéraire
+                </button>
+                
+                {/* Parcours sélectionné */}
+                {selectedRoute === "route1" && (
+                  <div>
+                    {/* Parcours 1 */}
+                    Course
+                    <br />
+                    <button onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
+                      <img
+                        src={`./public/image/return.png`}
+                        alt="return"
+                        style={{
+                          width: "30px",
+                          height: "18px",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </button>
+                    <button onClick={() => handleStartAnimation(itiCoordinates1,vit_course)}>Start</button>
+                  </div>
+                )}
+                
+                {selectedRoute === "route2" && (
+                  <div>
+                    {/* Parcours 2 */}
+                    Marche
+                    <br />
+                    <button onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
+                      <img
+                        src={`./public/image/return.png`}
+                        alt="return"
+                        style={{
+                          width: "30px",
+                          height: "18px",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </button>
+                    <button onClick={() => handleStartAnimation(itiCoordinates2,vit_marche)}>Start</button>
+                  </div>
+                )}
+              </div>
+              
               )}
             </SubMenu>
 
@@ -203,7 +270,15 @@ const Map = () => {
               label="🗺️ Zone"
               onClick={() => setMode("zone")}
             >
-              {mode === "addIcon" && <br />}
+              {mode === "zone" && (
+                <div style={{ marginLeft: "10px" }}>
+                {/* Bouton pour changer d'itinéraire */}
+                <button onClick={handleChangeZone}>
+                  Changer de zone
+                </button> <br/>
+                <a>{selectedZone}</a>
+                </div>
+              )}
             </SubMenu>
 
             <SubMenu

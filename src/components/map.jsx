@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
 import { addIcon } from "./addIconsFct.jsx";
@@ -54,22 +54,20 @@ const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-
-  const [selectedRoute,setSelectedRoute] = useState("route1");
+  const [selectedRoute, setSelectedRoute] = useState("route1");
   const [itiCoordinates1, setItiCoordinates1] = useState([]);
   const [itiCoordinates2, setItiCoordinates2] = useState([]);
 
-  const [selectedZone,setSelectedZone] = useState("zone1")
-  const [zoneCoordinates1,setZoneCoordinates1] = useState([]);
-  const [zoneCoordinates2,setZoneCoordinates2] = useState([]);
-  const [zoneCoordinates3,setZoneCoordinates3] = useState([]);
-  
+  const [selectedZone, setSelectedZone] = useState("zone1");
+  const [zoneCoordinates1, setZoneCoordinates1] = useState([]);
+  const [zoneCoordinates2, setZoneCoordinates2] = useState([]);
+  const [zoneCoordinates3, setZoneCoordinates3] = useState([]);
 
   const vit_course = 8;
   const vit_marche = 5;
 
   const handleToggleZone = () => {
-    setToggleZone(prevState => !prevState);
+    setToggleZone((prevState) => !prevState);
   };
 
   const handleChangeRoute = () => {
@@ -90,17 +88,15 @@ const Map = () => {
       }
     });
   };
-  
-  
 
   const handleDeleteLastCoordinate = (itiCoordinates) => {
     // Appel de la fonction deleteLastCoordinates ici
     deleteLastCoordinates(map.current, itiCoordinates, selectedRoute); // Supposons que 'coordinates' soit votre tableau de coordonnées
   };
 
-  const handleStartAnimation = (itiCoordinates,vitesse) => {
+  const handleStartAnimation = (itiCoordinates, vitesse) => {
     // Appelez la fonction startAnimation avec les paramètres nécessaires
-    startItiAnimation(map.current, itiCoordinates,selectedRoute,vitesse);
+    startItiAnimation(map.current, itiCoordinates, selectedRoute, vitesse);
   };
 
   useEffect(() => {
@@ -116,17 +112,22 @@ const Map = () => {
       zoom: zoom,
     });
 
-    initRoute(map.current,itiCoordinates1, "route1",'#4254f5');
-    initRoute(map.current,itiCoordinates2, "route2",'#52db40 ');
+    initRoute(map.current, itiCoordinates1, "route1", "#4254f5");
+    initRoute(map.current, itiCoordinates2, "route2", "#52db40 ");
 
     //initZone(map.current, zoneCoordinates1, "zone1");
     //initZone(map.current, zoneCoordinates2, "zone2");
     //initZone(map.current, zoneCoordinates3, "zone3");
 
-
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [itiCoordinates1,itiCoordinates2, zoneCoordinates1, zoneCoordinates2, zoneCoordinates3]); // Effectue l'effet uniquement lors du montage initial
+  }, [
+    itiCoordinates1,
+    itiCoordinates2,
+    zoneCoordinates1,
+    zoneCoordinates2,
+    zoneCoordinates3,
+  ]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -134,27 +135,25 @@ const Map = () => {
       if (mode === "itinerary") {
         const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
         if (selectedRoute === "route1") {
-            const newCoordinates = [...itiCoordinates1, updatedCoordinates];
-            setItiCoordinates1(newCoordinates);
-            updateRoute(map.current, newCoordinates, selectedRoute);
+          const newCoordinates = [...itiCoordinates1, updatedCoordinates];
+          setItiCoordinates1(newCoordinates);
+          updateRoute(map.current, newCoordinates, selectedRoute);
         } else if (selectedRoute === "route2") {
-            const newCoordinates = [...itiCoordinates2, updatedCoordinates];
-            setItiCoordinates2(newCoordinates);
-            updateRoute(map.current, newCoordinates, selectedRoute);
+          const newCoordinates = [...itiCoordinates2, updatedCoordinates];
+          setItiCoordinates2(newCoordinates);
+          updateRoute(map.current, newCoordinates, selectedRoute);
         }
-      }
-      else if (mode === "zone") {
+      } else if (mode === "zone") {
         const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
-        if (selectedZone === "zone1"){
-          initializeDrawZone(map.current)
+        if (selectedZone === "zone1") {
+          initializeDrawZone(map.current);
         }
-      } 
-      else if (mode === "addIcon") {
+      } else if (mode === "addIcon") {
         if (selectedIcon) {
           const iconCoordinates = e.lngLat;
           addIcon(map.current, iconCoordinates, selectedIcon, onIconSubmit);
         }
-      } 
+      }
     };
 
     map.current.on("click", clickHandler);
@@ -163,8 +162,14 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [selectedIcon, mode,selectedRoute, itiCoordinates1,itiCoordinates2,selectedZone]); // Effectue l'effet lors du changement d'icône
-
+  }, [
+    selectedIcon,
+    mode,
+    selectedRoute,
+    itiCoordinates1,
+    itiCoordinates2,
+    selectedZone,
+  ]); // Effectue l'effet lors du changement d'icône
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
@@ -215,53 +220,72 @@ const Map = () => {
             >
               {mode === "itinerary" && (
                 <div style={{ marginLeft: "10px" }}>
-                {/* Bouton pour changer d'itinéraire */}
-                <button onClick={handleChangeRoute}>
-                  Changer d&apos;itinéraire
-                </button>
-                
-                {/* Parcours sélectionné */}
-                {selectedRoute === "route1" && (
-                  <div>
-                    {/* Parcours 1 */}
-                    Course
-                    <br />
-                    <button onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
-                      <img
-                        src={`./public/image/return.png`}
-                        alt="return"
-                        style={{
-                          width: "30px",
-                          height: "18px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </button>
-                    <button onClick={() => handleStartAnimation(itiCoordinates1,vit_course)}>Start</button>
-                  </div>
-                )}
-                
-                {selectedRoute === "route2" && (
-                  <div>
-                    {/* Parcours 2 */}
-                    Marche
-                    <br />
-                    <button onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
-                      <img
-                        src={`./public/image/return.png`}
-                        alt="return"
-                        style={{
-                          width: "30px",
-                          height: "18px",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </button>
-                    <button onClick={() => handleStartAnimation(itiCoordinates2,vit_marche)}>Start</button>
-                  </div>
-                )}
-              </div>
-              
+                  {/* Bouton pour changer d'itinéraire */}
+                  <button onClick={handleChangeRoute}>
+                    Changer d&apos;itinéraire
+                  </button>
+
+                  {/* Parcours sélectionné */}
+                  {selectedRoute === "route1" && (
+                    <div>
+                      {/* Parcours 1 */}
+                      Course
+                      <br />
+                      <button
+                        onClick={() =>
+                          handleDeleteLastCoordinate(itiCoordinates1)
+                        }
+                      >
+                        <img
+                          src={`./public/image/return.png`}
+                          alt="return"
+                          style={{
+                            width: "30px",
+                            height: "18px",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleStartAnimation(itiCoordinates1, vit_course)
+                        }
+                      >
+                        Start
+                      </button>
+                    </div>
+                  )}
+
+                  {selectedRoute === "route2" && (
+                    <div>
+                      {/* Parcours 2 */}
+                      Marche
+                      <br />
+                      <button
+                        onClick={() =>
+                          handleDeleteLastCoordinate(itiCoordinates2)
+                        }
+                      >
+                        <img
+                          src={`./public/image/return.png`}
+                          alt="return"
+                          style={{
+                            width: "30px",
+                            height: "18px",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleStartAnimation(itiCoordinates2, vit_marche)
+                        }
+                      >
+                        Start
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </SubMenu>
 
@@ -272,11 +296,12 @@ const Map = () => {
             >
               {mode === "zone" && (
                 <div style={{ marginLeft: "10px" }}>
-                {/* Bouton pour changer d'itinéraire */}
-                <button onClick={handleChangeZone}>
-                  Changer de zone
-                </button> <br/>
-                <a>{selectedZone}</a>
+                  {/* Bouton pour changer d'itinéraire */}
+                  <button onClick={handleChangeZone}>
+                    Changer de zone
+                  </button>{" "}
+                  <br />
+                  <a>{selectedZone}</a>
                 </div>
               )}
             </SubMenu>

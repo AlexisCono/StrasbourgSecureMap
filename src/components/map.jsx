@@ -19,27 +19,11 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
-  const [toggleZone, setToggleZone] = useState(false);
 
   const onIconSubmit = (iconValues) => {
     console.log(iconValues);
   };
 
-  // const [formValues, setFormValues] = useState({
-  //   quantities: 1,
-  //   startHours: "00:00",
-  //   endHours: "00:00",
-  // });
-
-  // const updateFormValues = useCallback(
-  //   (key, value) => {
-  //     setFormValues({
-  //       ...formValues,
-  //       [key]: value,
-  //     });
-  //   },
-  //   [formValues, setFormValues]
-  // );
 
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
@@ -59,35 +43,14 @@ const Map = () => {
   const [itiCoordinates2, setItiCoordinates2] = useState([]);
 
   const [selectedZone, setSelectedZone] = useState("zone1");
-  const [zoneCoordinates1, setZoneCoordinates1] = useState([]);
-  const [zoneCoordinates2, setZoneCoordinates2] = useState([]);
-  const [zoneCoordinates3, setZoneCoordinates3] = useState([]);
 
   const vit_course = 8;
   const vit_marche = 5;
-
-  const handleToggleZone = () => {
-    setToggleZone((prevState) => !prevState);
-  };
 
   const handleChangeRoute = () => {
     setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
   };
 
-  const handleChangeZone = () => {
-    setSelectedZone((prevSelectedZone) => {
-      switch (prevSelectedZone) {
-        case "zone1":
-          return "zone2";
-        case "zone2":
-          return "zone3";
-        case "zone3":
-          return "zone1";
-        default:
-          return prevSelectedZone;
-      }
-    });
-  };
 
   const handleDeleteLastCoordinate = (itiCoordinates) => {
     // Appel de la fonction deleteLastCoordinates ici
@@ -114,19 +77,11 @@ const Map = () => {
 
     initRoute(map.current, itiCoordinates1, "route1", "#4254f5");
     initRoute(map.current, itiCoordinates2, "route2", "#52db40 ");
-
-    //initZone(map.current, zoneCoordinates1, "zone1");
-    //initZone(map.current, zoneCoordinates2, "zone2");
-    //initZone(map.current, zoneCoordinates3, "zone3");
-
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
   }, [
     itiCoordinates1,
     itiCoordinates2,
-    zoneCoordinates1,
-    zoneCoordinates2,
-    zoneCoordinates3,
   ]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
@@ -137,16 +92,11 @@ const Map = () => {
         if (selectedRoute === "route1") {
           const newCoordinates = [...itiCoordinates1, updatedCoordinates];
           setItiCoordinates1(newCoordinates);
-          updateRoute(map.current, newCoordinates, selectedRoute);
+          updateRoute(map.current, itiCoordinates1, selectedRoute);
         } else if (selectedRoute === "route2") {
           const newCoordinates = [...itiCoordinates2, updatedCoordinates];
           setItiCoordinates2(newCoordinates);
-          updateRoute(map.current, newCoordinates, selectedRoute);
-        }
-      } else if (mode === "zone") {
-        const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
-        if (selectedZone === "zone1") {
-          initializeDrawZone(map.current);
+          updateRoute(map.current, itiCoordinates2, selectedRoute);
         }
       } else if (mode === "addIcon") {
         if (selectedIcon) {
@@ -156,6 +106,9 @@ const Map = () => {
       }
     };
 
+    if (mode === "zone") {
+      initializeDrawZone(map.current);
+  } 
     map.current.on("click", clickHandler);
 
     // Retrait de l'événement de clic lors du démontage du composant
@@ -296,12 +249,7 @@ const Map = () => {
             >
               {mode === "zone" && (
                 <div style={{ marginLeft: "10px" }}>
-                  {/* Bouton pour changer d'itinéraire */}
-                  <button onClick={handleChangeZone}>
-                    Changer de zone
-                  </button>{" "}
-                  <br />
-                  <a>{selectedZone}</a>
+                  
                 </div>
               )}
             </SubMenu>

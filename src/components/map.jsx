@@ -20,21 +20,25 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
-  const [formValues, setFormValues] = useState({
-    quantities: 1,
-    startHours: "00:00",
-    endHours: "00:00",
-  });
+  const onIconSubmit = (iconValues) => {
+    console.log(iconValues);
+  };
 
-  const updateFormValues = useCallback(
-    (key, value) => {
-      setFormValues({
-        ...formValues,
-        [key]: value,
-      });
-    },
-    [formValues, setFormValues]
-  );
+  // const [formValues, setFormValues] = useState({
+  //   quantities: 1,
+  //   startHours: "00:00",
+  //   endHours: "00:00",
+  // });
+
+  // const updateFormValues = useCallback(
+  //   (key, value) => {
+  //     setFormValues({
+  //       ...formValues,
+  //       [key]: value,
+  //     });
+  //   },
+  //   [formValues, setFormValues]
+  // );
 
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
@@ -94,13 +98,7 @@ const Map = () => {
       } else if (mode === "addIcon") {
         if (selectedIcon) {
           const iconCoordinates = e.lngLat;
-          addIcon(
-            map.current,
-            iconCoordinates,
-            selectedIcon,
-            formValues,
-            updateFormValues
-          );
+          addIcon(map.current, iconCoordinates, selectedIcon, onIconSubmit);
         }
       } else if (mode === "zone") {
         zoneCoordinates.push([e.lngLat.lng, e.lngLat.lat]);
@@ -114,14 +112,7 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [
-    selectedIcon,
-    mode,
-    itiCoordinates,
-    zoneCoordinates,
-    formValues,
-    updateFormValues,
-  ]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode, itiCoordinates, zoneCoordinates]); // Effectue l'effet lors du changement d'icône
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar

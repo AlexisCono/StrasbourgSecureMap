@@ -3,6 +3,7 @@ import Map from "./components/Map";
 import Banner from "./Banner";
 import Clock from "./components/Clock";
 import "./styles/Clock.css";
+
 function InteractiveMap() {
   const [appTime, setAppTime] = useState(
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })

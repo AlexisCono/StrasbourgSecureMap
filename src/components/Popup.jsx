@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
-import { updateRoute } from "./itineraryFct";
 
 const PopUp = ({ label, formValues, updateFormValues }) => {
   return (
@@ -40,7 +39,7 @@ const PopUp = ({ label, formValues, updateFormValues }) => {
 PopUp.propTypes = {
   label: PropTypes.string.isRequired,
   formValues: PropTypes.object.isRequired,
-  updateRoute: PropTypes.func.isRequired,
+  updateFormValues: PropTypes.func.isRequired,
 };
 
 export default PopUp;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
 import { addIcon } from "./addIconsFct.jsx";
@@ -22,16 +22,19 @@ const Map = () => {
 
   const [formValues, setFormValues] = useState({
     quantities: 1,
-    startHours: "",
-    endHours: "",
+    startHours: "00:00",
+    endHours: "00:00",
   });
 
-  const updateFormValues = (key, value) => {
-    setFormValues({
-      ...formValues,
-      [key]: value,
-    });
-  };
+  const updateFormValues = useCallback(
+    (key, value) => {
+      setFormValues({
+        ...formValues,
+        [key]: value,
+      });
+    },
+    [formValues, setFormValues]
+  );
 
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
@@ -111,7 +114,14 @@ const Map = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [selectedIcon, mode, count, itiCoordinates, zoneCoordinates, formValues]); // Effectue l'effet lors du changement d'icône
+  }, [
+    selectedIcon,
+    mode,
+    itiCoordinates,
+    zoneCoordinates,
+    formValues,
+    updateFormValues,
+  ]); // Effectue l'effet lors du changement d'icône
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Inversion de l'état de la sidebar

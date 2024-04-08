@@ -1,41 +1,13 @@
-export function initZone(map, coordinates, zoneId) {
-    if (!map || !coordinates || !zoneId) return;
-  
-    map.on('style.load', () => {
-      const zone = {
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Polygon',
-          'coordinates': [coordinates] // Une seule ligne est suffisante pour définir une zone fermée
-        }
-      };
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-      map.addSource(zoneId, {
-        'type': 'geojson',
-        'data': zone
-      });
-  
-      map.addLayer({
-        'id': zoneId,
-        'source': zoneId,
-        'type': 'fill',
-        'paint': {
-          'fill-color': '#FF0000',
-          'fill-opacity': 0.5
-        }
-      });
+export function initializeDrawZone(map) {
+    const drawInstance = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+        polygon: true,
+        trash: true
+      },
+      defaultMode: 'draw_polygon'
     });
-  }
-  
-export function updateZone(map, coordinates, zoneId) {
-    if (!map || !coordinates || !zoneId) return;
-
-    const zone = {
-        'type': 'Feature',
-        'geometry': {
-        'type': 'Polygon',
-        'coordinates': [coordinates] // Une seule ligne est suffisante pour définir une zone fermée
-        }
-    };
-    map.getSource(zoneId).setData(zone);
+    map.addControl(drawInstance);
 }

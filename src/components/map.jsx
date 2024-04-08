@@ -11,7 +11,7 @@ import {
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
-import { initZone, updateZone } from "./zone.jsx";
+import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
 
@@ -19,6 +19,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
+  const [toggleZone, setToggleZone] = useState(false);
 
   const [formValues, setFormValues] = useState({
     quantities: 1,
@@ -58,9 +59,14 @@ const Map = () => {
   const [zoneCoordinates1,setZoneCoordinates1] = useState([]);
   const [zoneCoordinates2,setZoneCoordinates2] = useState([]);
   const [zoneCoordinates3,setZoneCoordinates3] = useState([]);
+  
 
   const vit_course = 8;
   const vit_marche = 5;
+
+  const handleToggleZone = () => {
+    setToggleZone(prevState => !prevState);
+  };
 
   const handleChangeRoute = () => {
     setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
@@ -109,9 +115,9 @@ const Map = () => {
     initRoute(map.current,itiCoordinates1, "route1",'#4254f5');
     initRoute(map.current,itiCoordinates2, "route2",'#52db40 ');
 
-    initZone(map.current, zoneCoordinates1, "zone1");
-    initZone(map.current, zoneCoordinates2, "zone2");
-    initZone(map.current, zoneCoordinates3, "zone3");
+    //initZone(map.current, zoneCoordinates1, "zone1");
+    //initZone(map.current, zoneCoordinates2, "zone2");
+    //initZone(map.current, zoneCoordinates3, "zone3");
 
 
     // Nettoyage de la carte lors du démontage du composant
@@ -136,17 +142,15 @@ const Map = () => {
       else if (mode === "zone") {
         const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
         if (selectedZone === "zone1"){
-          const newCoordinates = [...zoneCoordinates1, updatedCoordinates];
-          setZoneCoordinates1(newCoordinates);
-          updateZone(map.current, zoneCoordinates1, "zone1");
+          initializeDrawZone(map.current)
         } else if (selectedZone === "zone2"){
           const newCoordinates = [...zoneCoordinates2, updatedCoordinates];
-          setZoneCoordinates1(newCoordinates);
-          updateZone(map.current, zoneCoordinates2, "zone2");
+          setZoneCoordinates2(newCoordinates);
+          //updateZone(map.current, zoneCoordinates2, "zone2");
         } else if (selectedZone === "zone3"){
           const newCoordinates = [...zoneCoordinates3, updatedCoordinates];
-          setZoneCoordinates1(newCoordinates);
-          updateZone(map.current, zoneCoordinates1, "zone3");
+          setZoneCoordinates3(newCoordinates);
+          //updateZone(map.current, zoneCoordinates3, "zone3");
         }
       } 
       else if (mode === "addIcon") {
@@ -181,6 +185,7 @@ const Map = () => {
     zoneCoordinates3,
     formValues,
     updateFormValues,
+    toggleZone
   ]); // Effectue l'effet lors du changement d'icône
 
   // État local pour stocker le terme de recherche
@@ -241,7 +246,7 @@ const Map = () => {
                 {selectedRoute === "route1" && (
                   <div>
                     {/* Parcours 1 */}
-                    Running
+                    Course
                     <br />
                     <button onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
                       <img
@@ -292,7 +297,7 @@ const Map = () => {
                 {/* Bouton pour changer d'itinéraire */}
                 <button onClick={handleChangeZone}>
                   Changer de zone
-                </button>
+                </button> <br/>
                 <a>{selectedZone}</a>
                 </div>
               )}

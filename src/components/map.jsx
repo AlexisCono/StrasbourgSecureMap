@@ -21,31 +21,20 @@ const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   const [toggleZone, setToggleZone] = useState(false);
 
+  const [iconData, setIconData] = useState([]);
+
   const onIconSubmit = (iconValues) => {
-    console.log(iconValues);
+    const { label, quantities, startHours, endHours } = iconValues;
+    setIconData((iconData) => [
+      ...iconData,
+      {
+        label,
+        quantities,
+        startHours,
+        endHours,
+      },
+    ]);
   };
-
-  // const [formValues, setFormValues] = useState({
-  //   quantities: 1,
-  //   startHours: "00:00",
-  //   endHours: "00:00",
-  // });
-
-  // const updateFormValues = useCallback(
-  //   (key, value) => {
-  //     setFormValues({
-  //       ...formValues,
-  //       [key]: value,
-  //     });
-  //   },
-  //   [formValues, setFormValues]
-  // );
-
-  const countForIcons = Object.values(icons).map((icon) => ({
-    label: icon.label,
-    countIcons: 0,
-  }));
-  const [count, setCount] = useState(countForIcons);
 
   const [mode, setMode] = useState();
 
@@ -98,6 +87,9 @@ const Map = () => {
     // Appelez la fonction startAnimation avec les paramètres nécessaires
     startItiAnimation(map.current, itiCoordinates, selectedRoute, vitesse);
   };
+
+  // État local pour stocker le terme de recherche
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const lng = 7.7482;
@@ -170,9 +162,6 @@ const Map = () => {
     itiCoordinates2,
     selectedZone,
   ]); // Effectue l'effet lors du changement d'icône
-
-  // État local pour stocker le terme de recherche
-  const [searchTerm, setSearchTerm] = useState("");
 
   // Fonction de gestion de la saisie de texte
   const handleSearchChange = (event) => {
@@ -383,18 +372,17 @@ const Map = () => {
             </SubMenu>
 
             <SubMenu label="🗒️​ Détails">
-              <ul>
-                {Object.values(count).map(
-                  (icon, index) =>
-                    icon.countIcons !== 0 && (
-                      <li key={index}>
-                        <p>
-                          {icon.label} : {icon.countIcons}
-                        </p>
-                      </li>
-                    )
+              <div>
+                {/* Affichage des détails de l'icône */}
+                {selectedIcon && (
+                  <div>
+                    <div>Nom de l&apos;icône: {selectedIcon.label}</div>
+                    <div>Quantité: {selectedIcon.quantity}</div>
+                    <div>Heure de début: {selectedIcon.startHours}</div>
+                    <div>Heure de fin: {selectedIcon.endHours}</div>
+                  </div>
                 )}
-              </ul>
+              </div>
             </SubMenu>
           </Menu>
         </div>

@@ -4,6 +4,7 @@ import "../styles/popUp.css";
 
 const PopUp = ({ label, onSubmit }) => {
   const [formValues, setFormValues] = useState({
+    label: label,
     quantities: 1,
     startHours: "",
     endHours: "",

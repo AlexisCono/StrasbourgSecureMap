@@ -87,7 +87,6 @@ export function initRoute(map, coordinates, id_route,color) {
 
 export function updateRoute(map, coordinates, id_route) {
   if (!map || !coordinates || !id_route) return;
-  console.log()
   const route = {
     'type': 'FeatureCollection',
     'features': [{

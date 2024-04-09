@@ -1,13 +1,14 @@
 {
-  "name": "my_app_v2",
+  "name": "strasbourg_secure_map",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tauri":"tauri"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.4.3",
@@ -27,6 +28,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1.5.11",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",

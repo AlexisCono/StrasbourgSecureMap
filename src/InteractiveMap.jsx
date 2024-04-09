@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Map from "./components/Map";
+import Map from "./components/Map.jsx";
 import Banner from "./Banner";
 import Clock from "./components/Clock";
 import "./styles/Clock.css";

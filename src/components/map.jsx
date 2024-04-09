@@ -14,12 +14,17 @@ import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
+import { useMapboxApiKey } from '../useMapboxApiKey';
+
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
-
+  //mapboxgl.accessToken = useMapboxApiKey();
+  const test = useMapboxApiKey();
+  //console.log(mapboxgl.accessToken)
+  console.log('test :'+test)
   const onIconSubmit = (iconValues) => {
     console.log(iconValues);
   };
@@ -41,8 +46,6 @@ const Map = () => {
   const [selectedRoute, setSelectedRoute] = useState("route1");
   const [itiCoordinates1, setItiCoordinates1] = useState([]);
   const [itiCoordinates2, setItiCoordinates2] = useState([]);
-
-  const [selectedZone, setSelectedZone] = useState("zone1");
 
   const vit_course = 8;
   const vit_marche = 5;
@@ -90,12 +93,10 @@ const Map = () => {
       if (mode === "itinerary") {
         const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
         if (selectedRoute === "route1") {
-          const newCoordinates = [...itiCoordinates1, updatedCoordinates];
-          setItiCoordinates1(newCoordinates);
+          itiCoordinates1.push([e.lngLat.lng, e.lngLat.lat]);
           updateRoute(map.current, itiCoordinates1, selectedRoute);
         } else if (selectedRoute === "route2") {
-          const newCoordinates = [...itiCoordinates2, updatedCoordinates];
-          setItiCoordinates2(newCoordinates);
+          itiCoordinates2.push([e.lngLat.lng, e.lngLat.lat]);
           updateRoute(map.current, itiCoordinates2, selectedRoute);
         }
       } else if (mode === "addIcon") {
@@ -121,7 +122,6 @@ const Map = () => {
     selectedRoute,
     itiCoordinates1,
     itiCoordinates2,
-    selectedZone,
   ]); // Effectue l'effet lors du changement d'icône
 
   // État local pour stocker le terme de recherche
@@ -167,91 +167,63 @@ const Map = () => {
             }}
           >
             <SubMenu
-              label={<span style={{ fontSize: "15px" }}>〰️ Itinéraire</span>}
+              label={<span style={{ fontSize: "15px" }}>〰️ Itinéraire et Zone</span>}
               backgroundColor="#d1cfff"
-              onClick={() => setMode("itinerary")}
             >
-              {mode === "itinerary" && (
-                <div style={{ marginLeft: "10px" }}>
-                  {/* Bouton pour changer d'itinéraire */}
-                  <button onClick={handleChangeRoute}>
-                    Changer d&apos;itinéraire
-                  </button>
+              <div style={{ marginLeft: "10px" }}>
+                {/* Bouton pour changer le mode */}
+                <button onClick={() => setMode(mode === "itinerary" ? "zone" :"itinerary" )}>
+                  Changer de mode ({mode === "zone" ? "Zone" : "Itinéraire"})
+                </button>
 
-                  {/* Parcours sélectionné */}
-                  {selectedRoute === "route1" && (
-                    <div>
-                      {/* Parcours 1 */}
-                      Course
-                      <br />
-                      <button
-                        onClick={() =>
-                          handleDeleteLastCoordinate(itiCoordinates1)
-                        }
-                      >
-                        <img
-                          src={`./public/image/return.png`}
-                          alt="return"
-                          style={{
-                            width: "30px",
-                            height: "18px",
-                            cursor: "pointer",
-                          }}
-                        />
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleStartAnimation(itiCoordinates1, vit_course)
-                        }
-                      >
-                        Start
-                      </button>
-                    </div>
-                  )}
+                {/* Contenu spécifique au mode "itinerary" */}
+                {mode === "itinerary" && (
+                  <>
+                    {/* Bouton pour changer d'itinéraire */}
+                    <button onClick={handleChangeRoute}>Changer d&apos;itinéraire</button>
 
-                  {selectedRoute === "route2" && (
-                    <div>
-                      {/* Parcours 2 */}
-                      Marche
-                      <br />
-                      <button
-                        onClick={() =>
-                          handleDeleteLastCoordinate(itiCoordinates2)
-                        }
-                      >
-                        <img
-                          src={`./public/image/return.png`}
-                          alt="return"
-                          style={{
-                            width: "30px",
-                            height: "18px",
-                            cursor: "pointer",
-                          }}
-                        />
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleStartAnimation(itiCoordinates2, vit_marche)
-                        }
-                      >
-                        Start
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </SubMenu>
+                    {/* Parcours sélectionné */}
+                    {selectedRoute === "route1" && (
+                      <div>
+                        {/* Parcours 1 */}
+                        Course
+                        <br />
+                        <button onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
+                          <img
+                            src={`./public/image/return.png`}
+                            alt="return"
+                            style={{ width: "30px", height: "18px", cursor: "pointer" }}
+                          />
+                        </button>
+                        <button onClick={() => handleStartAnimation(itiCoordinates1, vit_course)}>Start</button>
+                      </div>
+                    )}
 
-            <SubMenu
-              backgroundColor="#d1cfff"
-              label="🗺️ Zone"
-              onClick={() => setMode("zone")}
-            >
-              {mode === "zone" && (
-                <div style={{ marginLeft: "10px" }}>
-                  
-                </div>
-              )}
+                    {selectedRoute === "route2" && (
+                      <div>
+                        {/* Parcours 2 */}
+                        Marche
+                        <br />
+                        <button onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
+                          <img
+                            src={`./public/image/return.png`}
+                            alt="return"
+                            style={{ width: "30px", height: "18px", cursor: "pointer" }}
+                          />
+                        </button>
+                        <button onClick={() => handleStartAnimation(itiCoordinates2, vit_marche)}>Start</button>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Contenu spécifique au mode "zone" */}
+                {mode === "zone" && (
+                  <div>
+                    {/* Insérer le contenu spécifique au mode "zone" ici */}
+                  </div>
+                )}
+              </div>
             </SubMenu>
 
             <SubMenu

@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Button from "./Button"; // Assurez-vous d'importer correctement le composant Button
 import Banner from "./Banner";
 import "./styles/Button.css";
+import MapboxApiKeyForm from "./MapboxApiKeyForm";
 
 const HomePage = () => {
- 
 
   return (
     <div>
@@ -19,8 +19,10 @@ const HomePage = () => {
           <Button href="/backups" classe="buttonHref"  >Projets sauvegardés</Button>
         </div>
       </header>
+      <MapboxApiKeyForm />
     </div>
   );
 };
 
 export default HomePage;
+

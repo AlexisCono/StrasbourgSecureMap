@@ -167,51 +167,52 @@ const Map = () => {
             }}
           >
             <SubMenu
-              label={<span style={{ fontSize: "15px" }}>〰️ Itinéraire et Zone</span>}
+              label={<span style={{ fontSize: "15px" }}>🗺️ Itinéraire et Zone</span>}
               backgroundColor="#d1cfff"
             >
-              <div style={{ marginLeft: "10px" }}>
+              <div >
                 {/* Bouton pour changer le mode */}
-                <button onClick={() => setMode(mode === "itinerary" ? "zone" :"itinerary" )}>
+                          
+ {/* Bouton pour changer le mode */}
+ <button className='Switch' onClick={() =>setMode(mode === "itinerary" ? "zone" : "itinerary")}>
                   Changer de mode ({mode === "zone" ? "Zone" : "Itinéraire"})
                 </button>
+
+
+
 
                 {/* Contenu spécifique au mode "itinerary" */}
                 {mode === "itinerary" && (
                   <>
                     {/* Bouton pour changer d'itinéraire */}
-                    <button onClick={handleChangeRoute}>Changer d&apos;itinéraire</button>
+                    <button style={{ marginLeft: "10%", marginRight:"10%" }} className="buttonItinary" onClick={handleChangeRoute}>Changer d'itinéraire</button>
 
                     {/* Parcours sélectionné */}
                     {selectedRoute === "route1" && (
                       <div>
-                        {/* Parcours 1 */}
-                        Course
+                        <div style={{ color:"#0007c4", marginLeft:"34%",fontSize:"120%", marginTop:"6%"}}>
+                      {/* Parcours 1 */}
+                      Course
+                      </div>
                         <br />
-                        <button onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
-                          <img
-                            src={`./public/image/return.png`}
-                            alt="return"
-                            style={{ width: "30px", height: "18px", cursor: "pointer" }}
-                          />
+                        <button className="Back" onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
+                        ↩
                         </button>
-                        <button onClick={() => handleStartAnimation(itiCoordinates1, vit_course)}>Start</button>
+                        <button className="Start" onClick={() => handleStartAnimation(itiCoordinates1, vit_course)}>Start</button>
                       </div>
                     )}
 
                     {selectedRoute === "route2" && (
                       <div>
-                        {/* Parcours 2 */}
-                        Marche
+                       <div style={{ color:"#0007c4", marginLeft:"34%",fontSize:"120%", marginTop:"6%"}}>
+                      {/* Parcours 2 */}
+                      Marche
+                      </div>
                         <br />
-                        <button onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
-                          <img
-                            src={`./public/image/return.png`}
-                            alt="return"
-                            style={{ width: "30px", height: "18px", cursor: "pointer" }}
-                          />
+                        <button className="Back" onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
+                        ↩
                         </button>
-                        <button onClick={() => handleStartAnimation(itiCoordinates2, vit_marche)}>Start</button>
+                        <button className="Start" onClick={() => handleStartAnimation(itiCoordinates2, vit_marche)}>Start</button>
                       </div>
                     )}
                   </>

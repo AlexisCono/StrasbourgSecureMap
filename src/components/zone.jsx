@@ -9,5 +9,7 @@ export function initializeDrawZone(map) {
       },
       defaultMode: 'draw_polygon'
     });
-    map.addControl(drawInstance);
+    if (!map.getSource('mapbox-gl-draw-cold')){
+      map.addControl(drawInstance);
+    }
 }

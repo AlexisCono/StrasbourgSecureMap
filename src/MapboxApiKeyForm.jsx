@@ -25,20 +25,24 @@ const MapboxApiKeyForm = () => {
   };
 
   return (
-    <div>
-      <h2>Modifier la clé Mapbox</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="newApiKey">Nouvelle clé :</label>
+    
+      <form class="form" onSubmit={handleSubmit}>
+      <div class="title">Pour utiliser Strasbourg Secure Map,<br/> <span>une clé "MapBox" est nécessaire</span></div>
+        <label htmlFor="newApiKey"></label>
         <input
-          type="text"
+         class="input" name="text"  type="text"
           id="newApiKey"
+          placeholder="Veuillez entrer une nouvelle clé MapBox..."  
           value={newApiKey}
+          style={{color:'#00114d'}}
           onChange={handleInputChange}
         />
-        <button type="submit">Enregistrer</button>
-      </form>
-      <p>Clé actuelle : {mapboxApiKey}</p>
-    </div>
+            
+       <button class="button-confirm" type="submit">Enregistrer</button>
+        <div style={{color: '#FFFF', fontSize:'80%', fontFamily: 'Consolas,monaco,monospace'}}> <p>Clé actuelle : {mapboxApiKey}</p>
+        </div>
+        </form>
+      
   );
 };
 

@@ -14,17 +14,17 @@ import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
-import { useMapboxApiKey } from '../useMapboxApiKey.jsx';
-
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
+// A décommenter à la fin !
+// mapboxgl.accessToken = localStorage.getItem('mapboxApiKey');
+
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
-  //mapboxgl.accessToken = useMapboxApiKey();
-  const test = localStorage.getItem('mapboxApiKey');
-  //console.log(mapboxgl.accessToken)
-  console.log('test :'+test)
+  
+  //const test = localStorage.getItem('mapboxApiKey');
+
   const onIconSubmit = (iconValues) => {
     console.log(iconValues);
   };
@@ -73,7 +73,7 @@ const Map = () => {
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz",
+      style: "mapbox://styles/mapbox/standard",
       center: [lng, lat],
       zoom: zoom,
     });

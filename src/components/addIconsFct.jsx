@@ -4,17 +4,20 @@ import PopUp from "./PopUp";
 import { createRoot } from "react-dom/client";
 
 let markerCoordinatesArray = [];
-// Structure de données pour stocker les informations sur les marqueurs
-const markerData = [];
 
-export function addIcon(map, coordinates, selectedIcon, onSubmit) {
+export function addIcon(
+  map,
+  coordinates,
+  selectedIcon,
+  onSubmit,
+  deleteIconValues
+) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
   const size = 30 * Math.pow(1.2, zoom - 15);
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
 
   const uniKey = `${coordinates.lng} ${coordinates.lat}`;
-  console.log(uniKey);
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
@@ -64,6 +67,7 @@ export function addIcon(map, coordinates, selectedIcon, onSubmit) {
         markerCoordinatesArray.splice(index, 1); // Supprimer les coordonnées du tableau
       }
       popup.remove(); // Supprimer le popup
+      deleteIconValues(uniKey); // Supprimer les valeurs de l'icône du tableau
     });
   });
 
@@ -75,15 +79,4 @@ export function addIcon(map, coordinates, selectedIcon, onSubmit) {
   });
 
   markerCoordinatesArray.push(newMarkerCoordinates);
-
-  // Enregistrer les informations du marqueur dans la structure de données
-  const markerInfo = {
-    coordinates: coordinates,
-    imageUrl: selectedIcon.path,
-    type: selectedIcon.label,
-    popup: popup,
-    // Vous pouvez également ajouter ici les heures de pose et de dépose si elles sont dynamiques
-  };
-
-  markerData.push(markerInfo);
 }

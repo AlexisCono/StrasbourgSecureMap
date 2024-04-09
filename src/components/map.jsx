@@ -30,17 +30,11 @@ const Map = () => {
     });
   };
 
-  const updateIconValues = (id, newValues) => {
-    setIconSubmitValues((prevValues) => {
-      return { ...prevValues, [id]: newValues };
-    });
-  };
-
   const deleteIconValues = (id) => {
     setIconSubmitValues((prevValues) => {
-      const newIconSubmitValues = { ...prevValues };
-      delete newIconSubmitValues[id];
-      return newIconSubmitValues;
+      const newValues = { ...prevValues };
+      delete newValues[id];
+      return newValues;
     });
   };
 
@@ -151,7 +145,13 @@ const Map = () => {
       } else if (mode === "addIcon") {
         if (selectedIcon) {
           const iconCoordinates = e.lngLat;
-          addIcon(map.current, iconCoordinates, selectedIcon, onIconSubmit);
+          addIcon(
+            map.current,
+            iconCoordinates,
+            selectedIcon,
+            onIconSubmit,
+            deleteIconValues
+          );
         }
       }
     };

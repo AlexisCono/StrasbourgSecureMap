@@ -9,6 +9,7 @@
   cursor: pointer;
   color: #a9acff;
   transition: all 800ms;
+  margin-bottom: 2%;
   text-decoration: none;
   font-size: 15px;
   position: relative;
@@ -228,6 +229,167 @@
   width: 250%;
 }
 
+.buttonItinary{
+  --button_radius: 0.5em; /* Réduire le rayon du bouton */
+  --button_color: #d1cfff;
+  --button_outline_color: #0007c4;
+  font-size: 88%; /* Réduire la taille de la police */
+  font-weight: bold;
+  font-family: Consolas,monaco,monospace;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  margin-top: 6%;
+  margin-left: 4%;
+  padding: 0.5em 0.2em; /* Réduire la taille du padding */
+  box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
+}
+
+.buttonItinary {
+  display: inline-block; /* Changer de 'block' à 'inline-block' pour que la taille du bouton soit déterminée par son contenu */
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+.buttonItinary:hover  {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+ 
+
+.buttonItinary:active  {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+
+.Zone{
+  --button_radius: 0.5em; /* Réduire le rayon du bouton */
+  --button_color: #d1cfff;
+  --button_outline_color: #0007c4;
+  font-size: 88%; /* Réduire la taille de la police */
+  font-weight: bold;
+  font-family: Consolas,monaco,monospace;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  margin-top: 6%;
+  margin-left: 15%;
+  padding: 0.5em 0.2em; /* Réduire la taille du padding */
+  box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
+}
+
+.Zone {
+  display: inline-block; /* Changer de 'block' à 'inline-block' pour que la taille du bouton soit déterminée par son contenu */
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+.Zone:hover  {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+ 
+
+.Zone:active  {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+
+
+/* Styles pour le bouton avec la classe "Back" */
+.Back {
+  cursor: pointer;
+  border-radius: 0.5em;
+  border-style: solid;
+  background-color: #d1cfff;
+  border-color: #0007c4;
+  width: 44%;
+  height: 30px;
+  font-size: 90%;
+  transition: 0.2s ease;
+
+  border-width: 3%;
+  font-weight: 500;
+  color: #0007c4;
+  margin-left: 4%;
+  margin-bottom: 3%;
+
+  letter-spacing: 0.5px;
+}
+
+.Back:hover {
+  color: rgb(247, 247, 247);
+  background-color: rgb(254, 120, 120);
+  border-color: rgb(254, 120, 120);
+  text-shadow: 0 0 30px white, 0 0 15px white;
+  box-shadow: 0 0 30px rgb(254, 120, 120), 0 0 20px rgb(254, 120, 120),
+    0 0 40px rgb(254, 120, 120), 0 0 80px rgb(254, 120, 120);
+  font-size: 100%;
+  width: 44%;
+  height: 30px;
+  letter-spacing: 1px;
+  
+}
+
+.Back:active {
+  width: 44%;
+  height: 30px;
+  letter-spacing: 0px;
+  
+}
+
+.Start {
+  cursor: pointer;
+  font-family: Consolas,monaco,monospace;
+  border-radius: 0.5em;
+  border-style: solid;
+  background-color: #d1cfff;
+  border-color: #0007c4;
+  width: 44%;
+  color:#0007c4;
+  height: 30px;
+  transition: 0.2s ease;
+  margin-right: 2%;
+  border-width: 3%;
+  font-weight: 500;
+  font-size: 90%;
+  margin-left: 5%;
+  margin-bottom: 3%;
+  letter-spacing: 0.5px;
+}
+
+.Start:hover {
+  color: rgb(247, 247, 247);
+  background-color: rgb(113, 250, 154);
+  border-color: rgb(113, 250, 154);
+  text-shadow: 0 0 50px white, 0 0 20px white, 0 0 15px white;
+  box-shadow: 0 0 50px rgb(113, 250, 154), 0 0 30px rgb(113, 250, 154),
+    0 0 60px rgb(113, 250, 154), 0 0 120px rgb(113, 250, 154);
+  font-size: 100%;
+  width: 44%;
+  height: 30px;
+  letter-spacing: 1px;
+  
+}
+
+.Start:active {
+  width: 44%;
+  height: 30px;
+  letter-spacing: 0px;
+  
+}
 
 
  
@@ -245,6 +407,159 @@
   transform: scale(1.1); /* Effet d'échelle au survol pour agrandir légèrement la croix */
 }
 
+.form {
+  --input-focus: #00114d;
+  --font-color: #d1cfff;
+  --font-color-sub: #e8e8e8;
+  --bg-color: beige;
+  --main-color: #040c29;
+  padding: 10px; /* Réduire l'espace intérieur */
+  background: #00196c;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrer horizontalement */
+  justify-content: flex-end; /* Aligner en bas */
+  gap: 50%; /* Réduire l'espace entre les éléments */
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  height: 50%;
+  width: 70%; /* Réduire la largeur */
+  margin-top: 1%;
+  margin-bottom:6%;
+}
 
+.title {
+  color: var(--font-color);
+  font-weight: 900;
+  font-size: 16px; /* Réduire la taille du titre */
+  margin-bottom: 15px; /* Réduire l'espace en bas */
+}
 
+.title span {
+  color: var(--font-color-sub);
+  font-weight: 600;
+  font-size: 14px; /* Réduire la taille du sous-titre */
+}
 
+.input {
+  width: 35%; /* Utiliser toute la largeur */
+ 
+  height: 100%; /* Réduire la hauteur */
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 13px; /* Réduire la taille de la police */
+  font-weight: 600;
+  color: #00114d;
+  padding: 5px 20px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #00114d;
+  opacity: 0.8;
+}
+
+.input:focus {
+  border: 2px solid var(--input-focus);
+}
+
+.login-with {
+  display: flex;
+  gap: 10px;
+}
+
+.button-log {
+  cursor: pointer;
+  width: 30%; /* Réduire la taille du bouton */
+  height: 30%; /* Réduire la taille du bouton */
+  border-radius: 100%;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  color: #00114d;
+  font-size: 20px; /* Réduire la taille de la police */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 18px; /* Réduire la taille de l'icône */
+  height: 18px; /* Réduire la taille de l'icône */
+  fill: var(--main-color);
+}
+
+.button-log:active, .button-confirm:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
+}
+
+.button-confirm {
+  margin-top: 1%;
+  margin-bottom: 1%;
+  width: 12%; /* Réduire la largeur */
+  height: 130%; /* Réduire la hauteur */
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 14px; /* Réduire la taille de la police */
+  font-weight: 600;
+  color: #00114d;
+  cursor: pointer;
+}
+
+.Switch {
+  padding: 1em 0.2em;
+  border: #d1cfff;
+  margin-left: 10%;
+  margin-top: 5%;
+  margin-bottom:5% ;
+  margin-right: 10%;
+  font-family: Consolas,monaco,monospace;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: #0007c4;
+  border-radius: 0.5em;
+  border-style: solid;
+  border-color: #0007c4;
+  transition: all 100ms;
+  text-decoration: none;
+  font-size: 70%;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  background-color: #d1cfff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Centrage horizontal */
+}
+
+.Switch:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+  outline: none;
+  box-shadow: 3px 3px 17px -3px #d1cfff;
+}
+
+.Switch::before {
+  content: "";
+  position: absolute;
+  left: -50px;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: #0007c4;
+  transform: skewX(45deg);
+  z-index: -1;
+  transition: width 1000ms;
+}
+
+.Switch:hover::before {
+  width: 250%;
+}

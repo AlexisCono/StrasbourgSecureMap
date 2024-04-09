@@ -14,7 +14,7 @@ import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
-import { useMapboxApiKey } from '../useMapboxApiKey';
+import { useMapboxApiKey } from '../useMapboxApiKey.jsx';
 
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -22,7 +22,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   //mapboxgl.accessToken = useMapboxApiKey();
-  const test = useMapboxApiKey();
+  const test = localStorage.getItem('mapboxApiKey');
   //console.log(mapboxgl.accessToken)
   console.log('test :'+test)
   const onIconSubmit = (iconValues) => {

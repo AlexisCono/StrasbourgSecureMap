@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
+import "mapbox-gl/dist/mapbox-gl.css";
 import { addIcon } from "./addIconsFct.jsx";
 import {
   initRoute,
@@ -21,19 +21,27 @@ const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   const [toggleZone, setToggleZone] = useState(false);
 
-  const [iconData, setIconData] = useState([]);
+  const [iconSubmitValues, setIconSubmitValues] = useState({});
 
   const onIconSubmit = (iconValues) => {
-    const { label, quantities, startHours, endHours } = iconValues;
-    setIconData((iconData) => [
-      ...iconData,
-      {
-        label,
-        quantities,
-        startHours,
-        endHours,
-      },
-    ]);
+    console.log(iconValues);
+    setIconSubmitValues((prevValues) => {
+      return { ...prevValues, [iconValues.id]: iconValues };
+    });
+  };
+
+  const updateIconValues = (id, newValues) => {
+    setIconSubmitValues((prevValues) => {
+      return { ...prevValues, [id]: newValues };
+    });
+  };
+
+  const deleteIconValues = (id) => {
+    setIconSubmitValues((prevValues) => {
+      const newIconSubmitValues = { ...prevValues };
+      delete newIconSubmitValues[id];
+      return newIconSubmitValues;
+    });
   };
 
   const [mode, setMode] = useState();
@@ -99,7 +107,7 @@ const Map = () => {
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz",
+      style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
       zoom: zoom,
     });
@@ -161,6 +169,7 @@ const Map = () => {
     itiCoordinates1,
     itiCoordinates2,
     selectedZone,
+    iconSubmitValues,
   ]); // Effectue l'effet lors du changement d'icône
 
   // Fonction de gestion de la saisie de texte
@@ -370,19 +379,21 @@ const Map = () => {
                 </div>
               )}
             </SubMenu>
-
             <SubMenu label="🗒️​ Détails">
-              <div>
-                {/* Affichage des détails de l'icône */}
-                {selectedIcon && (
-                  <div>
-                    <div>Nom de l&apos;icône: {selectedIcon.label}</div>
-                    <div>Quantité: {selectedIcon.quantity}</div>
-                    <div>Heure de début: {selectedIcon.startHours}</div>
-                    <div>Heure de fin: {selectedIcon.endHours}</div>
-                  </div>
-                )}
-              </div>
+              {Object.values(iconSubmitValues).map((iconValues, index) => (
+                <ul key={index}>
+                  <li>
+                    <b>{iconValues.label}</b>
+                  </li>
+                  <li>quantities: {iconValues.quantities}</li>
+                  {iconValues.startHours && iconValues.endHours && (
+                    <li>
+                      de {iconValues.startHours} à {iconValues.endHours}
+                    </li>
+                  )}
+                  <li>lng lat: {iconValues.id}</li>
+                </ul>
+              ))}
             </SubMenu>
           </Menu>
         </div>

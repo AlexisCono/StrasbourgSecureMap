@@ -13,6 +13,9 @@ export function addIcon(map, coordinates, selectedIcon, onSubmit) {
   const size = 30 * Math.pow(1.2, zoom - 15);
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
 
+  const uniKey = `${coordinates.lng} ${coordinates.lat}`;
+  console.log(uniKey);
+
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
   // Vérifier la distance entre les nouvelles coordonnées et les coordonnées des icônes existants
@@ -40,7 +43,7 @@ export function addIcon(map, coordinates, selectedIcon, onSubmit) {
   const popupContent = document.createElement("div");
 
   createRoot(popupContent).render(
-    <PopUp label={selectedIcon.label} onSubmit={onSubmit} />
+    <PopUp label={selectedIcon.label} onSubmit={onSubmit} uniKey={uniKey} />
   );
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);

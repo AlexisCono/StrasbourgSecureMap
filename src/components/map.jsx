@@ -14,21 +14,19 @@ import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
-import { useMapboxApiKey } from '../useMapboxApiKey.jsx';
-
+import { useMapboxApiKey } from "../useMapboxApiKey.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   //mapboxgl.accessToken = useMapboxApiKey();
-  const test = localStorage.getItem('mapboxApiKey');
+  const test = localStorage.getItem("mapboxApiKey");
   //console.log(mapboxgl.accessToken)
-  console.log('test :'+test)
+  console.log("test :" + test);
   const onIconSubmit = (iconValues) => {
     console.log(iconValues);
   };
-
 
   const countForIcons = Object.values(icons).map((icon) => ({
     label: icon.label,
@@ -53,7 +51,6 @@ const Map = () => {
   const handleChangeRoute = () => {
     setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
   };
-
 
   const handleDeleteLastCoordinate = (itiCoordinates) => {
     // Appel de la fonction deleteLastCoordinates ici
@@ -82,10 +79,7 @@ const Map = () => {
     initRoute(map.current, itiCoordinates2, "route2", "#52db40 ");
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [
-    itiCoordinates1,
-    itiCoordinates2,
-  ]); // Effectue l'effet uniquement lors du montage initial
+  }, [itiCoordinates1, itiCoordinates2]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -109,20 +103,14 @@ const Map = () => {
 
     if (mode === "zone") {
       initializeDrawZone(map.current);
-  } 
+    }
     map.current.on("click", clickHandler);
 
     // Retrait de l'événement de clic lors du démontage du composant
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [
-    selectedIcon,
-    mode,
-    selectedRoute,
-    itiCoordinates1,
-    itiCoordinates2,
-  ]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode, selectedRoute, itiCoordinates1, itiCoordinates2]); // Effectue l'effet lors du changement d'icône
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
@@ -167,52 +155,100 @@ const Map = () => {
             }}
           >
             <SubMenu
-              label={<span style={{ fontSize: "15px" }}>🗺️ Itinéraire et Zone</span>}
+              label={
+                <span style={{ fontSize: "15px" }}>🗺️ Itinéraire et Zone</span>
+              }
               backgroundColor="#d1cfff"
             >
-              <div >
+              <div>
                 {/* Bouton pour changer le mode */}
-                          
- {/* Bouton pour changer le mode */}
- <button className='Switch' onClick={() =>setMode(mode === "itinerary" ? "zone" : "itinerary")}>
+
+                {/* Bouton pour changer le mode */}
+                <button
+                  className="Switch"
+                  onClick={() =>
+                    setMode(mode === "itinerary" ? "zone" : "itinerary")
+                  }
+                >
                   Changer de mode ({mode === "zone" ? "Zone" : "Itinéraire"})
                 </button>
-
-
-
 
                 {/* Contenu spécifique au mode "itinerary" */}
                 {mode === "itinerary" && (
                   <>
                     {/* Bouton pour changer d'itinéraire */}
-                    <button style={{ marginLeft: "10%", marginRight:"10%" }} className="buttonItinary" onClick={handleChangeRoute}>Changer d'itinéraire</button>
+                    <button
+                      style={{ marginLeft: "10%", marginRight: "10%" }}
+                      className="buttonItinary"
+                      onClick={handleChangeRoute}
+                    >
+                      Changer d&apos;itinéraire
+                    </button>
 
                     {/* Parcours sélectionné */}
                     {selectedRoute === "route1" && (
                       <div>
-                        <div style={{ color:"#0007c4", marginLeft:"34%",fontSize:"120%", marginTop:"6%"}}>
-                      {/* Parcours 1 */}
-                      Course
-                      </div>
+                        <div
+                          style={{
+                            color: "#0007c4",
+                            marginLeft: "34%",
+                            fontSize: "120%",
+                            marginTop: "6%",
+                          }}
+                        >
+                          {/* Parcours 1 */}
+                          Course
+                        </div>
                         <br />
-                        <button className="Back" onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
-                        ↩
+                        <button
+                          className="Back"
+                          onClick={() =>
+                            handleDeleteLastCoordinate(itiCoordinates1)
+                          }
+                        >
+                          ↩
                         </button>
-                        <button className="Start" onClick={() => handleStartAnimation(itiCoordinates1, vit_course)}>Start</button>
+                        <button
+                          className="Start"
+                          onClick={() =>
+                            handleStartAnimation(itiCoordinates1, vit_course)
+                          }
+                        >
+                          Start
+                        </button>
                       </div>
                     )}
 
                     {selectedRoute === "route2" && (
                       <div>
-                       <div style={{ color:"#0007c4", marginLeft:"34%",fontSize:"120%", marginTop:"6%"}}>
-                      {/* Parcours 2 */}
-                      Marche
-                      </div>
+                        <div
+                          style={{
+                            color: "#0007c4",
+                            marginLeft: "34%",
+                            fontSize: "120%",
+                            marginTop: "6%",
+                          }}
+                        >
+                          {/* Parcours 2 */}
+                          Marche
+                        </div>
                         <br />
-                        <button className="Back" onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
-                        ↩
+                        <button
+                          className="Back"
+                          onClick={() =>
+                            handleDeleteLastCoordinate(itiCoordinates2)
+                          }
+                        >
+                          ↩
                         </button>
-                        <button className="Start" onClick={() => handleStartAnimation(itiCoordinates2, vit_marche)}>Start</button>
+                        <button
+                          className="Start"
+                          onClick={() =>
+                            handleStartAnimation(itiCoordinates2, vit_marche)
+                          }
+                        >
+                          Start
+                        </button>
                       </div>
                     )}
                   </>

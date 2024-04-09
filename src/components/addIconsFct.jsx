@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import "../styles/popUp.css";
-import PopUp from "./PopUp";
+import PopUp from "./PopUpComponent";
 import { createRoot } from "react-dom/client";
 
 let markerCoordinatesArray = [];

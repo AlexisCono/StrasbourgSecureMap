@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
 
-const PopUp = ({ label, onSubmit }) => {
+const PopUp = ({ label, onSubmit, uniKey }) => {
   const [formValues, setFormValues] = useState({
+    label: label,
     quantities: 1,
     startHours: "",
     endHours: "",
+    id: uniKey,
   });
 
   const updateFormValues = (key, value) => {
@@ -55,6 +57,7 @@ const PopUp = ({ label, onSubmit }) => {
 };
 
 PopUp.propTypes = {
+  uniKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

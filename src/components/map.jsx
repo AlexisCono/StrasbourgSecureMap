@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css"; // Importer le fichier CSS
+import "mapbox-gl/dist/mapbox-gl.css";
 import { addIcon } from "./addIconsFct.jsx";
 import {
   initRoute,
@@ -14,27 +14,30 @@ import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import "../styles/Clock.css";
 import "../styles/Icones.css";
-import { useMapboxApiKey } from '../useMapboxApiKey.jsx';
-
+import { useMapboxApiKey } from "../useMapboxApiKey.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
-  //mapboxgl.accessToken = useMapboxApiKey();
-  const test = localStorage.getItem('mapboxApiKey');
-  //console.log(mapboxgl.accessToken)
-  console.log('test :'+test)
+  const [toggleZone, setToggleZone] = useState(false);
+
+  const [iconSubmitValues, setIconSubmitValues] = useState({});
+
   const onIconSubmit = (iconValues) => {
     console.log(iconValues);
+    setIconSubmitValues((prevValues) => {
+      return { ...prevValues, [iconValues.id]: iconValues };
+    });
   };
 
-
-  const countForIcons = Object.values(icons).map((icon) => ({
-    label: icon.label,
-    countIcons: 0,
-  }));
-  const [count, setCount] = useState(countForIcons);
+  const deleteIconValues = (id) => {
+    setIconSubmitValues((prevValues) => {
+      const newValues = { ...prevValues };
+      delete newValues[id];
+      return newValues;
+    });
+  };
 
   const [mode, setMode] = useState();
 
@@ -54,7 +57,6 @@ const Map = () => {
     setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
   };
 
-
   const handleDeleteLastCoordinate = (itiCoordinates) => {
     // Appel de la fonction deleteLastCoordinates ici
     deleteLastCoordinates(map.current, itiCoordinates, selectedRoute); // Supposons que 'coordinates' soit votre tableau de coordonnées
@@ -65,6 +67,9 @@ const Map = () => {
     startItiAnimation(map.current, itiCoordinates, selectedRoute, vitesse);
   };
 
+  // État local pour stocker le terme de recherche
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     const lng = 7.7482;
     const lat = 48.5828;
@@ -73,7 +78,7 @@ const Map = () => {
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/alexiscono/cltfzxe96009n01nr6rafgsbz",
+      style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
       zoom: zoom,
     });
@@ -82,10 +87,7 @@ const Map = () => {
     initRoute(map.current, itiCoordinates2, "route2", "#52db40 ");
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [
-    itiCoordinates1,
-    itiCoordinates2,
-  ]); // Effectue l'effet uniquement lors du montage initial
+  }, [itiCoordinates1, itiCoordinates2]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -102,14 +104,20 @@ const Map = () => {
       } else if (mode === "addIcon") {
         if (selectedIcon) {
           const iconCoordinates = e.lngLat;
-          addIcon(map.current, iconCoordinates, selectedIcon, onIconSubmit);
+          addIcon(
+            map.current,
+            iconCoordinates,
+            selectedIcon,
+            onIconSubmit,
+            deleteIconValues
+          );
         }
       }
     };
 
     if (mode === "zone") {
       initializeDrawZone(map.current);
-  } 
+    }
     map.current.on("click", clickHandler);
 
     // Retrait de l'événement de clic lors du démontage du composant
@@ -122,10 +130,8 @@ const Map = () => {
     selectedRoute,
     itiCoordinates1,
     itiCoordinates2,
+    iconSubmitValues,
   ]); // Effectue l'effet lors du changement d'icône
-
-  // État local pour stocker le terme de recherche
-  const [searchTerm, setSearchTerm] = useState("");
 
   // Fonction de gestion de la saisie de texte
   const handleSearchChange = (event) => {
@@ -167,12 +173,18 @@ const Map = () => {
             }}
           >
             <SubMenu
-              label={<span style={{ fontSize: "15px" }}>〰️ Itinéraire et Zone</span>}
+              label={
+                <span style={{ fontSize: "15px" }}>〰️ Itinéraire et Zone</span>
+              }
               backgroundColor="#d1cfff"
             >
               <div style={{ marginLeft: "10px" }}>
                 {/* Bouton pour changer le mode */}
-                <button onClick={() => setMode(mode === "itinerary" ? "zone" :"itinerary" )}>
+                <button
+                  onClick={() =>
+                    setMode(mode === "itinerary" ? "zone" : "itinerary")
+                  }
+                >
                   Changer de mode ({mode === "zone" ? "Zone" : "Itinéraire"})
                 </button>
 
@@ -180,7 +192,9 @@ const Map = () => {
                 {mode === "itinerary" && (
                   <>
                     {/* Bouton pour changer d'itinéraire */}
-                    <button onClick={handleChangeRoute}>Changer d&apos;itinéraire</button>
+                    <button onClick={handleChangeRoute}>
+                      Changer d&apos;itinéraire
+                    </button>
 
                     {/* Parcours sélectionné */}
                     {selectedRoute === "route1" && (
@@ -188,14 +202,28 @@ const Map = () => {
                         {/* Parcours 1 */}
                         Course
                         <br />
-                        <button onClick={() => handleDeleteLastCoordinate(itiCoordinates1)}>
+                        <button
+                          onClick={() =>
+                            handleDeleteLastCoordinate(itiCoordinates1)
+                          }
+                        >
                           <img
                             src={`./public/image/return.png`}
                             alt="return"
-                            style={{ width: "30px", height: "18px", cursor: "pointer" }}
+                            style={{
+                              width: "30px",
+                              height: "18px",
+                              cursor: "pointer",
+                            }}
                           />
                         </button>
-                        <button onClick={() => handleStartAnimation(itiCoordinates1, vit_course)}>Start</button>
+                        <button
+                          onClick={() =>
+                            handleStartAnimation(itiCoordinates1, vit_course)
+                          }
+                        >
+                          Start
+                        </button>
                       </div>
                     )}
 
@@ -204,14 +232,28 @@ const Map = () => {
                         {/* Parcours 2 */}
                         Marche
                         <br />
-                        <button onClick={() => handleDeleteLastCoordinate(itiCoordinates2)}>
+                        <button
+                          onClick={() =>
+                            handleDeleteLastCoordinate(itiCoordinates2)
+                          }
+                        >
                           <img
                             src={`./public/image/return.png`}
                             alt="return"
-                            style={{ width: "30px", height: "18px", cursor: "pointer" }}
+                            style={{
+                              width: "30px",
+                              height: "18px",
+                              cursor: "pointer",
+                            }}
                           />
                         </button>
-                        <button onClick={() => handleStartAnimation(itiCoordinates2, vit_marche)}>Start</button>
+                        <button
+                          onClick={() =>
+                            handleStartAnimation(itiCoordinates2, vit_marche)
+                          }
+                        >
+                          Start
+                        </button>
                       </div>
                     )}
                   </>
@@ -301,20 +343,21 @@ const Map = () => {
                 </div>
               )}
             </SubMenu>
-
             <SubMenu label="🗒️​ Détails">
-              <ul>
-                {Object.values(count).map(
-                  (icon, index) =>
-                    icon.countIcons !== 0 && (
-                      <li key={index}>
-                        <p>
-                          {icon.label} : {icon.countIcons}
-                        </p>
-                      </li>
-                    )
-                )}
-              </ul>
+              {Object.values(iconSubmitValues).map((iconValues, index) => (
+                <ul key={index}>
+                  <li>
+                    <b>{iconValues.label}</b>
+                  </li>
+                  <li>quantities: {iconValues.quantities}</li>
+                  {iconValues.startHours && iconValues.endHours && (
+                    <li>
+                      de {iconValues.startHours} à {iconValues.endHours}
+                    </li>
+                  )}
+                  <li>lng lat: {iconValues.id}</li>
+                </ul>
+              ))}
             </SubMenu>
           </Menu>
         </div>

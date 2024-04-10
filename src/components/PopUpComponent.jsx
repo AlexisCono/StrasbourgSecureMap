@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
 
-const PopUp = ({ label, onSubmit, uniKey }) => {
+const PopUp = ({ label, onSubmit, coordKey }) => {
   const [formValues, setFormValues] = useState({
     label: label,
     quantities: 1,
     startHours: "",
     endHours: "",
-    id: uniKey,
+    coor: coordKey,
   });
 
   const updateFormValues = (key, value) => {
@@ -57,9 +57,9 @@ const PopUp = ({ label, onSubmit, uniKey }) => {
 };
 
 PopUp.propTypes = {
-  uniKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  coordKey: PropTypes.string.isRequired,
 };
 
 export default PopUp;

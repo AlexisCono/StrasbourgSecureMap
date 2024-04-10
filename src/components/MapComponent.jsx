@@ -12,6 +12,8 @@ import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
+import JSONExporter from "./JSONExporter";
+
 import "../styles/Clock.css";
 import "../styles/Icones.css";
 
@@ -28,7 +30,6 @@ const Map = () => {
   const [iconSubmitValues, setIconSubmitValues] = useState({});
 
   const onIconSubmit = (iconValues) => {
-    console.log(iconValues);
     setIconSubmitValues((prevValues) => {
       return { ...prevValues, [iconValues.id]: iconValues };
     });
@@ -72,6 +73,18 @@ const Map = () => {
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    // Fonction pour sauvegarder les données JSON lorsque iconSubmitValues change
+    const saveJSONData = () => {
+      const jsonData = Object.values(iconSubmitValues);
+      // Sauvegarde des données dans le stockage local ou tout autre moyen de sauvegarde
+      localStorage.setItem("iconSubmitValues", JSON.stringify(jsonData));
+    };
+
+    // Appel de la fonction pour sauvegarder les données JSON
+    saveJSONData();
+  }, [iconSubmitValues]);
 
   useEffect(() => {
     const lng = 7.7482;
@@ -369,7 +382,7 @@ const Map = () => {
                       de {iconValues.startHours} à {iconValues.endHours}
                     </li>
                   )}
-                  <li>lng lat: {iconValues.id}</li>
+                  <li>lng lat: {iconValues.coor}</li>
                 </ul>
               ))}
             </SubMenu>

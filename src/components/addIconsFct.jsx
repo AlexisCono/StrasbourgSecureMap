@@ -17,7 +17,7 @@ export function addIcon(
   const size = 30 * Math.pow(1.2, zoom - 15);
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
 
-  const uniKey = `${coordinates.lng} ${coordinates.lat}`;
+  const coordKey = `${coordinates.lng} ${coordinates.lat}`;
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
@@ -46,7 +46,7 @@ export function addIcon(
   const popupContent = document.createElement("div");
 
   createRoot(popupContent).render(
-    <PopUp label={selectedIcon.label} onSubmit={onSubmit} uniKey={uniKey} />
+    <PopUp label={selectedIcon.label} onSubmit={onSubmit} coordKey={coordKey} />
   );
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);
@@ -67,7 +67,7 @@ export function addIcon(
         markerCoordinatesArray.splice(index, 1); // Supprimer les coordonnées du tableau
       }
       popup.remove(); // Supprimer le popup
-      deleteIconValues(uniKey); // Supprimer les valeurs de l'icône du tableau
+      deleteIconValues(coordKey); // Supprimer les valeurs de l'icône du tableau
     });
   });
 

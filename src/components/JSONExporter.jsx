@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 const JSONExporter = ({ iconSubmitValues }) => {
   // Fonction pour générer les données à sauvegarder dans un fichier JSON
   const generateJSONData = () => {
-    const jsonData = iconSubmitValues.map((icon) => ({
+    console.log(iconSubmitValues);
+    const jsonData = Object.values(iconSubmitValues).map((icon) => ({
       label: icon.label,
+      path: icon.path,
       quantities: icon.quantities,
       startHours: icon.startHours,
       endHours: icon.endHours,
@@ -21,7 +23,7 @@ const JSONExporter = ({ iconSubmitValues }) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "popup_data.json";
+    link.download = "icon_data.json";
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -30,7 +32,7 @@ const JSONExporter = ({ iconSubmitValues }) => {
 };
 
 JSONExporter.propTypes = {
-  iconSubmitValues: PropTypes.array.isRequired,
+  iconSubmitValues: PropTypes.object.isRequired,
 };
 
 export default JSONExporter;

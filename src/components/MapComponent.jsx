@@ -25,13 +25,11 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
-  const [toggleZone, setToggleZone] = useState(false);
-
   const [iconSubmitValues, setIconSubmitValues] = useState({});
 
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
-      return { ...prevValues, [iconValues.id]: iconValues };
+      return { ...prevValues, [iconValues.coor]: iconValues };
     });
   };
 
@@ -73,18 +71,6 @@ const Map = () => {
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    // Fonction pour sauvegarder les données JSON lorsque iconSubmitValues change
-    const saveJSONData = () => {
-      const jsonData = Object.values(iconSubmitValues);
-      // Sauvegarde des données dans le stockage local ou tout autre moyen de sauvegarde
-      localStorage.setItem("iconSubmitValues", JSON.stringify(jsonData));
-    };
-
-    // Appel de la fonction pour sauvegarder les données JSON
-    saveJSONData();
-  }, [iconSubmitValues]);
 
   useEffect(() => {
     const lng = 7.7482;
@@ -183,7 +169,7 @@ const Map = () => {
                 if (level === 0)
                   return {
                     color: disabled ? "#d1cfff" : "#025387", // Couleur de la police
-                    backgroundColor: active ? "##BDE5FF" : "#d1cfff",
+                    backgroundColor: active ? "#BDE5FF" : "#d1cfff",
                   };
               },
             }}
@@ -385,6 +371,8 @@ const Map = () => {
                   <li>lng lat: {iconValues.coor}</li>
                 </ul>
               ))}
+
+              <JSONExporter iconSubmitValues={iconSubmitValues} />
             </SubMenu>
           </Menu>
         </div>

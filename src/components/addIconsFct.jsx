@@ -46,7 +46,7 @@ export function addIcon(
   const popupContent = document.createElement("div");
 
   createRoot(popupContent).render(
-    <PopUp label={selectedIcon.label} onSubmit={onSubmit} coordKey={coordKey} />
+    <PopUp icon={selectedIcon} onSubmit={onSubmit} coordKey={coordKey} />
   );
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);

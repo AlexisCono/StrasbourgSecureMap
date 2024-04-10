@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
 
-const PopUp = ({ label, onSubmit, coordKey }) => {
+const PopUp = ({ icon, onSubmit, coordKey }) => {
   const [formValues, setFormValues] = useState({
-    label: label,
+    label: icon.label,
+    path: icon.path,
     quantities: 1,
     startHours: "",
     endHours: "",
@@ -20,7 +21,7 @@ const PopUp = ({ label, onSubmit, coordKey }) => {
 
   return (
     <div className="popup-content">
-      <h2>{label}</h2>
+      <h2>{icon.label}</h2>
       <h3>Quantité :</h3>
       <input
         type="number"
@@ -57,7 +58,7 @@ const PopUp = ({ label, onSubmit, coordKey }) => {
 };
 
 PopUp.propTypes = {
-  label: PropTypes.string.isRequired,
+  icon: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   coordKey: PropTypes.string.isRequired,
 };

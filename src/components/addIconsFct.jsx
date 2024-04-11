@@ -18,8 +18,7 @@ export function addIcon(
   const size = 30 * Math.pow(1.2, zoom - 15);
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
 
-  const coordKey = `${coordinates.lng} ${coordinates.lat}`;
-  console.log(coordinates);
+  const coordKey = `${coordinates.lat} ${coordinates.lng}`;
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 

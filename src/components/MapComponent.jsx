@@ -13,6 +13,7 @@ import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import JSONExporter from "./JSONExporter";
 import "../styles/Icones.css";
+import PDFExporter from "./PDFExporter.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -373,11 +374,12 @@ const MapComponent = () => {
                       de {iconValues.startHours} à {iconValues.endHours}
                     </li>
                   )}
-                  <li>lng lat: {iconValues.coor}</li>
+                  <li>lat lng: {iconValues.coor}</li>
                 </ul>
               ))}
 
               <JSONExporter iconSubmitValues={iconSubmitValues} />
+              <PDFExporter iconSubmitValues={iconSubmitValues} />
             </SubMenu>
             <input type="file" onChange={handleFileChange} />
           </Menu>

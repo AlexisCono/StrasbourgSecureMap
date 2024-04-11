@@ -6,9 +6,9 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
   const [formValues, setFormValues] = useState({
     label: icon.label,
     path: icon.path,
-    quantities: 1,
-    startHours: "",
-    endHours: "",
+    quantities: jsonDataIcon ? icon.quantities : 1,
+    startHours: jsonDataIcon ? icon.startHours : "",
+    endHours: jsonDataIcon ? icon.endHours : "",
     coor: coordKey,
   });
 
@@ -19,19 +19,11 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
     }));
   };
 
-  // useEffect(() => {
-  //   if (jsonDataIcon) {
-  //     setFormValues((formValues) => ({
-  //       ...formValues,
-  //       label: icon.label,
-  //       path: icon.path,
-  //       quantities: 1,
-  //       startHours: "",
-  //       endHours: "",
-  //       coor: icon.coor,
-  //     }));
-  //   }
-  // }, [icon.coor, icon.label, icon.path, jsonDataIcon, setFormValues]);
+  useEffect(() => {
+    if (jsonDataIcon) {
+      onSubmit(formValues);
+    }
+  }, [formValues, onSubmit, jsonDataIcon]);
 
   return (
     <div className="popup-content">

@@ -13,8 +13,6 @@ import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import JSONExporter from "./JSONExporter";
-
-import "../styles/Clock.css";
 import "../styles/Icones.css";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -22,7 +20,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 // A décommenter à la fin !
 // mapboxgl.accessToken = localStorage.getItem('mapboxApiKey');
 
-const Map = () => {
+const MapComponent = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
 
   const [iconSubmitValues, setIconSubmitValues] = useState({});
@@ -389,4 +387,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default MapComponent;

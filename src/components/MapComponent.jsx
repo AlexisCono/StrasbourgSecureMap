@@ -6,7 +6,6 @@ import {
   initRoute,
   updateRoute,
   deleteLastCoordinates,
-  startItiAnimation,
 } from "./itineraryFct.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
@@ -60,11 +59,6 @@ const MapComponent = () => {
   const handleDeleteLastCoordinate = (itiCoordinates) => {
     // Appel de la fonction deleteLastCoordinates ici
     deleteLastCoordinates(map.current, itiCoordinates, selectedRoute); // Supposons que 'coordinates' soit votre tableau de coordonnées
-  };
-
-  const handleStartAnimation = (itiCoordinates, vitesse) => {
-    // Appelez la fonction startAnimation avec les paramètres nécessaires
-    startItiAnimation(map.current, itiCoordinates, selectedRoute, vitesse);
   };
 
   // État local pour stocker le terme de recherche
@@ -224,14 +218,6 @@ const MapComponent = () => {
                         >
                           ↩
                         </button>
-                        <button
-                          className="Start"
-                          onClick={() =>
-                            handleStartAnimation(itiCoordinates1, vit_course)
-                          }
-                        >
-                          Start
-                        </button>
                       </div>
                     )}
 
@@ -256,14 +242,6 @@ const MapComponent = () => {
                           }
                         >
                           ↩
-                        </button>
-                        <button
-                          className="Start"
-                          onClick={() =>
-                            handleStartAnimation(itiCoordinates2, vit_marche)
-                          }
-                        >
-                          Start
                         </button>
                       </div>
                     )}

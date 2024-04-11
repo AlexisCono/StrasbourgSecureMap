@@ -20,8 +20,8 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 // mapboxgl.accessToken = localStorage.getItem('mapboxApiKey');
 
 const MapComponent = () => {
+  const [jsonDataIcon, setJsonDataIcon] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState(undefined);
-
   const [iconSubmitValues, setIconSubmitValues] = useState({});
 
   const onIconSubmit = (iconValues) => {
@@ -38,19 +38,29 @@ const MapComponent = () => {
     });
   };
 
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) return;
+
+    try {
+      const fileContent = await selectedFile.text();
+      const parsedData = JSON.parse(fileContent);
+      console.log(parsedData);
+      // setIconSubmitValues(parsedData);
+      setJsonDataIcon(parsedData);
+    } catch (error) {
+      console.error("Error parsing JSON file:", error);
+    }
+  };
+
   const [mode, setMode] = useState();
-
   const [searchText, setSearchText] = useState("");
-
   const mapContainer = useRef(null);
   const map = useRef(null);
 
   const [selectedRoute, setSelectedRoute] = useState("route1");
   const [itiCoordinates1, setItiCoordinates1] = useState([]);
   const [itiCoordinates2, setItiCoordinates2] = useState([]);
-
-  const vit_course = 8;
-  const vit_marche = 5;
 
   const handleChangeRoute = () => {
     setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
@@ -63,6 +73,25 @@ const MapComponent = () => {
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (jsonDataIcon) {
+      Object.values(jsonDataIcon).forEach((jsonIcon) => {
+        const [lng, lat] = jsonIcon.coor.split(" ").map(parseFloat);
+        const coordinates = { lng, lat };
+
+        addIcon(
+          map.current,
+          coordinates,
+          jsonIcon,
+          onIconSubmit,
+          deleteIconValues,
+          jsonDataIcon
+        );
+        // setIconSubmitValues(jsonDataIcon);
+      });
+    }
+  }, [jsonDataIcon]);
 
   useEffect(() => {
     const lng = 7.7482;
@@ -350,6 +379,7 @@ const MapComponent = () => {
 
               <JSONExporter iconSubmitValues={iconSubmitValues} />
             </SubMenu>
+            <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>
       </Sidebar>

@@ -10,7 +10,8 @@ export function addIcon(
   coordinates,
   selectedIcon,
   onSubmit,
-  deleteIconValues
+  deleteIconValues,
+  jsonDataIcon
 ) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
@@ -18,6 +19,7 @@ export function addIcon(
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
 
   const coordKey = `${coordinates.lng} ${coordinates.lat}`;
+  console.log(coordinates);
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
@@ -46,7 +48,12 @@ export function addIcon(
   const popupContent = document.createElement("div");
 
   createRoot(popupContent).render(
-    <PopUp icon={selectedIcon} onSubmit={onSubmit} coordKey={coordKey} />
+    <PopUp
+      icon={selectedIcon}
+      onSubmit={onSubmit}
+      coordKey={coordKey}
+      jsonDataIcon={jsonDataIcon}
+    />
   );
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);

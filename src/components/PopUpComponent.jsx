@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
 
-const PopUp = ({ icon, onSubmit, coordKey }) => {
+const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
   const [formValues, setFormValues] = useState({
     label: icon.label,
     path: icon.path,
@@ -19,6 +19,20 @@ const PopUp = ({ icon, onSubmit, coordKey }) => {
     }));
   };
 
+  // useEffect(() => {
+  //   if (jsonDataIcon) {
+  //     setFormValues((formValues) => ({
+  //       ...formValues,
+  //       label: icon.label,
+  //       path: icon.path,
+  //       quantities: 1,
+  //       startHours: "",
+  //       endHours: "",
+  //       coor: icon.coor,
+  //     }));
+  //   }
+  // }, [icon.coor, icon.label, icon.path, jsonDataIcon, setFormValues]);
+
   return (
     <div className="popup-content">
       <h2>{icon.label}</h2>
@@ -26,7 +40,7 @@ const PopUp = ({ icon, onSubmit, coordKey }) => {
       <input
         type="number"
         name="quantities"
-        id="quantitiesInput" // Ajout de l'attribut id
+        id="quantitiesInput"
         value={formValues.quantities}
         min="1"
         onChange={(event) =>
@@ -35,17 +49,18 @@ const PopUp = ({ icon, onSubmit, coordKey }) => {
       />
       <h3>Heure de pose :</h3>
       <input
-        type="time"
+        type="datetime-local"
         name="startHours"
-        id="startHoursInput" // Ajout de l'attribut id
+        id="startHoursInput"
         value={formValues.startHours}
         onChange={(event) => updateFormValues("startHours", event.target.value)}
       />
+
       <h3>Heure de dépose :</h3>
       <input
-        type="time"
+        type="datetime-local"
         name="endHours"
-        id="endHoursInput" // Ajout de l'attribut id
+        id="endHoursInput"
         value={formValues.endHours}
         onChange={(event) => updateFormValues("endHours", event.target.value)}
       />
@@ -61,6 +76,7 @@ PopUp.propTypes = {
   icon: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   coordKey: PropTypes.string.isRequired,
+  jsonDataIcon: PropTypes.object.isRequired,
 };
 
 export default PopUp;

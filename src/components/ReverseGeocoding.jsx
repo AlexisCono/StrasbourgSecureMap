@@ -28,7 +28,7 @@ const useReverseGeocoding = ({ latitude, longitude }) => {
     return () => {
       controller.abort();
     };
-  }, [cords.longitude, cords.latitude]);
+  }, [cords.latitude, cords.longitude]);
 
   return streetName;
 };

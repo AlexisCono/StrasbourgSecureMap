@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import "../styles/popUp.css";
-import PopUp from "./PopUpComponent";
+import PopUp from "./PopUp";
 import { createRoot } from "react-dom/client";
 
 let markerCoordinatesArray = [];
@@ -50,6 +50,7 @@ export function addIcon(
     <PopUp
       icon={selectedIcon}
       onSubmit={onSubmit}
+      coordinates={coordinates}
       coordKey={coordKey}
       jsonDataIcon={jsonDataIcon}
     />

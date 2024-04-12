@@ -98,15 +98,15 @@ const MapComponent = () => {
   }, [jsonDataIcon]);
 
   useEffect(() => {
-    const lng = 7.7482;
-    const lat = 48.5828;
+    const lat = 7.7482;
+    const lng = 48.5828;
     const zoom = 15.2;
 
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
+      center: [lat, lng],
       zoom: zoom,
     });
 
@@ -120,7 +120,7 @@ const MapComponent = () => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
     const clickHandler = (e) => {
       if (mode === "itinerary") {
-        const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
+        const updatedCoordinates = [e.lngLat.lat, e.lngLat.lng];
         if (selectedRoute === "route1") {
           itiCoordinates1.push([e.lngLat.lng, e.lngLat.lat]);
           updateRoute(map.current, itiCoordinates1, selectedRoute);
@@ -372,13 +372,13 @@ const MapComponent = () => {
                   <li>
                     <b>{iconValues.label}</b>
                   </li>
-                  <li>quantities: {iconValues.quantities}</li>
+                  <li>Quantities: {iconValues.quantities}</li>
                   {iconValues.startHours && iconValues.endHours && (
                     <li>
-                      de {iconValues.startHours} à {iconValues.endHours}
+                      De {iconValues.startHours} à {iconValues.endHours}
                     </li>
                   )}
-                  <li>lat lng: {iconValues.streetName}</li>
+                  <li>Rue: {iconValues.streetName}</li>
                 </ul>
               ))}
 

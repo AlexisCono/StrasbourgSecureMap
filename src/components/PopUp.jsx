@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import "../styles/popUp.css";
 import useReverseGeocoding from "./ReverseGeocoding";
 
-const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
-  const [latitude, longitude] = coordKey.split(" ").map(parseFloat);
-  const streetName = useReverseGeocoding({ latitude, longitude }) || undefined;
-
+const PopUp = ({ icon, onSubmit, coordinates, coordKey, jsonDataIcon }) => {
   const [formValues, setFormValues] = useState({
     label: icon.label,
     path: icon.path,
@@ -16,6 +13,11 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
     coor: coordKey,
   });
 
+  const [latitude, longitude] = coordKey.split(" ").map(parseFloat);
+  const streetName = useReverseGeocoding({ latitude, longitude }) || "Inconnu";
+
+  // Il y a un problème, dès que je clique ca m'affiche inconu et un nom de rue, parfoit une reu au piff"
+
   const updateFormValues = (key, value) => {
     setFormValues((formValues) => ({
       ...formValues,
@@ -24,6 +26,7 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
   };
 
   onSubmit({ ...formValues, streetName });
+  console.log(streetName);
 
   return (
     <div className="popup-content">
@@ -56,9 +59,6 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
         value={formValues.endHours}
         onChange={(event) => updateFormValues("endHours", event.target.value)}
       />
-      <button onClick={() => onSubmit(formValues)} type="submit">
-        Sauvegarder
-      </button>
       <button id="deleteButton">Supprimer</button>
     </div>
   );
@@ -69,6 +69,7 @@ PopUp.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   coordKey: PropTypes.string.isRequired,
   jsonDataIcon: PropTypes.object,
+  coordinates: PropTypes.object.isRequired,
 };
 
 export default PopUp;

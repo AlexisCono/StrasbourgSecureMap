@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
+import useReverseGeocoding from "./ReverseGeocoding";
 
 const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
+  const [latitude, longitude] = coordKey.split(" ").map(parseFloat);
+  const streetName = useReverseGeocoding({ latitude, longitude }) || undefined;
+
   const [formValues, setFormValues] = useState({
     label: icon.label,
     path: icon.path,
@@ -19,11 +23,7 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
     }));
   };
 
-  useEffect(() => {
-    if (jsonDataIcon) {
-      onSubmit(formValues);
-    }
-  }, [formValues, onSubmit, jsonDataIcon]);
+  onSubmit({ ...formValues, streetName });
 
   return (
     <div className="popup-content">
@@ -68,7 +68,7 @@ PopUp.propTypes = {
   icon: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   coordKey: PropTypes.string.isRequired,
-  jsonDataIcon: PropTypes.object.isRequired,
+  jsonDataIcon: PropTypes.object,
 };
 
 export default PopUp;

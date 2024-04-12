@@ -27,7 +27,10 @@ const MapComponent = () => {
 
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
-      return { ...prevValues, [iconValues.coor]: iconValues };
+      return {
+        ...prevValues,
+        [iconValues.coor]: iconValues,
+      };
     });
   };
 
@@ -78,8 +81,8 @@ const MapComponent = () => {
   useEffect(() => {
     if (jsonDataIcon) {
       Object.values(jsonDataIcon).forEach((jsonIcon) => {
-        const [lng, lat] = jsonIcon.coor.split(" ").map(parseFloat);
-        const coordinates = { lng, lat };
+        const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
+        const coordinates = { lat, lng };
 
         addIcon(
           map.current,
@@ -133,7 +136,8 @@ const MapComponent = () => {
             iconCoordinates,
             selectedIcon,
             onIconSubmit,
-            deleteIconValues
+            deleteIconValues,
+            null
           );
         }
       }
@@ -374,7 +378,7 @@ const MapComponent = () => {
                       de {iconValues.startHours} à {iconValues.endHours}
                     </li>
                   )}
-                  <li>lat lng: {iconValues.coor}</li>
+                  <li>lat lng: {iconValues.streetName}</li>
                 </ul>
               ))}
 

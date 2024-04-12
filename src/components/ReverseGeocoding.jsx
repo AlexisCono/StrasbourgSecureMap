@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import PropType from "prop-types";
 
-const ReverseGeocoding = ({ latitude, longitude }) => {
+const useReverseGeocoding = ({ latitude, longitude }) => {
   const [streetName, setStreetName] = useState("");
+  const cords = { latitude, longitude };
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchStreetName = async () => {
+      if (!cords.latitude || !cords.longitude) return;
       try {
         const response = await axios.get(
-          `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+          `https://nominatim.openstreetmap.org/reverse?lat=${cords.latitude}&lon=${cords.longitude}&format=json`,
+          { signal: controller.signal }
         );
         if (response.data && response.data.address) {
           const street = response.data.address.road;
@@ -23,16 +26,11 @@ const ReverseGeocoding = ({ latitude, longitude }) => {
     fetchStreetName();
 
     return () => {
-      setStreetName("");
+      controller.abort();
     };
-  }, [latitude, longitude]);
+  }, [cords.longitude, cords.latitude]);
 
   return streetName;
 };
 
-ReverseGeocoding.propTypes = {
-  latitude: PropType.number.isRequired,
-  longitude: PropType.number.isRequired,
-};
-
-export default ReverseGeocoding;
+export default useReverseGeocoding;

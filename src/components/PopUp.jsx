@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
+import useReverseGeocoding from "./ReverseGeocoding";
 
-const PopUp = ({ icon, onSubmit, coordKey }) => {
+const PopUp = ({ icon, onSubmit, coordinates, coordKey, jsonDataIcon }) => {
   const [formValues, setFormValues] = useState({
     label: icon.label,
     path: icon.path,
-    quantities: 1,
-    startHours: "",
-    endHours: "",
+    quantities: jsonDataIcon ? icon.quantities : 1,
+    startHours: jsonDataIcon ? icon.startHours : "",
+    endHours: jsonDataIcon ? icon.endHours : "",
     coor: coordKey,
   });
+
+  const [latitude, longitude] = coordKey.split(" ").map(parseFloat);
+  const streetName = useReverseGeocoding({ latitude, longitude }) || "Inconnu";
+
+  // Il y a un problème, dès que je clique ca m'affiche inconu et un nom de rue, parfoit une reu au piff"
 
   const updateFormValues = (key, value) => {
     setFormValues((formValues) => ({
@@ -19,6 +25,9 @@ const PopUp = ({ icon, onSubmit, coordKey }) => {
     }));
   };
 
+  onSubmit({ ...formValues, streetName });
+  console.log(streetName);
+
   return (
     <div className="popup-content">
       <h2>{icon.label}</h2>
@@ -26,7 +35,7 @@ const PopUp = ({ icon, onSubmit, coordKey }) => {
       <input
         type="number"
         name="quantities"
-        id="quantitiesInput" // Ajout de l'attribut id
+        id="quantitiesInput"
         value={formValues.quantities}
         min="1"
         onChange={(event) =>
@@ -35,23 +44,21 @@ const PopUp = ({ icon, onSubmit, coordKey }) => {
       />
       <h3>Heure de pose :</h3>
       <input
-        type="time"
+        type="datetime-local"
         name="startHours"
-        id="startHoursInput" // Ajout de l'attribut id
+        id="startHoursInput"
         value={formValues.startHours}
         onChange={(event) => updateFormValues("startHours", event.target.value)}
       />
+
       <h3>Heure de dépose :</h3>
       <input
-        type="time"
+        type="datetime-local"
         name="endHours"
-        id="endHoursInput" // Ajout de l'attribut id
+        id="endHoursInput"
         value={formValues.endHours}
         onChange={(event) => updateFormValues("endHours", event.target.value)}
       />
-      <button onClick={() => onSubmit(formValues)} type="submit">
-        Sauvegarder
-      </button>
       <button id="deleteButton">Supprimer</button>
     </div>
   );
@@ -61,6 +68,8 @@ PopUp.propTypes = {
   icon: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   coordKey: PropTypes.string.isRequired,
+  jsonDataIcon: PropTypes.object,
+  coordinates: PropTypes.object.isRequired,
 };
 
 export default PopUp;

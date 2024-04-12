@@ -6,30 +6,31 @@ import {
   initRoute,
   updateRoute,
   deleteLastCoordinates,
-  startItiAnimation,
 } from "./itineraryFct.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
 import { initializeDrawZone } from "./zone.jsx";
 import JSONExporter from "./JSONExporter";
-
-import "../styles/Clock.css";
 import "../styles/Icones.css";
+import PDFExporter from "./PDFExporter.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 // A décommenter à la fin !
 // mapboxgl.accessToken = localStorage.getItem('mapboxApiKey');
 
-const Map = () => {
+const MapComponent = () => {
+  const [jsonDataIcon, setJsonDataIcon] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState(undefined);
-
   const [iconSubmitValues, setIconSubmitValues] = useState({});
 
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
-      return { ...prevValues, [iconValues.coor]: iconValues };
+      return {
+        ...prevValues,
+        [iconValues.coor]: iconValues,
+      };
     });
   };
 
@@ -41,19 +42,29 @@ const Map = () => {
     });
   };
 
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) return;
+
+    try {
+      const fileContent = await selectedFile.text();
+      const parsedData = JSON.parse(fileContent);
+      console.log(parsedData);
+      // setIconSubmitValues(parsedData);
+      setJsonDataIcon(parsedData);
+    } catch (error) {
+      console.error("Error parsing JSON file:", error);
+    }
+  };
+
   const [mode, setMode] = useState();
-
   const [searchText, setSearchText] = useState("");
-
   const mapContainer = useRef(null);
   const map = useRef(null);
 
   const [selectedRoute, setSelectedRoute] = useState("route1");
   const [itiCoordinates1, setItiCoordinates1] = useState([]);
   const [itiCoordinates2, setItiCoordinates2] = useState([]);
-
-  const vit_course = 8;
-  const vit_marche = 5;
 
   const handleChangeRoute = () => {
     setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
@@ -64,24 +75,38 @@ const Map = () => {
     deleteLastCoordinates(map.current, itiCoordinates, selectedRoute); // Supposons que 'coordinates' soit votre tableau de coordonnées
   };
 
-  const handleStartAnimation = (itiCoordinates, vitesse) => {
-    // Appelez la fonction startAnimation avec les paramètres nécessaires
-    startItiAnimation(map.current, itiCoordinates, selectedRoute, vitesse);
-  };
-
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const lng = 7.7482;
-    const lat = 48.5828;
+    if (jsonDataIcon) {
+      Object.values(jsonDataIcon).forEach((jsonIcon) => {
+        const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
+        const coordinates = { lat, lng };
+
+        addIcon(
+          map.current,
+          coordinates,
+          jsonIcon,
+          onIconSubmit,
+          deleteIconValues,
+          jsonDataIcon
+        );
+        // setIconSubmitValues(jsonDataIcon);
+      });
+    }
+  }, [jsonDataIcon]);
+
+  useEffect(() => {
+    const lat = 7.7482;
+    const lng = 48.5828;
     const zoom = 15.2;
 
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
+      center: [lat, lng],
       zoom: zoom,
     });
 
@@ -95,7 +120,7 @@ const Map = () => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
     const clickHandler = (e) => {
       if (mode === "itinerary") {
-        const updatedCoordinates = [e.lngLat.lng, e.lngLat.lat];
+        const updatedCoordinates = [e.lngLat.lat, e.lngLat.lng];
         if (selectedRoute === "route1") {
           itiCoordinates1.push([e.lngLat.lng, e.lngLat.lat]);
           updateRoute(map.current, itiCoordinates1, selectedRoute);
@@ -111,7 +136,8 @@ const Map = () => {
             iconCoordinates,
             selectedIcon,
             onIconSubmit,
-            deleteIconValues
+            deleteIconValues,
+            null
           );
         }
       }
@@ -226,14 +252,6 @@ const Map = () => {
                         >
                           ↩
                         </button>
-                        <button
-                          className="Start"
-                          onClick={() =>
-                            handleStartAnimation(itiCoordinates1, vit_course)
-                          }
-                        >
-                          Start
-                        </button>
                       </div>
                     )}
 
@@ -258,14 +276,6 @@ const Map = () => {
                           }
                         >
                           ↩
-                        </button>
-                        <button
-                          className="Start"
-                          onClick={() =>
-                            handleStartAnimation(itiCoordinates2, vit_marche)
-                          }
-                        >
-                          Start
                         </button>
                       </div>
                     )}
@@ -362,18 +372,20 @@ const Map = () => {
                   <li>
                     <b>{iconValues.label}</b>
                   </li>
-                  <li>quantities: {iconValues.quantities}</li>
+                  <li>Quantities: {iconValues.quantities}</li>
                   {iconValues.startHours && iconValues.endHours && (
                     <li>
-                      de {iconValues.startHours} à {iconValues.endHours}
+                      De {iconValues.startHours} à {iconValues.endHours}
                     </li>
                   )}
-                  <li>lng lat: {iconValues.coor}</li>
+                  <li>Rue: {iconValues.streetName}</li>
                 </ul>
               ))}
 
               <JSONExporter iconSubmitValues={iconSubmitValues} />
+              <PDFExporter iconSubmitValues={iconSubmitValues} />
             </SubMenu>
+            <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>
       </Sidebar>
@@ -389,4 +401,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default MapComponent;

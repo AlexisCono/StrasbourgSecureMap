@@ -13,7 +13,13 @@ const JSONExporter = ({ iconSubmitValues }) => {
       endHours: icon.endHours,
       coor: icon.coor,
     }));
-    return JSON.stringify(jsonData, null, 2); // Convertit l'objet en chaîne JSON bien formatée
+
+    const jsonObject = jsonData.reduce((acc, cur, idx) => {
+      acc[`icon${idx + 1}`] = cur;
+      return acc;
+    }, {}); // Créer un objet à partir de la liste JSON
+
+    return JSON.stringify(jsonObject, null, 2); // Convertit l'objet en chaîne JSON bien formatée
   };
 
   // Fonction pour télécharger le fichier JSON

@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import "../styles/popUp.css";
-import PopUp from "./PopUpComponent";
+import PopUp from "./PopUp";
 import { createRoot } from "react-dom/client";
 
 let markerCoordinatesArray = [];
@@ -10,14 +10,15 @@ export function addIcon(
   coordinates,
   selectedIcon,
   onSubmit,
-  deleteIconValues
+  deleteIconValues,
+  jsonDataIcon
 ) {
   const el = document.createElement("div");
   const zoom = map.getZoom();
   const size = 30 * Math.pow(1.2, zoom - 15);
   let iconDistanceThreshold = 40; // Seuil de distance initial en pixels
 
-  const coordKey = `${coordinates.lng} ${coordinates.lat}`;
+  const coordKey = `${coordinates.lat} ${coordinates.lng}`;
 
   const newMarkerCoordinates = map.project(coordinates); // Convertir les nouvelles coordonnées en coordonnées de la carte
 
@@ -46,7 +47,13 @@ export function addIcon(
   const popupContent = document.createElement("div");
 
   createRoot(popupContent).render(
-    <PopUp icon={selectedIcon} onSubmit={onSubmit} coordKey={coordKey} />
+    <PopUp
+      icon={selectedIcon}
+      onSubmit={onSubmit}
+      coordinates={coordinates}
+      coordKey={coordKey}
+      jsonDataIcon={jsonDataIcon}
+    />
   );
 
   const popup = new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContent);

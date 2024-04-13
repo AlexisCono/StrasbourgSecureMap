@@ -2,15 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { addIcon } from "./addIconsFct.jsx";
-import {
-  initRoute,
-  updateRoute,
-  deleteLastCoordinates,
-} from "./itineraryFct.jsx";
+import { initializeDraw} from "./draw.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
-import { initializeDrawZone } from "./zone.jsx";
 import JSONExporter from "./JSONExporter";
 import "../styles/Icones.css";
 import PDFExporter from "./PDFExporter.jsx";
@@ -62,19 +57,6 @@ const MapComponent = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  const [selectedRoute, setSelectedRoute] = useState("route1");
-  const [itiCoordinates1, setItiCoordinates1] = useState([]);
-  const [itiCoordinates2, setItiCoordinates2] = useState([]);
-
-  const handleChangeRoute = () => {
-    setSelectedRoute(selectedRoute === "route1" ? "route2" : "route1");
-  };
-
-  const handleDeleteLastCoordinate = (itiCoordinates) => {
-    // Appel de la fonction deleteLastCoordinates ici
-    deleteLastCoordinates(map.current, itiCoordinates, selectedRoute); // Supposons que 'coordinates' soit votre tableau de coordonnées
-  };
-
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -110,25 +92,16 @@ const MapComponent = () => {
       zoom: zoom,
     });
 
-    initRoute(map.current, itiCoordinates1, "route1", "#4254f5");
-    initRoute(map.current, itiCoordinates2, "route2", "#52db40 ");
+    initializeDraw(map.current);
+
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [itiCoordinates1, itiCoordinates2]); // Effectue l'effet uniquement lors du montage initial
+  }, []); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
     const clickHandler = (e) => {
-      if (mode === "itinerary") {
-        const updatedCoordinates = [e.lngLat.lat, e.lngLat.lng];
-        if (selectedRoute === "route1") {
-          itiCoordinates1.push([e.lngLat.lng, e.lngLat.lat]);
-          updateRoute(map.current, itiCoordinates1, selectedRoute);
-        } else if (selectedRoute === "route2") {
-          itiCoordinates2.push([e.lngLat.lng, e.lngLat.lat]);
-          updateRoute(map.current, itiCoordinates2, selectedRoute);
-        }
-      } else if (mode === "addIcon") {
+      if (mode === "addIcon") {
         if (selectedIcon) {
           const iconCoordinates = e.lngLat;
           addIcon(
@@ -142,10 +115,6 @@ const MapComponent = () => {
         }
       }
     };
-
-    if (mode === "zone") {
-      initializeDrawZone(map.current);
-    }
     map.current.on("click", clickHandler);
 
     // Retrait de l'événement de clic lors du démontage du composant
@@ -155,9 +124,6 @@ const MapComponent = () => {
   }, [
     selectedIcon,
     mode,
-    selectedRoute,
-    itiCoordinates1,
-    itiCoordinates2,
     iconSubmitValues,
   ]); // Effectue l'effet lors du changement d'icône
 
@@ -201,101 +167,15 @@ const MapComponent = () => {
             }}
           >
             <SubMenu
-              label={
-                <span style={{ fontSize: "15px" }}>🗺️ Itinéraire et Zone</span>
-              }
-              backgroundColor="#d1cfff"
-            >
-              <div>
-                {/* Bouton pour changer le mode */}
-                <button
-                  className="Switch"
-                  onClick={() =>
-                    setMode(mode === "itinerary" ? "zone" : "itinerary")
-                  }
-                >
-                  Changer de mode ({mode === "zone" ? "Zone" : "Itinéraire"})
-                </button>
-
-                {/* Contenu spécifique au mode "itinerary" */}
-                {mode === "itinerary" && (
-                  <>
-                    {/* Bouton pour changer d'itinéraire */}
-                    <button
-                      style={{ marginLeft: "10%", marginRight: "10%" }}
-                      className="buttonItinary"
-                      onClick={handleChangeRoute}
-                    >
-                      Changer d&apos;itinéraire
-                    </button>
-
-                    {/* Parcours sélectionné */}
-                    {selectedRoute === "route1" && (
-                      <div>
-                        <div
-                          style={{
-                            color: "#0007c4",
-                            marginLeft: "34%",
-                            fontSize: "120%",
-                            marginTop: "6%",
-                          }}
-                        >
-                          {/* Parcours 1 */}
-                          Course
-                        </div>
-                        <br />
-                        <button
-                          className="Back"
-                          onClick={() =>
-                            handleDeleteLastCoordinate(itiCoordinates1)
-                          }
-                        >
-                          ↩
-                        </button>
-                      </div>
-                    )}
-
-                    {selectedRoute === "route2" && (
-                      <div>
-                        <div
-                          style={{
-                            color: "#0007c4",
-                            marginLeft: "34%",
-                            fontSize: "120%",
-                            marginTop: "6%",
-                          }}
-                        >
-                          {/* Parcours 2 */}
-                          Marche
-                        </div>
-                        <br />
-                        <button
-                          className="Back"
-                          onClick={() =>
-                            handleDeleteLastCoordinate(itiCoordinates2)
-                          }
-                        >
-                          ↩
-                        </button>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                {/* Contenu spécifique au mode "zone" */}
-                {mode === "zone" && (
-                  <div>
-                    {/* Insérer le contenu spécifique au mode "zone" ici */}
-                  </div>
-                )}
-              </div>
-            </SubMenu>
-
-            <SubMenu
               backgroundColor="#d1cfff"
               label={<span style={{ fontSize: "15px" }}>🏗️ Sécurisation</span>}
-              onClick={() => setMode("addIcon")}
-            >
+              onClick={() => {
+                if (mode !== "addIcon") {
+                  setMode("addIcon");
+                } else {
+                  setMode("");
+                }
+              }}            >
               {mode === "addIcon" && (
                 <div>
                   {/* Champ de recherche */}
@@ -387,7 +267,9 @@ const MapComponent = () => {
             </SubMenu>
             <input type="file" onChange={handleFileChange} />
           </Menu>
-        </div>
+        </div> <br/>
+        <span style={{ fontSize: "15px" }}>Mode actuel : {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}</span>
+
       </Sidebar>
 
       {/* Carte */}
@@ -396,8 +278,9 @@ const MapComponent = () => {
         ref={mapContainer}
         style={{ flex: 1, position: "relative" }}
         // Ajustement pour occuper tout l'espace restant
-      ></div>
-    </div>
+      />
+      </div>
+
   );
 };
 

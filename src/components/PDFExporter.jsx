@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+//import pdfFonts from "pdfmake/build/vfs_fonts";
 
 // Configuration de pdfmake avec les polices
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+//pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const PDFExporter = ({ iconSubmitValues }) => {
   // Fonction pour générer le contenu du PDF

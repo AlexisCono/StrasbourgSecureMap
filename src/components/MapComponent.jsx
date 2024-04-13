@@ -83,15 +83,20 @@ const MapComponent = () => {
     const lat = 7.7482;
     const lng = 48.5828;
     const zoom = 15.2;
-
+    const bounds = [
+      [7.689,48.536], // Southwest coordinates
+      [7.809,48.608] // Northeast coordinates
+  ];
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lat, lng],
       zoom: zoom,
+      maxBounds: bounds // Set the map's geographical boundaries.
     });
 
+    map.current.addControl(new mapboxgl.FullscreenControl());
     initializeDraw(map.current);
 
     // Nettoyage de la carte lors du démontage du composant

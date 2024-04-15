@@ -296,7 +296,10 @@ const MapComponent = () => {
               iconSubmitValues={iconSubmitValues}
               itiZoneValues={itiZoneValues}
             />
-            <PDFExporter iconSubmitValues={iconSubmitValues} />
+            <PDFExporter
+              iconSubmitValues={iconSubmitValues}
+              itiZoneValues={itiZoneValues}
+            />
             <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>{" "}

@@ -3,20 +3,25 @@ import axios from "axios";
 
 const useReverseGeocoding = ({ latitude, longitude }) => {
   const [streetName, setStreetName] = useState("");
-  const cords = { latitude, longitude };
 
   useEffect(() => {
     const controller = new AbortController();
     const fetchStreetName = async () => {
-      if (!cords.latitude || !cords.longitude) return;
+      if (!latitude || !longitude) return;
       try {
         const response = await axios.get(
-          `https://nominatim.openstreetmap.org/reverse?lat=${cords.latitude}&lon=${cords.longitude}&format=json`,
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${
+            import.meta.env.VITE_MAPBOX_TOKEN
+          }`,
           { signal: controller.signal }
         );
-        if (response.data && response.data.address) {
-          const street = response.data.address.road;
-          setStreetName(street);
+        if (
+          response.data &&
+          response.data.features &&
+          response.data.features.length > 0
+        ) {
+          const fullAddress = response.data.features[0].place_name;
+          setStreetName(fullAddress);
         }
       } catch (error) {
         console.error("Error fetching street name:", error);
@@ -28,7 +33,7 @@ const useReverseGeocoding = ({ latitude, longitude }) => {
     return () => {
       controller.abort();
     };
-  }, [cords.latitude, cords.longitude]);
+  }, [latitude, longitude]);
 
   return streetName;
 };

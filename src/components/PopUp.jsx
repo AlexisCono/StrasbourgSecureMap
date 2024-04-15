@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "../styles/popUp.css";
 import useReverseGeocoding from "./ReverseGeocoding";
 
-const PopUp = ({ icon, onSubmit, coordinates, coordKey, jsonDataIcon }) => {
+const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
   const [formValues, setFormValues] = useState({
     label: icon.label,
     path: icon.path,
@@ -14,7 +14,7 @@ const PopUp = ({ icon, onSubmit, coordinates, coordKey, jsonDataIcon }) => {
   });
 
   const [latitude, longitude] = coordKey.split(" ").map(parseFloat);
-  const streetName = useReverseGeocoding({ latitude, longitude }) || "Inconnu";
+  const streetName = useReverseGeocoding({ latitude, longitude });
 
   // Il y a un problème, dès que je clique ca m'affiche inconu et un nom de rue, parfoit une reu au piff"
 
@@ -26,7 +26,6 @@ const PopUp = ({ icon, onSubmit, coordinates, coordKey, jsonDataIcon }) => {
   };
 
   onSubmit({ ...formValues, streetName });
-  console.log(streetName);
 
   return (
     <div className="popup-content">
@@ -69,7 +68,6 @@ PopUp.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   coordKey: PropTypes.string.isRequired,
   jsonDataIcon: PropTypes.object,
-  coordinates: PropTypes.object.isRequired,
 };
 
 export default PopUp;

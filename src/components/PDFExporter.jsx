@@ -1,24 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 import pdfMake from "pdfmake/build/pdfmake";
-//import pdfFonts from "pdfmake/build/vfs_fonts";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import useReverseGeocoding from "./ReverseGeocoding";
 
-// Configuration de pdfmake avec les polices
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+//Configuration de pdfmake avec les polices
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-const PDFExporter = ({ iconSubmitValues }) => {
+const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
   // Fonction pour générer le contenu du PDF
+
+  // const streetName = useReverseGeocoding({ latitude, longitude });
 
   const generatePDFContent = () => {
     const content = [];
 
     Object.values(iconSubmitValues).forEach((icon) => {
       content.push(
-        { text: `Nom: ${icon.label}` },
+        { text: icon.label, style: "header" },
         { text: `Quantité: ${icon.quantities}` },
         { text: `date de pose de l'objet: ${icon.startHours}` },
-        { text: `date de dépose de l'objet: ${icon.endHours}` },
-        { text: `Coordonnée: ${icon.streetName}` },
+        { text: `date d'enlèvement de l'objet: ${icon.endHours}` },
+        { text: icon.streetName },
+        { text: "", margin: [0, 0, 0, 20] }
+      );
+    });
+
+    Object.values(itiZoneValues.features).forEach((itiZone, index) => {
+      console.log(index);
+      content.push(
+        { text: `Coordonnées de la zone: ${itiZone.geometry.coordinates}` },
         { text: "", margin: [0, 0, 0, 20] }
       );
     });
@@ -46,7 +57,8 @@ const PDFExporter = ({ iconSubmitValues }) => {
 };
 
 PDFExporter.propTypes = {
-  iconSubmitValues: PropTypes.object.isRequired,
+  itiZoneValues: PropTypes.object,
+  iconSubmitValues: PropTypes.object,
 };
 
 export default PDFExporter;

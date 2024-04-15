@@ -50,7 +50,6 @@ export function addIcon(
     <PopUp
       icon={selectedIcon}
       onSubmit={onSubmit}
-      coordinates={coordinates}
       coordKey={coordKey}
       jsonDataIcon={jsonDataIcon}
     />

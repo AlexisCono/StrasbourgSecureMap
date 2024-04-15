@@ -251,7 +251,37 @@ const MapComponent = () => {
                 </div>
               )}
             </SubMenu>
-            <SubMenu label="🗒️​ Détails">
+            <input type="file" onChange={handleFileChange} />
+          </Menu>
+        </div> <br/>
+
+      </Sidebar>
+
+      {/* Carte */}
+      <div
+        id="map-container"
+        ref={mapContainer}
+        style={{ flex: 1, position: "relative" }}
+        // Ajustement pour occuper tout l'espace restant
+      />
+
+      <Sidebar width="200px" backgroundColor="#d1cfff">
+        {/* Contenu de la sidebar */}
+        <div style={{ position: "relative" }}>
+          <Menu
+            label="🗒️​ Détails"
+            transitionDuration={500}
+            menuItemStyles={{
+              button: ({ level, active, disabled }) => {
+                // only apply styles on first level elements of the tree
+                if (level === 0)
+                  return {
+                    color: disabled ? "#d1cfff" : "#025387", // Couleur de la police
+                    backgroundColor: active ? "#BDE5FF" : "#d1cfff",
+                  };
+              },
+            }}
+          >
               {Object.values(iconSubmitValues).map((iconValues, index) => (
                 <ul key={index}>
                   <li>
@@ -269,22 +299,13 @@ const MapComponent = () => {
 
               <JSONExporter iconSubmitValues={iconSubmitValues} />
               <PDFExporter iconSubmitValues={iconSubmitValues} />
-            </SubMenu>
             <input type="file" onChange={handleFileChange} />
           </Menu>
         </div> <br/>
         <span style={{ fontSize: "15px" }}>Mode actuel : {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}</span>
 
       </Sidebar>
-
-      {/* Carte */}
-      <div
-        id="map-container"
-        ref={mapContainer}
-        style={{ flex: 1, position: "relative" }}
-        // Ajustement pour occuper tout l'espace restant
-      />
-      </div>
+    </div>
 
   );
 };

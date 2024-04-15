@@ -20,13 +20,11 @@ export function initializeDraw(map) {
 }
 
 // Fonction pour sauvegarder les dessins dans un fichier JSON
-function saveDrawings() {
+export function saveDrawings(drawingsJSON) {
   const drawingsData = drawInstance.getAll();
-  const drawingsJSON = JSON.stringify(drawingsData);
-
+  drawingsJSON = JSON.stringify(drawingsData);
+  
   // Vous pouvez utiliser ici une méthode appropriée pour enregistrer les données JSON, par exemple en utilisant le stockage local du navigateur ou en les envoyant à un serveur.
   // Dans cet exemple, je vais simplement afficher les données dans la console.
   console.log(drawingsJSON);
 }
-
-

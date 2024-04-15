@@ -11,6 +11,22 @@ const drawInstance = new MapboxDraw({
 });
 
 export function initializeDraw(map) {
-    map.addControl(drawInstance,'top-left');
-  
+  map.addControl(drawInstance,'top-left');
+
+  // Écoutez l'événement de modification pour détecter les changements dans les dessins
+  map.on('draw.create', saveDrawings);
+  map.on('draw.update', saveDrawings);
+  map.on('draw.delete', saveDrawings);
 }
+
+// Fonction pour sauvegarder les dessins dans un fichier JSON
+function saveDrawings() {
+  const drawingsData = drawInstance.getAll();
+  const drawingsJSON = JSON.stringify(drawingsData);
+
+  // Vous pouvez utiliser ici une méthode appropriée pour enregistrer les données JSON, par exemple en utilisant le stockage local du navigateur ou en les envoyant à un serveur.
+  // Dans cet exemple, je vais simplement afficher les données dans la console.
+  console.log(drawingsJSON);
+}
+
+

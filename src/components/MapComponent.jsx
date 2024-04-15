@@ -22,8 +22,6 @@ const MapComponent = () => {
   const [iconSubmitValues, setIconSubmitValues] = useState({});
   const [itiZoneValues, setItiZoneValues] = useState({});
 
-  const [mapReady, setMapReady] = useState(false);
-
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
       return {
@@ -65,25 +63,6 @@ const MapComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (jsonDataIcon) {
-      Object.values(jsonDataIcon).forEach((jsonIcon) => {
-        const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
-        const coordinates = { lat, lng };
-        if (mapReady) {
-          addIcon(
-            map.current,
-            coordinates,
-            jsonIcon,
-            onIconSubmit,
-            deleteIconValues,
-            jsonDataIcon
-          );
-        }
-      });
-    }
-  }, [jsonDataIcon, mapReady]);
-
-  useEffect(() => {
     const lat = 7.7482;
     const lng = 48.5828;
     const zoom = 15.2;
@@ -102,11 +81,26 @@ const MapComponent = () => {
 
     map.current.addControl(new mapboxgl.FullscreenControl());
     initializeDraw(map.current, setItiZoneValues, jsonDataItiZone);
-    setMapReady(true);
+
+    if (jsonDataIcon) {
+      Object.values(jsonDataIcon).forEach((jsonIcon) => {
+        const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
+        const coordinates = { lat, lng };
+
+        addIcon(
+          map.current,
+          coordinates,
+          jsonIcon,
+          onIconSubmit,
+          deleteIconValues,
+          jsonDataIcon
+        );
+      });
+    }
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [jsonDataItiZone]); // Effectue l'effet uniquement lors du montage initial
+  }, [jsonDataItiZone, jsonDataIcon]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { addIcon } from "./addIconsFct.jsx";
-import { initializeDraw} from "./draw.jsx";
+import { initializeDraw } from "./draw.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
@@ -19,6 +19,7 @@ const MapComponent = () => {
   const [jsonDataIcon, setJsonDataIcon] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   const [iconSubmitValues, setIconSubmitValues] = useState({});
+  const [itiZoneValues, setItiZoneValues] = useState({});
 
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
@@ -44,9 +45,8 @@ const MapComponent = () => {
     try {
       const fileContent = await selectedFile.text();
       const parsedData = JSON.parse(fileContent);
-      console.log(parsedData);
-      // setIconSubmitValues(parsedData);
-      setJsonDataIcon(parsedData);
+      const { icons } = parsedData;
+      setJsonDataIcon(icons);
     } catch (error) {
       console.error("Error parsing JSON file:", error);
     }
@@ -84,20 +84,20 @@ const MapComponent = () => {
     const lng = 48.5828;
     const zoom = 15.2;
     const bounds = [
-      [6.96,48.14], // Southwest coordinates
-      [8.47,48.85]  // Northeast coordinates
-  ];
+      [6.96, 48.14], // Southwest coordinates
+      [8.47, 48.85], // Northeast coordinates
+    ];
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lat, lng],
       zoom: zoom,
-      maxBounds: bounds // Set the map's geographical boundaries.
+      maxBounds: bounds, // Set the map's geographical boundaries.
     });
 
     map.current.addControl(new mapboxgl.FullscreenControl());
-    initializeDraw(map.current);
+    initializeDraw(map.current, setItiZoneValues);
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
@@ -126,11 +126,7 @@ const MapComponent = () => {
     return () => {
       map.current.off("click", clickHandler);
     };
-  }, [
-    selectedIcon,
-    mode,
-    iconSubmitValues,
-  ]); // Effectue l'effet lors du changement d'icône
+  }, [selectedIcon, mode, iconSubmitValues]); // Effectue l'effet lors du changement d'icône
 
   // Fonction de gestion de la saisie de texte
   const handleSearchChange = (event) => {
@@ -180,7 +176,8 @@ const MapComponent = () => {
                 } else {
                   setMode("");
                 }
-              }}            >
+              }}
+            >
               {mode === "addIcon" && (
                 <div>
                   {/* Champ de recherche */}
@@ -257,24 +254,31 @@ const MapComponent = () => {
                   <li>
                     <b>{iconValues.label}</b>
                   </li>
-                  <li>Quantities: {iconValues.quantities}</li>
-                  {iconValues.startHours && iconValues.endHours && (
-                    <li>
-                      De {iconValues.startHours} à {iconValues.endHours}
-                    </li>
+                  <li>Quantités: {iconValues.quantities}</li>
+                  {iconValues.startHours && (
+                    <li>Pose: {iconValues.startHours}</li>
+                  )}
+                  {iconValues.endHours && (
+                    <li>Enlèvement: {iconValues.endHours}</li>
                   )}
                   <li>Rue: {iconValues.streetName}</li>
                 </ul>
               ))}
 
-              <JSONExporter iconSubmitValues={iconSubmitValues} />
+              <JSONExporter
+                iconSubmitValues={iconSubmitValues}
+                itiZoneValues={itiZoneValues}
+              />
               <PDFExporter iconSubmitValues={iconSubmitValues} />
             </SubMenu>
             <input type="file" onChange={handleFileChange} />
           </Menu>
-        </div> <br/>
-        <span style={{ fontSize: "15px" }}>Mode actuel : {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}</span>
-
+        </div>{" "}
+        <br />
+        <span style={{ fontSize: "15px" }}>
+          Mode actuel :{" "}
+          {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}
+        </span>
       </Sidebar>
 
       {/* Carte */}
@@ -284,8 +288,7 @@ const MapComponent = () => {
         style={{ flex: 1, position: "relative" }}
         // Ajustement pour occuper tout l'espace restant
       />
-      </div>
-
+    </div>
   );
 };
 

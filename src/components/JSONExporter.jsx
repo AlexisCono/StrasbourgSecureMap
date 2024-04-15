@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 const JSONExporter = ({ iconSubmitValues, itiZoneValues }) => {
   // Fonction pour générer les données à sauvegarder dans un fichier JSON
   const generateJSONData = () => {
-    console.log(itiZoneValues);
-
     // Générer les données pour les icônes
     const iconsData = Object.values(iconSubmitValues).map((icon) => ({
       label: icon.label,
@@ -22,14 +20,18 @@ const JSONExporter = ({ iconSubmitValues, itiZoneValues }) => {
     }, {}); // Créer un objet à partir de la liste JSON
 
     // Générer les données pour les zones et les itinéraires
-    const itiZoneData = itiZoneValues.features.map((itiZone, idx) => ({
-      [`itiZone${idx + 1}`]: itiZone,
-    }));
+    let jsonItiZone = {};
+    if (itiZoneValues && itiZoneValues.features) {
+      const itiZoneData = itiZoneValues.features.map((itiZone, idx) => ({
+        [`itiZone${idx + 1}`]: itiZone,
+      }));
 
-    const jsonItiZone = itiZoneData.reduce((acc, cur) => {
-      return { ...acc, ...cur };
-    }, {});
+      jsonItiZone = itiZoneData.reduce((acc, cur) => {
+        return { ...acc, ...cur };
+      }, {});
+    }
 
+    // Créer l'objet jsonData
     const jsonData = {
       icons: jsonIcon,
       itiZones: jsonItiZone,

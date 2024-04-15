@@ -17,6 +17,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const MapComponent = () => {
   const [jsonDataIcon, setJsonDataIcon] = useState(null);
+  const [jsonDataItiZone, setJsonDataItiZone] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   const [iconSubmitValues, setIconSubmitValues] = useState({});
   const [itiZoneValues, setItiZoneValues] = useState({});
@@ -45,8 +46,9 @@ const MapComponent = () => {
     try {
       const fileContent = await selectedFile.text();
       const parsedData = JSON.parse(fileContent);
-      const { icons } = parsedData;
+      const { icons, itiZones } = parsedData;
       setJsonDataIcon(icons);
+      setJsonDataItiZone(itiZones);
     } catch (error) {
       console.error("Error parsing JSON file:", error);
     }
@@ -97,11 +99,11 @@ const MapComponent = () => {
     });
 
     map.current.addControl(new mapboxgl.FullscreenControl());
-    initializeDraw(map.current, setItiZoneValues);
+    initializeDraw(map.current, setItiZoneValues, jsonDataItiZone);
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, []); // Effectue l'effet uniquement lors du montage initial
+  }, [jsonDataItiZone]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -248,7 +250,6 @@ const MapComponent = () => {
                 </div>
               )}
             </SubMenu>
-            <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>{" "}
         <br />
@@ -261,7 +262,6 @@ const MapComponent = () => {
         // Ajustement pour occuper tout l'espace restant
       />
 
-      
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
@@ -309,7 +309,6 @@ const MapComponent = () => {
           {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}
         </span>
       </Sidebar>
-
     </div>
   );
 };

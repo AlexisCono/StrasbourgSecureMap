@@ -22,6 +22,8 @@ const MapComponent = () => {
   const [iconSubmitValues, setIconSubmitValues] = useState({});
   const [itiZoneValues, setItiZoneValues] = useState({});
 
+  const [mapReady, setMapReady] = useState(false);
+
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
       return {
@@ -67,19 +69,19 @@ const MapComponent = () => {
       Object.values(jsonDataIcon).forEach((jsonIcon) => {
         const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
         const coordinates = { lat, lng };
-
-        addIcon(
-          map.current,
-          coordinates,
-          jsonIcon,
-          onIconSubmit,
-          deleteIconValues,
-          jsonDataIcon
-        );
-        // setIconSubmitValues(jsonDataIcon);
+        if (mapReady) {
+          addIcon(
+            map.current,
+            coordinates,
+            jsonIcon,
+            onIconSubmit,
+            deleteIconValues,
+            jsonDataIcon
+          );
+        }
       });
     }
-  }, [jsonDataIcon]);
+  }, [jsonDataIcon, mapReady]);
 
   useEffect(() => {
     const lat = 7.7482;
@@ -100,6 +102,7 @@ const MapComponent = () => {
 
     map.current.addControl(new mapboxgl.FullscreenControl());
     initializeDraw(map.current, setItiZoneValues, jsonDataItiZone);
+    setMapReady(true);
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();

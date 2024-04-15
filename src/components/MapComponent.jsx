@@ -248,7 +248,6 @@ const MapComponent = () => {
                 </div>
               )}
             </SubMenu>
-            <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>{" "}
         <br />
@@ -261,7 +260,6 @@ const MapComponent = () => {
         // Ajustement pour occuper tout l'espace restant
       />
 
-      
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
@@ -309,7 +307,6 @@ const MapComponent = () => {
           {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}
         </span>
       </Sidebar>
-
     </div>
   );
 };

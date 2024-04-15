@@ -17,6 +17,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const MapComponent = () => {
   const [jsonDataIcon, setJsonDataIcon] = useState(null);
+  const [jsonDataItiZone, setJsonDataItiZone] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   const [iconSubmitValues, setIconSubmitValues] = useState({});
   const [itiZoneValues, setItiZoneValues] = useState({});
@@ -45,8 +46,9 @@ const MapComponent = () => {
     try {
       const fileContent = await selectedFile.text();
       const parsedData = JSON.parse(fileContent);
-      const { icons } = parsedData;
+      const { icons, itiZones } = parsedData;
       setJsonDataIcon(icons);
+      setJsonDataItiZone(itiZones);
     } catch (error) {
       console.error("Error parsing JSON file:", error);
     }
@@ -59,25 +61,6 @@ const MapComponent = () => {
 
   // État local pour stocker le terme de recherche
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    if (jsonDataIcon) {
-      Object.values(jsonDataIcon).forEach((jsonIcon) => {
-        const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
-        const coordinates = { lat, lng };
-
-        addIcon(
-          map.current,
-          coordinates,
-          jsonIcon,
-          onIconSubmit,
-          deleteIconValues,
-          jsonDataIcon
-        );
-        // setIconSubmitValues(jsonDataIcon);
-      });
-    }
-  }, [jsonDataIcon]);
 
   useEffect(() => {
     const lat = 7.7482;
@@ -97,11 +80,27 @@ const MapComponent = () => {
     });
 
     map.current.addControl(new mapboxgl.FullscreenControl());
-    initializeDraw(map.current, setItiZoneValues);
+    initializeDraw(map.current, setItiZoneValues, jsonDataItiZone);
+
+    if (jsonDataIcon) {
+      Object.values(jsonDataIcon).forEach((jsonIcon) => {
+        const [lat, lng] = jsonIcon.coor.split(" ").map(parseFloat);
+        const coordinates = { lat, lng };
+
+        addIcon(
+          map.current,
+          coordinates,
+          jsonIcon,
+          onIconSubmit,
+          deleteIconValues,
+          jsonDataIcon
+        );
+      });
+    }
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, []); // Effectue l'effet uniquement lors du montage initial
+  }, [jsonDataItiZone, jsonDataIcon]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours

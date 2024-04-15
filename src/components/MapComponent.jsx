@@ -253,7 +253,6 @@ const MapComponent = () => {
         </div>{" "}
         <br />
       </Sidebar>
-
       {/* Carte */}
       <div
         id="map-container"
@@ -262,6 +261,7 @@ const MapComponent = () => {
         // Ajustement pour occuper tout l'espace restant
       />
 
+      
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
@@ -310,13 +310,6 @@ const MapComponent = () => {
         </span>
       </Sidebar>
 
-      {/* Carte */}
-      <div
-        id="map-container"
-        ref={mapContainer}
-        style={{ flex: 1, position: "relative" }}
-        // Ajustement pour occuper tout l'espace restant
-      />
     </div>
   );
 };

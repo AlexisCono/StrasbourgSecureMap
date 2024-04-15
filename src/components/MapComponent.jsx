@@ -84,8 +84,8 @@ const MapComponent = () => {
     const lng = 48.5828;
     const zoom = 15.2;
     const bounds = [
-      [7.689,48.536], // Southwest coordinates
-      [7.809,48.608] // Northeast coordinates
+      [6.96,48.14], // Southwest coordinates
+      [8.47,48.85]  // Northeast coordinates
   ];
     // Création de la carte une seule fois
     map.current = new mapboxgl.Map({

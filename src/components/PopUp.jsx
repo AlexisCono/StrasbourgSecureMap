@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../styles/popUp.css";
-import useReverseGeocoding from "./ReverseGeocoding";
+import useReverseGeocoding from "../useCustom/useReverseGeocoding";
+import useDataConverter from "../useCustom/useDataConverter";
 
 const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
   const [formValues, setFormValues] = useState({
@@ -17,7 +18,6 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
   const streetName = useReverseGeocoding({ latitude, longitude });
 
   // Il y a un problème, dès que je clique ca m'affiche inconu et un nom de rue, parfoit une reu au piff"
-
   const updateFormValues = (key, value) => {
     setFormValues((formValues) => ({
       ...formValues,

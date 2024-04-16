@@ -2,16 +2,46 @@ import React from "react";
 import PropTypes from "prop-types";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import useReverseGeocoding from "./ReverseGeocoding";
+//import useReverseGeocoding from "../useCustom/useReverseGeocoding";
 
 //Configuration de pdfmake avec les polices
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
+  // const [polygonCoordinates, setPolygonCoordinates] = useState([]);
+  // const [lineStringCoordinates, setLineStringCoordinates] = useState([]);
+
+  // useEffect(() => {
+  //   const extractCoordinates = () => {
+  //     const polygons = [];
+  //     const lineStrings = [];
+
+  //     if (itiZoneValues && itiZoneValues.features) {
+  //       itiZoneValues.features.forEach((feature) => {
+  //         if (feature.geometry && feature.geometry.type === "Polygon") {
+  //           for (const [key, coordinates] in feature.geometry.coordinates[0]) {
+  //             let [longitude, latitude] = feature.geometry.coordinates[0][key];
+  //             let streetName = useReverseGeocoding({ latitude, longitude });
+  //             console.log(longitude, latitude);
+  //             polygons.push(feature.geometry.coordinates[0]);
+  //           }
+  //         } else if (
+  //           feature.geometry &&
+  //           feature.geometry.type === "LineString"
+  //         ) {
+  //           lineStrings.push(feature.geometry.coordinates);
+  //         }
+  //       });
+  //     }
+
+  //     setPolygonCoordinates(polygons);
+  //     setLineStringCoordinates(lineStrings);
+  //   };
+
+  //   extractCoordinates();
+  // }, [itiZoneValues]);
+
   // Fonction pour générer le contenu du PDF
-
-  // const streetName = useReverseGeocoding({ latitude, longitude });
-
   const generatePDFContent = () => {
     const content = [];
 

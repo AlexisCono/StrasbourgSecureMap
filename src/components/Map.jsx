@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import { addIcon } from "../function/addIconsFct.jsx";
 import { initializeDraw } from "../function/draw.jsx";
-import "../styles/Button.css";
-import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
-import { icons } from "../constants/icons.js";
 import JSONExporter from "./JSONExporter.jsx";
-import "../styles/Icones.css";
 import PDFExporter from "./PDFExporter.jsx";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "../styles/button.css";
+import "../styles/icones.css";
+import { icons } from "../constants/icons.js";
+import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 

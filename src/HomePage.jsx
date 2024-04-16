@@ -1,11 +1,9 @@
 import React from "react";
 import Button from "./components/Button";
-import Banner from "./components/Banner";
 
 const HomePage = () => {
   return (
     <div>
-      <Banner />
       <header className="App-header">
         <img
           src="./image/Logo4.png"

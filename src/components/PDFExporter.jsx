@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import useReverseGeocoding, {
-  getReverseGeocoding,
-} from "../useCustom/useReverseGeocoding";
+import { getReverseGeocoding } from "../useCustom/useReverseGeocoding";
 
 //Configuration de pdfmake avec les polices
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
-  const [polygonCoordinates, setPolygonCoordinates] = useState([]);
-  const [lineStringCoordinates, setLineStringCoordinates] = useState([]);
   const [itiZoneValuesWithStreetName, setitiZoneValuesWithStreetName] =
     useState([]);
 
@@ -50,13 +46,30 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
 
     Object.values(iconSubmitValues).forEach((icon) => {
       contentIcones.push(
-        { text: icon.label, style: "header" },
-        { text: `Quantité: ${icon.quantities}` },
-        { text: `date de pose de l'objet: ${icon.startHours}` },
-        { text: `date d'enlèvement de l'objet: ${icon.endHours}` },
-        { text: icon.streetName }
+        { text: icon.label, bold: true },
+        {
+          text: [
+            { text: "Quantité: ", italics: true },
+            { text: `${icon.quantities}` },
+          ],
+        },
+        icon.startHours && {
+          text: [
+            { text: "Date de pose de l'objet: ", italics: true },
+            { text: icon.startHours },
+          ],
+        },
+        icon.endHours && {
+          text: [
+            { text: "Date d'enlèvement de l'objet: ", italics: true },
+            { text: icon.endHours },
+          ],
+        },
+        { text: icon.streetName },
+        { text: "", margin: [0, 0, 0, 5] }
       );
     });
+
     contentIcones.push({ text: "", margin: [0, 0, 0, 20] });
 
     itiZoneValuesWithStreetName.forEach((itiZone) => {
@@ -79,24 +92,39 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
     return content;
   };
 
-  // Fonction pour générer et télécharger le PDF
   const downloadPDF = () => {
+    // Demander à l'utilisateur de saisir le nom du fichier
+    const defaultFileName = "details_projet"; // Valeur par défaut
+    const fileName = window.prompt("Entrez le nom du projet", defaultFileName);
+
+    // Si l'utilisateur clique sur Annuler ou laisse le champ vide, ne rien faire
+    if (!fileName) return;
+
     const docDefinition = {
+      // Utiliser le nom de fichier comme titre du document
+      header: {
+        text: fileName,
+        fontSize: 16,
+        bold: true,
+        alignment: "center",
+        margin: [0, 10, 0, 10],
+      },
       content: generatePDFContent(),
       styles: {
         header: {
           bold: true,
-          fontSize: 14,
+          fontSize: 12,
           margin: [0, 10, 0, 5],
         },
       },
     };
 
-    pdfMake.createPdf(docDefinition).download("detail_projet.pdf");
+    // Télécharger le PDF avec le nom spécifié par l'utilisateur
+    pdfMake.createPdf(docDefinition).download(`${fileName}.pdf`);
   };
 
   return (
-    <button onClick={downloadPDF}>Téléchargement des détails du projet </button>
+    <button onClick={downloadPDF}>Téléchargement des détails du projet</button>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/App.css";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import "../styles/Button.css";
+import "../styles/button.css";
 
 const Banner = ({ children }) => {
   return (

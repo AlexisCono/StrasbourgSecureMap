@@ -47,12 +47,14 @@ const JSONExporter = ({ iconSubmitValues, itiZoneValues }) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "icon_data.json";
+    link.download = "sauvegarde_projet.json";
     link.click();
     URL.revokeObjectURL(url);
   };
 
-  return <button onClick={downloadJSON}>Télécharger les données JSON</button>;
+  return (
+    <button onClick={downloadJSON}>Téléchargement des data du projet</button>
+  );
 };
 
 JSONExporter.propTypes = {

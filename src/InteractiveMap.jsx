@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MapComponent from "./components/MapComponent.jsx";
-import Banner from "./Banner";
+import Banner from "./components/Banner";
 
 function InteractiveMap() {
   return (

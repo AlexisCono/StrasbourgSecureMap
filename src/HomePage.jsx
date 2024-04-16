@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "./Button";
-import Banner from "./Banner";
+import Button from "./components/Button";
+import Banner from "./components/Banner";
 import MapboxApiKeyForm from "./MapboxApiKeyForm";
 
 const HomePage = () => {

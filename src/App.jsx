@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./HomePage";
 import InteractiveMap from "./InteractiveMap";
-import { GlobalStateProvider } from "./GlobalState";
+import { GlobalStateProvider } from "./context/GlobalState";
 
 const App = () => {
   return (

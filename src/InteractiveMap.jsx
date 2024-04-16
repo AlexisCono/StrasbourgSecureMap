@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import MapComponent from "./components/MapComponent.jsx";
+import React from "react";
+import Map from "./components/Map.jsx";
 import Banner from "./components/Banner";
 
 function InteractiveMap() {
   return (
     <div>
       <Banner />
-      <MapComponent />
+      <Map />
     </div>
   );
 }

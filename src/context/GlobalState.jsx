@@ -2,19 +2,19 @@ import React, { createContext, useState } from "react";
 import PropType from "prop-types";
 
 // Créez le contexte
-export const MapboxKeyContext = createContext();
+export const GlobalStateContext = createContext();
 
 // Créez un composant fournisseur pour envelopper toute votre application
-export const MapboxKeyProvider = ({ children }) => {
+export const GlobalStateProvider = ({ children }) => {
   const [mapboxApiKey, setMapboxApiKey] = useState("");
 
   return (
-    <MapboxKeyContext.Provider value={{ mapboxApiKey, setMapboxApiKey }}>
+    <GlobalStateContext.Provider value={{ mapboxApiKey, setMapboxApiKey }}>
       {children}
-    </MapboxKeyContext.Provider>
+    </GlobalStateContext.Provider>
   );
 };
 
-MapboxKeyProvider.propTypes = {
+GlobalStateProvider.propTypes = {
   children: PropType.node.isRequired,
 };

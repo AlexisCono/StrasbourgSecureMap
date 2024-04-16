@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "./components/Button";
 import Banner from "./components/Banner";
-import MapboxApiKeyForm from "./MapboxApiKeyForm";
 
 const HomePage = () => {
   return (
@@ -15,7 +14,7 @@ const HomePage = () => {
         ></img>
         <div className="buttonAccueil" style={{ marginTop: "1%" }}>
           <Button href="/interactiveMap" classe="buttonHref">
-            Commencer un projet
+            Accéder à un projet
           </Button>
           <div style={{ width: "50px" }}></div>
         </div>

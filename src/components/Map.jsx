@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { addIcon } from "./addIconsFct.jsx";
-import { initializeDraw } from "./draw.jsx";
+import { addIcon } from "../function/addIconsFct.jsx";
+import { initializeDraw } from "../function/draw.jsx";
 import "../styles/Button.css";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import { icons } from "../constants/icons.js";
-import JSONExporter from "./JSONExporter";
+import JSONExporter from "./JSONExporter.jsx";
 import "../styles/Icones.css";
 import PDFExporter from "./PDFExporter.jsx";
 
@@ -15,7 +15,7 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 // A décommenter à la fin !
 // mapboxgl.accessToken = localStorage.getItem('mapboxApiKey');
 
-const MapComponent = () => {
+const Map = () => {
   const [jsonDataIcon, setJsonDataIcon] = useState(null);
   const [jsonDataItiZone, setJsonDataItiZone] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState(undefined);
@@ -313,4 +313,4 @@ const MapComponent = () => {
   );
 };
 
-export default MapComponent;
+export default Map;

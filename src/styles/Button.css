@@ -2,19 +2,20 @@
   padding: 1em 2em;
   font-family: Consolas,monaco,monospace;
   border: none;
-  border-radius: 5px;
+  border-radius: 1%;
   font-weight: bold;
-  letter-spacing: 5px;
+  letter-spacing: 15%;
   text-transform: none;
   cursor: pointer;
   color: #a9acff;
   transition: all 800ms;
   margin-bottom: 2%;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 70%;
   position: relative;
   overflow: hidden;
   outline: 2px solid #d1cfff;
+  margin-bottom:2% ;
 }
 
 .buttonHref:hover {
@@ -233,14 +234,14 @@
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
   --button_outline_color: #0007c4;
-  font-size: 88%; /* Réduire la taille de la police */
+  font-size: 66%; /* Réduire la taille de la police */
   font-weight: bold;
   font-family: Consolas,monaco,monospace;
   border: none;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
   margin-top: 6%;
-  margin-left: 4%;
+  margin-left: 17%;
   padding: 0.5em 0.2em; /* Réduire la taille du padding */
   box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
 }
@@ -272,7 +273,7 @@
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
   --button_outline_color: #0007c4;
-  font-size: 88%; /* Réduire la taille de la police */
+  font-size: 66%; /* Réduire la taille de la police */
   font-weight: bold;
   font-family: Consolas,monaco,monospace;
   border: none;
@@ -315,17 +316,16 @@
   border-style: solid;
   background-color: #d1cfff;
   border-color: #0007c4;
-  width: 44%;
-  height: 30px;
-  font-size: 90%;
+  width: 15%;
+  height: 10%;
+  font-size: 80%;
   transition: 0.2s ease;
-
   border-width: 3%;
-  font-weight: 500;
+  font-weight: 600;
   color: #0007c4;
-  margin-left: 4%;
+  margin-left: 41.5%;
   margin-bottom: 3%;
-
+  
   letter-spacing: 0.5px;
 }
 
@@ -333,63 +333,23 @@
   color: rgb(247, 247, 247);
   background-color: rgb(254, 120, 120);
   border-color: rgb(254, 120, 120);
-  text-shadow: 0 0 30px white, 0 0 15px white;
-  box-shadow: 0 0 30px rgb(254, 120, 120), 0 0 20px rgb(254, 120, 120),
-    0 0 40px rgb(254, 120, 120), 0 0 80px rgb(254, 120, 120);
-  font-size: 100%;
-  width: 44%;
-  height: 30px;
-  letter-spacing: 1px;
+  text-shadow: 0 0 0.8em white, 0 0 0.5em white;
+  box-shadow: 0 0 0.8em rgb(254, 120, 120), 0 0 0.5em rgb(254, 120, 120),
+    0 0 1em rgb(254, 120, 120), 0 0 2em rgb(254, 120, 120);
+  font-size: 80%;
+  width: 15%;
+  height: 10%;
+  
   
 }
 
 .Back:active {
-  width: 44%;
-  height: 30px;
-  letter-spacing: 0px;
+  width: 15%;
+  height: 10%;
+  
   
 }
 
-.Start {
-  cursor: pointer;
-  font-family: Consolas,monaco,monospace;
-  border-radius: 0.5em;
-  border-style: solid;
-  background-color: #d1cfff;
-  border-color: #0007c4;
-  width: 44%;
-  color:#0007c4;
-  height: 30px;
-  transition: 0.2s ease;
-  margin-right: 2%;
-  border-width: 3%;
-  font-weight: 500;
-  font-size: 90%;
-  margin-left: 5%;
-  margin-bottom: 3%;
-  letter-spacing: 0.5px;
-}
-
-.Start:hover {
-  color: rgb(247, 247, 247);
-  background-color: rgb(113, 250, 154);
-  border-color: rgb(113, 250, 154);
-  text-shadow: 0 0 50px white, 0 0 20px white, 0 0 15px white;
-  box-shadow: 0 0 50px rgb(113, 250, 154), 0 0 30px rgb(113, 250, 154),
-    0 0 60px rgb(113, 250, 154), 0 0 120px rgb(113, 250, 154);
-  font-size: 100%;
-  width: 44%;
-  height: 30px;
-  letter-spacing: 1px;
-  
-}
-
-.Start:active {
-  width: 44%;
-  height: 30px;
-  letter-spacing: 0px;
-  
-}
 
 
  
@@ -410,7 +370,7 @@
 .form {
   --input-focus: #00114d;
   --font-color: #d1cfff;
-  --font-color-sub: #e8e8e8;
+  --font-color-sub: beige;
   --bg-color: beige;
   --main-color: #040c29;
   padding: 10px; /* Réduire l'espace intérieur */
@@ -446,14 +406,14 @@
   width: 35%; /* Utiliser toute la largeur */
  
   height: 100%; /* Réduire la hauteur */
-  border-radius: 5px;
+  border-radius: 0.2em;
   border: 2px solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  font-size: 13px; /* Réduire la taille de la police */
+  box-shadow: 0.2em 0.2em var(--main-color);
+  font-size: 60%; /* Réduire la taille de la police */
   font-weight: 600;
   color: #00114d;
-  padding: 5px 20px;
+  padding: 0.5% ;
   outline: none;
 }
 
@@ -462,13 +422,11 @@
   opacity: 0.8;
 }
 
-.input:focus {
-  border: 2px solid var(--input-focus);
-}
+
 
 .login-with {
   display: flex;
-  gap: 10px;
+  gap: 10%;
 }
 
 .button-log {
@@ -476,25 +434,25 @@
   width: 30%; /* Réduire la taille du bouton */
   height: 30%; /* Réduire la taille du bouton */
   border-radius: 100%;
-  border: 2px solid var(--main-color);
+  border: 0.1em solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
+  box-shadow:  0.2em 0.2em var(--main-color);
   color: #00114d;
-  font-size: 20px; /* Réduire la taille de la police */
+  font-size: 20%; /* Réduire la taille de la police */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .icon {
-  width: 18px; /* Réduire la taille de l'icône */
-  height: 18px; /* Réduire la taille de l'icône */
+  width: 18%; /* Réduire la taille de l'icône */
+  height: 18%; /* Réduire la taille de l'icône */
   fill: var(--main-color);
 }
 
 .button-log:active, .button-confirm:active {
   box-shadow: 0px 0px var(--main-color);
-  transform: translate(3px, 3px);
+  transform: translate(3%, 3%);
 }
 
 .button-confirm {
@@ -502,11 +460,11 @@
   margin-bottom: 1%;
   width: 12%; /* Réduire la largeur */
   height: 130%; /* Réduire la hauteur */
-  border-radius: 5px;
-  border: 2px solid var(--main-color);
+  border-radius: 0.2em;
+  border: 0.1em solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow: 4px 4px var(--main-color);
-  font-size: 14px; /* Réduire la taille de la police */
+  box-shadow: 0.2em 0.2em var(--main-color);
+  font-size: 55%; /* Réduire la taille de la police */
   font-weight: 600;
   color: #00114d;
   cursor: pointer;
@@ -530,7 +488,7 @@
   border-color: #0007c4;
   transition: all 100ms;
   text-decoration: none;
-  font-size: 70%;
+  font-size: 66%;
   position: relative;
   overflow: hidden;
   outline: none;
@@ -563,3 +521,205 @@
 .Switch:hover::before {
   width: 250%;
 }
+
+.Telechargement{
+  --button_radius: 0.5em; /* Réduire le rayon du bouton */
+  --button_color: #d1cfff;
+  --button_outline_color: #0007c4;
+  font-size: 66%; /* Réduire la taille de la police */
+  font-weight: bold;
+  font-family: Consolas,monaco,monospace;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  margin-top: 6%;
+  margin-right: 6%;
+  margin-left: 7%;
+  margin-bottom: 3%;
+  padding: 0.5em 0.2em; /* Réduire la taille du padding */
+  box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
+}
+
+.Telechargement {
+  display: inline-block; /* Changer de 'block' à 'inline-block' pour que la taille du bouton soit déterminée par son contenu */
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+.Telechargement:hover  {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+ 
+
+.Telechargement:active  {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+.Import{
+  --button_radius: 0.5em; /* Réduire le rayon du bouton */
+  --button_color: #d1cfff;
+  --button_outline_color: #0007c4;
+  font-size: 70%; /* Réduire la taille de la police */
+  font-weight: bold;
+  font-family: Consolas,monaco,monospace;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  margin-top: 160%;
+  margin-left: 18%;
+  margin-bottom: 3%;
+  padding: 0.5em 0.2em; /* Réduire la taille du padding */
+  box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
+}
+
+.Import {
+  display: inline-block; /* Changer de 'block' à 'inline-block' pour que la taille du bouton soit déterminée par son contenu */
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+.Import:hover  {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+ 
+
+.Import:active  {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+.btn-container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  margin-left: 20%;
+}
+
+.btn-container i {
+  display: inline-block;
+  position: relative;
+  top: -9px;
+  margin-left: 20%;
+}
+
+label {
+  font-size: 80%;
+  color: #424242;
+  font-weight: 200;
+  margin-left: 20%;
+}
+
+.btn-color-mode-switch {
+  display: inline-block;
+  margin: 0px;
+  position: relative;
+  margin-left: 20%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-weight: 200;
+}
+
+.btn-color-mode-switch > label.btn-color-mode-switch-inner {
+  margin: 0px;
+  width: 140px;
+  height: 30px;
+  background: #E0E0E0;
+  border-radius: 26px;
+  font-weight: 200;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+    /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
+  display: block;
+}
+
+.btn-color-mode-switch > label.btn-color-mode-switch-inner:before {
+  content: attr(data-on);
+  position: absolute;
+  font-size: 12px;
+  font-weight: 400;
+  top: 7px;
+  right: 20px;
+}
+
+.btn-color-mode-switch > label.btn-color-mode-switch-inner:after {
+  content: attr(data-off);
+  width: 70px;
+  height: 16px;
+  background: #fff;
+  border-radius: 26px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 0px 6px -2px #111;
+  padding: 5px 0px;
+  font-weight: 400;
+}
+
+.btn-color-mode-switch > .alert {
+  display: none;
+  background: #FF9800;
+  font-weight: 200;
+  border: none;
+  color: #fff;
+}
+
+.btn-color-mode-switch input[type="checkbox"] {
+  cursor: pointer;
+  width: 50px;
+  height: 25px;
+  font-weight: 400;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  margin: 0px;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner {
+  background: #151515;
+  color: #fff;
+  font-weight: 400;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after {
+  content: attr(data-on);
+  left: 68px;
+  font-weight: 400;
+  background: #3c3c3c;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before {
+  content: attr(data-off);
+  right: auto;
+  left: 20px;
+  font-weight: 400;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked ~ .alert {
+  display: block;
+}
+
+.dark-preview {
+  background: #0d0d0d;
+}
+
+.white-preview {
+  background: #fff;
+}
+

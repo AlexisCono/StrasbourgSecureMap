@@ -34,7 +34,7 @@ const JSONExporter = ({ iconSubmitValues }) => {
     URL.revokeObjectURL(url);
   };
 
-  return <button onClick={downloadJSON}>Télécharger les données JSON</button>;
+  return <button className="Telechargement" onClick={downloadJSON}>Télécharger les données JSON</button>;
 };
 
 JSONExporter.propTypes = {

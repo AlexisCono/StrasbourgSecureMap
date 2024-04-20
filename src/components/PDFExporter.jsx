@@ -42,7 +42,7 @@ const PDFExporter = ({ iconSubmitValues }) => {
     pdfMake.createPdf(docDefinition).download("icon_data.pdf");
   };
 
-  return <button onClick={downloadPDF}>Télécharger les données PDF</button>;
+  return <button style={{marginLeft:'8.3%'}} className='Telechargement' onClick={downloadPDF}>Télécharger les données PDF</button>;
 };
 
 PDFExporter.propTypes = {

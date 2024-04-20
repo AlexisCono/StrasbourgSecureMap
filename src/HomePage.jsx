@@ -10,16 +10,16 @@ const HomePage = () => {
       <header className="App-header">
         <img
           src="./image/Logo4.png"
-          style={{ width: "18%", height: "auto", marginTop: "1%" }}
+          style={{ width: "18%", height: "auto", marginTop: "0.1%" }}
           alt="Logo"
         ></img>
-        <div className="buttonAccueil" style={{ marginTop: "1%" }}>
+        <div className="buttonAccueil" style={{ marginTop: "1.2%"}}>
           <Button href="/interactiveMap" classe="buttonHref">
             Commencer un projet
           </Button>
-          <div style={{ width: "50px" }}></div>
+          
         </div>
-  {/*<MapboxApiKeyForm />*/}
+  <MapboxApiKeyForm />
       </header>
     </div>
   );

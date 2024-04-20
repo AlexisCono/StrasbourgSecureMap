@@ -6,14 +6,18 @@ import { GlobalStateProvider } from "./GlobalState";
 
 const App = () => {
   return (
+    
     <GlobalStateProvider>
       <Router>
         <Routes>
+        
           <Route path="/" element={<HomePage />} />
           <Route path="/interactiveMap" element={<InteractiveMap />} />
+          
         </Routes>
       </Router>
     </GlobalStateProvider>
+   
   );
 };
 

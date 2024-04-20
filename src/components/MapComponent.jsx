@@ -187,6 +187,7 @@ const MapComponent = () => {
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
+          
           <Menu
             transitionDuration={500}
             menuItemStyles={{
@@ -202,14 +203,16 @@ const MapComponent = () => {
           >
             <SubMenu
               label={
-                <span style={{ fontSize: "15px" }}>🗺️ Itinéraire et Zone</span>
+                <span style={{ fontSize: "15px" }}>🗺️ Itiné/Zone</span>
               }
               backgroundColor="#d1cfff"
             >
               <div>
                 {/* Bouton pour changer le mode */}
+                
+                
                 <button
-                  className="Switch"
+                  className="buttonItinary" style={{marginLeft:'9%', fontSize:'85%',marginRight:'8%',marginBottom:'2%'}}
                   onClick={() =>
                     setMode(mode === "itinerary" ? "zone" : "itinerary")
                   }
@@ -222,7 +225,7 @@ const MapComponent = () => {
                   <>
                     {/* Bouton pour changer d'itinéraire */}
                     <button
-                      style={{ marginLeft: "10%", marginRight: "10%" }}
+                      
                       className="buttonItinary"
                       onClick={handleChangeRoute}
                     >
@@ -235,9 +238,10 @@ const MapComponent = () => {
                         <div
                           style={{
                             color: "#0007c4",
-                            marginLeft: "34%",
-                            fontSize: "120%",
-                            marginTop: "6%",
+                            marginLeft: "40%",
+                            fontSize: "66%",
+                            marginTop: "9%",
+                            
                           }}
                         >
                           {/* Parcours 1 */}
@@ -260,9 +264,9 @@ const MapComponent = () => {
                         <div
                           style={{
                             color: "#0007c4",
-                            marginLeft: "34%",
-                            fontSize: "120%",
-                            marginTop: "6%",
+                            marginLeft: "40%",
+                            fontSize: "66%",
+                            marginTop: "9%",
                           }}
                         >
                           {/* Parcours 2 */}
@@ -270,7 +274,7 @@ const MapComponent = () => {
                         </div>
                         <br />
                         <button
-                          className="Back"
+                          className="Back" 
                           onClick={() =>
                             handleDeleteLastCoordinate(itiCoordinates2)
                           }
@@ -385,7 +389,10 @@ const MapComponent = () => {
               <JSONExporter iconSubmitValues={iconSubmitValues} />
               <PDFExporter iconSubmitValues={iconSubmitValues} />
             </SubMenu>
-            <input type="file" onChange={handleFileChange} />
+            <input style={{fontSize:'Consolas,monaco,monospace', display:'none'}} id="fileInput"  type="file" onChange={handleFileChange} />
+            <label htmlFor="fileInput" className="Import">
+      Importer un fichier
+    </label>
           </Menu>
         </div>
       </Sidebar>

@@ -6,7 +6,7 @@ import PDFExporter from "./PDFExporter.jsx";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "../styles/button.css";
-import "../styles/icones.css";
+import "../styles/icons.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import Button from "./Button.jsx";
@@ -92,7 +92,7 @@ const Map = () => {
     });
 
     map.current.addControl(new mapboxgl.FullscreenControl());
-    initializeDraw(map.current, setItiZoneValues, jsonDataItiZone);
+    initializeDraw(map.current, setItiZoneValues, jsonDataItiZone,setMode);
 
     if (jsonDataIcon) {
       Object.values(jsonDataIcon).forEach((jsonIcon) => {
@@ -163,6 +163,7 @@ const Map = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
+      {mode === "addIcon" && (
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
@@ -179,18 +180,7 @@ const Map = () => {
               },
             }}
           >
-            <SubMenu
-              backgroundColor="#d1cfff"
-              label={<span style={{ fontSize: "15px" }}>🏗️ Sécurisation</span>}
-              onClick={() => {
-                if (mode !== "addIcon") {
-                  setMode("addIcon");
-                } else {
-                  setMode("");
-                }
-              }}
-            >
-              {mode === "addIcon" && (
+              
                 <div>
                   {/* Champ de recherche */}
                   <input
@@ -258,12 +248,12 @@ const Map = () => {
                     </SubMenu>
                   ))}
                 </div>
-              )}
-            </SubMenu>
+              
           </Menu>
         </div>{" "}
         <br />
       </Sidebar>
+      )}
       {/* Carte */}
       <div
         id="map-container"
@@ -332,12 +322,7 @@ const Map = () => {
               </ul>
             ))}
           </Menu>
-        </div>{" "}
-        <br />
-        <span style={{ fontSize: "15px" }}>
-          Mode actuel :{" "}
-          {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}
-        </span>
+        </div>
       </Sidebar>
     </div>
   );

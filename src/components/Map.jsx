@@ -5,8 +5,8 @@ import JSONExporter from "./JSONExporter.jsx";
 import PDFExporter from "./PDFExporter.jsx";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import "../styles/Button.css";
-import "../styles/icones.css";
+import "../styles/button.css";
+import "../styles/icons.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import Button from "./Button.jsx";
@@ -318,12 +318,7 @@ const Map = () => {
               </ul>
             ))}
           </Menu>
-        </div>{" "}
-        <br />
-        <span style={{ fontSize: "15px" }}>
-          Mode actuel :{" "} {mode} <br/>
-          {mode === "addIcon" ? "Placement d'objets" : "Iti / Zone"}
-        </span>
+        </div>
       </Sidebar>
     </div>
   );

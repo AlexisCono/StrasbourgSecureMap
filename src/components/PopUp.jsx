@@ -10,6 +10,7 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
     quantities: jsonDataIcon ? icon.quantities : 1,
     startHours: jsonDataIcon ? icon.startHours : "",
     endHours: jsonDataIcon ? icon.endHours : "",
+    describe: jsonDataIcon ? icon.describe : "",
     coor: coordKey,
   });
 
@@ -28,35 +29,58 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
 
   return (
     <div className="popup-content">
-      <h2>{icon.label}</h2>
-      <h3>Quantité :</h3>
-      <input
-        type="number"
-        name="quantities"
-        id="quantitiesInput"
-        value={formValues.quantities}
-        min="1"
-        onChange={(event) =>
-          updateFormValues("quantities", parseInt(event.target.value))
-        }
-      />
-      <h3>Heure de pose :</h3>
-      <input
-        type="datetime-local"
-        name="startHours"
-        id="startHoursInput"
-        value={formValues.startHours}
-        onChange={(event) => updateFormValues("startHours", event.target.value)}
-      />
+      <h1>{icon.label}</h1>
 
-      <h3>Heure de dépose :</h3>
-      <input
-        type="datetime-local"
-        name="endHours"
-        id="endHoursInput"
-        value={formValues.endHours}
-        onChange={(event) => updateFormValues("endHours", event.target.value)}
-      />
+      <div className="input-container">
+        <label htmlFor="quantitiesInput">Quantité :</label>
+        <input
+          type="number"
+          name="quantities"
+          id="quantitiesInput"
+          value={formValues.quantities}
+          min="1"
+          onChange={(event) =>
+            updateFormValues("quantities", parseInt(event.target.value))
+          }
+        />
+      </div>
+
+      <div className="input-container">
+        <label htmlFor="startHoursInput">Heure de pose :</label>
+        <input
+          type="datetime-local"
+          name="startHours"
+          id="startHoursInput"
+          value={formValues.startHours}
+          onChange={(event) =>
+            updateFormValues("startHours", event.target.value)
+          }
+        />
+      </div>
+
+      <div className="input-container">
+        <label htmlFor="endHoursInput">Heure de dépose :</label>
+        <input
+          type="datetime-local"
+          name="endHours"
+          id="endHoursInput"
+          value={formValues.endHours}
+          onChange={(event) => updateFormValues("endHours", event.target.value)}
+        />
+      </div>
+
+      <div className="input-container">
+        <label htmlFor="describeInput">Description :</label>
+        <textarea
+          name="describe"
+          id="describeInput"
+          value={formValues.describe}
+          onChange={(event) => updateFormValues("describe", event.target.value)}
+          style={{ resize: "none" }}
+          rows="3" // Nombre de lignes pour une zone de texte plus grande
+        ></textarea>
+      </div>
+
       <button id="deleteButton">Supprimer</button>
     </div>
   );

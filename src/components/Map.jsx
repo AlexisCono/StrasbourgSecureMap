@@ -9,6 +9,7 @@ import "../styles/button.css";
 import "../styles/icones.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
+import Button from "./Button.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -21,6 +22,8 @@ const Map = () => {
   const [selectedIcon, setSelectedIcon] = useState(undefined);
   const [iconSubmitValues, setIconSubmitValues] = useState({});
   const [itiZoneValues, setItiZoneValues] = useState({});
+
+  const [resetMap, setResetMap] = useState(false);
 
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
@@ -39,6 +42,15 @@ const Map = () => {
     });
   };
 
+  // const handleResetMap = () => {
+  //   // setJsonDataIcon(null);
+  //   // setJsonDataItiZone(null);
+  //   setSelectedIcon(undefined);
+  //   setIconSubmitValues({});
+  //   setItiZoneValues({});
+  //   setResetMap(!resetMap);
+  // };
+
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     if (!selectedFile) return;
@@ -55,7 +67,7 @@ const Map = () => {
   };
 
   const [mode, setMode] = useState();
-  const [searchText, setSearchText] = useState("");
+  const searchText = "";
   const mapContainer = useRef(null);
   const map = useRef(null);
 
@@ -100,7 +112,7 @@ const Map = () => {
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [jsonDataItiZone, jsonDataIcon]); // Effectue l'effet uniquement lors du montage initial
+  }, [jsonDataItiZone, jsonDataIcon, resetMap]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -119,6 +131,7 @@ const Map = () => {
         }
       }
     };
+
     map.current.on("click", clickHandler);
 
     // Retrait de l'événement de clic lors du démontage du composant
@@ -289,6 +302,11 @@ const Map = () => {
                   <li>Enlèvement: {iconValues.endHours}</li>
                 )}
                 <li>Rue: {iconValues.streetName}</li>
+                {iconValues.describe && iconValues.describe.trim() !== "" && (
+                  <li>Description: {iconValues.describe}</li>
+                )}
+
+                <br />
               </ul>
             ))}
 
@@ -300,6 +318,9 @@ const Map = () => {
               iconSubmitValues={iconSubmitValues}
               itiZoneValues={itiZoneValues}
             />
+
+            <Button href="/interactiveMap">Réinitialiser le projet</Button>
+
             <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>{" "}

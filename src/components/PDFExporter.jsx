@@ -66,6 +66,11 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
           ],
         },
         { text: icon.streetName },
+        icon.describe && [
+          { text: "Description: ", italics: true },
+          { text: icon.describe },
+        ],
+
         { text: "", margin: [0, 0, 0, 5] }
       );
     });

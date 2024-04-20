@@ -11,6 +11,7 @@ const JSONExporter = ({ iconSubmitValues, itiZoneValues }) => {
       quantities: icon.quantities,
       startHours: icon.startHours,
       endHours: icon.endHours,
+      describe: icon.describe,
       coor: icon.coor,
     }));
 

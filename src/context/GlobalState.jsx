@@ -9,7 +9,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [mapboxApiKey, setMapboxApiKey] = useState("");
 
   return (
-    <GlobalStateContext.Provider value={{ mapboxApiKey, setMapboxApiKey }}>
+    <GlobalStateContext.Provider value={{ mapboxApiKey, setMapboxApiKey, }}>
       {children}
     </GlobalStateContext.Provider>
   );

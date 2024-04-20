@@ -15,7 +15,7 @@
   position: relative;
   overflow: hidden;
   outline: 2px solid #d1cfff;
-  margin-bottom:2% ;
+  margin-bottom: 2%;
 }
 
 .buttonHref:hover {
@@ -317,7 +317,7 @@
   color: #0007c4;
   margin-left: 41.5%;
   margin-bottom: 3%;
-  
+
   letter-spacing: 0.5px;
 }
 
@@ -331,17 +331,12 @@
   font-size: 80%;
   width: 15%;
   height: 10%;
-  
-  
 }
 
 .Back:active {
   width: 15%;
   height: 10%;
-  
-  
 }
-
 
 .mapboxgl-popup-close-button {
   font-size: 24px; /* Ajustez la taille de la croix selon vos préférences */
@@ -405,7 +400,7 @@
   font-size: 60%; /* Réduire la taille de la police */
   font-weight: 600;
   color: #00114d;
-  padding: 0.5% ;
+  padding: 0.5%;
   outline: none;
 }
 
@@ -413,8 +408,6 @@
   color: #00114d;
   opacity: 0.8;
 }
-
-
 
 .login-with {
   display: flex;
@@ -428,7 +421,7 @@
   border-radius: 100%;
   border: 0.1em solid var(--main-color);
   background-color: var(--bg-color);
-  box-shadow:  0.2em 0.2em var(--main-color);
+  box-shadow: 0.2em 0.2em var(--main-color);
   color: #00114d;
   font-size: 20%; /* Réduire la taille de la police */
   display: flex;
@@ -515,13 +508,13 @@
   width: 250%;
 }
 
-.Telechargement{
+.Telechargement {
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
   --button_outline_color: #0007c4;
   font-size: 66%; /* Réduire la taille de la police */
   font-weight: bold;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
@@ -544,24 +537,23 @@
   transition: transform 0.1s ease;
 }
 
-.Telechargement:hover  {
+.Telechargement:hover {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
- 
 
-.Telechargement:active  {
+.Telechargement:active {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
 
-.Import{
+.Import {
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
   --button_outline_color: #0007c4;
   font-size: 70%; /* Réduire la taille de la police */
   font-weight: bold;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
@@ -583,13 +575,12 @@
   transition: transform 0.1s ease;
 }
 
-.Import:hover  {
+.Import:hover {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
- 
 
-.Import:active  {
+.Import:active {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
@@ -629,13 +620,13 @@ label {
   margin: 0px;
   width: 140px;
   height: 30px;
-  background: #E0E0E0;
+  background: #e0e0e0;
   border-radius: 26px;
   font-weight: 200;
   overflow: hidden;
   position: relative;
   transition: all 0.3s ease;
-    /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
+  /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
   display: block;
 }
 
@@ -666,7 +657,7 @@ label {
 
 .btn-color-mode-switch > .alert {
   display: none;
-  background: #FF9800;
+  background: #ff9800;
   font-weight: 200;
   border: none;
   color: #fff;
@@ -684,20 +675,26 @@ label {
   margin: 0px;
 }
 
-.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner {
+.btn-color-mode-switch
+  input[type="checkbox"]:checked
+  + label.btn-color-mode-switch-inner {
   background: #151515;
   color: #fff;
   font-weight: 400;
 }
 
-.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after {
+.btn-color-mode-switch
+  input[type="checkbox"]:checked
+  + label.btn-color-mode-switch-inner:after {
   content: attr(data-on);
   left: 68px;
   font-weight: 400;
   background: #3c3c3c;
 }
 
-.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before {
+.btn-color-mode-switch
+  input[type="checkbox"]:checked
+  + label.btn-color-mode-switch-inner:before {
   content: attr(data-off);
   right: auto;
   left: 20px;
@@ -715,4 +712,3 @@ label {
 .white-preview {
   background: #fff;
 }
-

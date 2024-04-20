@@ -7,6 +7,7 @@ const drawInstance = new MapboxDraw({
     line_string: true,
     polygon: true,
     trash: true,
+    custom: true, // Ajoutez votre nouvelle option à la barre des contrôles
   },
 });
 
@@ -17,46 +18,33 @@ export function initializeDraw(map, setItiZoneValues, jsonDataItiZone, setMode) 
   const customControl = new CustomControl();
   map.addControl(customControl, "top-left");
 
-  // Écoutez l'événement de clic sur le bouton "line_string" de MapboxDraw
-  document.querySelector(".mapbox-gl-draw_line").addEventListener("click", () => {
-    setMode("line");
+  map.on("draw.modechange", () => {
+      setMode("draw");
+    
   });
 
-  // Écoutez l'événement de clic sur le bouton "polygon" de MapboxDraw
-  document.querySelector(".mapbox-gl-draw_polygon").addEventListener("click", () => {
-    setMode("zone");
-  });
-
-  // Écoutez l'événement de clic sur le bouton "trash" de MapboxDraw
-  document.querySelector(".mapbox-gl-draw_trash").addEventListener("click", () => {
-    setMode(null);
-  });
-
-  // Écoutez l'événement de clic sur le bouton "custom"
-  document.querySelector(".custom-icon").addEventListener("click", () => {
+  map.on("draw.custom", () => {
     setMode("addIcon");
   });
 
   if (jsonDataItiZone) {
     Object.values(jsonDataItiZone).forEach((itiZone) => {
-      drawInstance.add(itiZone); // Ajoutez les données dessinées à la carte
+      drawInstance.add(itiZone);
     });
     const initialDrawingsData = drawInstance.getAll();
     const initialjsonDataItiZoneSave = JSON.stringify(initialDrawingsData);
-    setItiZoneValues(JSON.parse(initialjsonDataItiZoneSave)); // Met à jour l'état avec les données dessinées
+    setItiZoneValues(JSON.parse(initialjsonDataItiZoneSave));
   }
 
   const saveDrawings = () => {
     const drawingsData = drawInstance.getAll();
     const jsonDataItiZoneSave = JSON.stringify(drawingsData);
-    setItiZoneValues(JSON.parse(jsonDataItiZoneSave)); // Met à jour l'état avec les données dessinées
+    setItiZoneValues(JSON.parse(jsonDataItiZoneSave));
   };
 
-  // Écoutez l'événement de modification pour détecter les changements dans les dessins
   map.on("draw.create", saveDrawings);
   map.on("draw.update", saveDrawings);
   map.on("draw.delete", saveDrawings);
-  
 }
 
 class CustomControl {
@@ -77,6 +65,11 @@ class CustomControl {
     customControlButton.appendChild(customControlIcon);
 
     this._container.appendChild(customControlButton);
+
+    // Écoutez l'événement de clic sur le bouton personnalisé
+    customControlButton.addEventListener("click", () => {
+      this._map.fire("draw.custom");
+    });
 
     return this._container;
   }

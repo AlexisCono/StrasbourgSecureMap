@@ -6,7 +6,7 @@ import PDFExporter from "./PDFExporter.jsx";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "../styles/Button.css";
-import "../styles/Icones.css";
+import "../styles/icones.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 
@@ -150,6 +150,7 @@ const Map = () => {
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
+      {mode === "addIcon" && (
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
@@ -166,7 +167,7 @@ const Map = () => {
               },
             }}
           >
-              {mode === "addIcon" && (
+              
                 <div>
                   {/* Champ de recherche */}
                   <input
@@ -234,11 +235,12 @@ const Map = () => {
                     </SubMenu>
                   ))}
                 </div>
-              )}
+              
           </Menu>
         </div>{" "}
         <br />
       </Sidebar>
+      )}
       {/* Carte */}
       <div
         id="map-container"

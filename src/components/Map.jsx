@@ -289,6 +289,20 @@ const Map = () => {
               },
             }}
           >
+            <JSONExporter
+              iconSubmitValues={iconSubmitValues}
+              itiZoneValues={itiZoneValues}
+            />
+            <PDFExporter
+              iconSubmitValues={iconSubmitValues}
+              itiZoneValues={itiZoneValues}
+            />
+
+            <Button href="/interactiveMap" classe="buttonRetourAcc">
+              Réinitialiser le projet
+            </Button>
+
+            <input type="file" onChange={handleFileChange} />
             {Object.values(iconSubmitValues).map((iconValues, index) => (
               <ul key={index}>
                 <li>
@@ -309,19 +323,6 @@ const Map = () => {
                 <br />
               </ul>
             ))}
-
-            <JSONExporter
-              iconSubmitValues={iconSubmitValues}
-              itiZoneValues={itiZoneValues}
-            />
-            <PDFExporter
-              iconSubmitValues={iconSubmitValues}
-              itiZoneValues={itiZoneValues}
-            />
-
-            <Button href="/interactiveMap">Réinitialiser le projet</Button>
-
-            <input type="file" onChange={handleFileChange} />
           </Menu>
         </div>{" "}
         <br />

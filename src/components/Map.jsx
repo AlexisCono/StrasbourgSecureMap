@@ -166,7 +166,6 @@ const Map = () => {
       <Sidebar width="200px" backgroundColor="#d1cfff">
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
-          
           <Menu
             transitionDuration={500}
             menuItemStyles={{
@@ -303,10 +302,15 @@ const Map = () => {
               Réinitialiser le projet
             </Button>
 
-            <input style={{fontSize:'Consolas,monaco,monospace', display:'none'}} id="fileInput"  type="file" onChange={handleFileChange} />
+            <input
+              style={{ fontSize: "Consolas,monaco,monospace", display: "none" }}
+              id="fileInput"
+              type="file"
+              onChange={handleFileChange}
+            />
             <label htmlFor="fileInput" className="Import">
-      Importer un fichier
-    </label>
+              Importer un fichier
+            </label>
             {Object.values(iconSubmitValues).map((iconValues, index) => (
               <ul key={index}>
                 <li>

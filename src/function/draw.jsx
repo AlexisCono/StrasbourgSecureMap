@@ -8,7 +8,7 @@ const drawInstance = new MapboxDraw({
     polygon: true,
     trash: true,
     custom: true, // Ajoutez votre nouvelle option à la barre des contrôles
-  },
+  }
 });
 
 export function initializeDraw(map, setItiZoneValues, jsonDataItiZone, setMode) {
@@ -20,11 +20,10 @@ export function initializeDraw(map, setItiZoneValues, jsonDataItiZone, setMode) 
 
   map.on("draw.modechange", () => {
       setMode("draw");
-    
   });
 
   map.on("draw.custom", () => {
-    setMode("addIcon");
+    setMode(currentMode => currentMode === "addIcon" ? null : "addIcon");
   });
 
   if (jsonDataItiZone) {

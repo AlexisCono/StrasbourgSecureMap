@@ -11,7 +11,12 @@ const drawInstance = new MapboxDraw({
   },
 });
 
-export function initializeDraw(map, setItiZoneValues, jsonDataItiZone, setMode) {
+export function initializeDraw(
+  map,
+  setItiZoneValues,
+  jsonDataItiZone,
+  setMode
+) {
   map.addControl(drawInstance, "top-left");
 
   // Ajoutez vos propres contrôles
@@ -19,8 +24,7 @@ export function initializeDraw(map, setItiZoneValues, jsonDataItiZone, setMode) 
   map.addControl(customControl, "top-left");
 
   map.on("draw.modechange", () => {
-      setMode("draw");
-    
+    setMode("draw");
   });
 
   map.on("draw.custom", () => {
@@ -58,7 +62,7 @@ class CustomControl {
 
     const customControlIcon = document.createElement("img");
     customControlIcon.src = "../public/image/object.png"; // Remplacez par le chemin de votre image
-    customControlIcon.alt = "Icône personnalisée"; // Ajoutez un texte alternatif pour l'accessibilité
+    customControlIcon.alt = ""; // Ajoutez un texte alternatif pour l'accessibilité
     customControlIcon.style.width = "24px"; // Définissez la largeur de l'image
     customControlIcon.style.height = "24px"; // Définissez la hauteur de l'image
 

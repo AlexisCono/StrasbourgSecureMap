@@ -9,7 +9,7 @@ import "../styles/button.css";
 import "../styles/icons.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
-import Button from "./Button.jsx";
+import ReasetProjet from "./ReasetProjet.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -41,15 +41,6 @@ const Map = () => {
       return newValues;
     });
   };
-
-  // const handleResetMap = () => {
-  //   // setJsonDataIcon(null);
-  //   // setJsonDataItiZone(null);
-  //   setSelectedIcon(undefined);
-  //   setIconSubmitValues({});
-  //   setItiZoneValues({});
-  //   setResetMap(!resetMap);
-  // };
 
   const handleFileChange = async (event) => {
     const selectedFile = event.target.files[0];
@@ -92,7 +83,7 @@ const Map = () => {
     });
 
     map.current.addControl(new mapboxgl.FullscreenControl());
-    initializeDraw(map.current, setItiZoneValues, jsonDataItiZone,setMode);
+    initializeDraw(map.current, setItiZoneValues, jsonDataItiZone, setMode);
 
     if (jsonDataIcon) {
       Object.values(jsonDataIcon).forEach((jsonIcon) => {
@@ -164,95 +155,93 @@ const Map = () => {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       {mode === "addIcon" && (
-      <Sidebar width="200px" backgroundColor="#d1cfff">
-        {/* Contenu de la sidebar */}
-        <div style={{ position: "relative" }}>
-          <Menu
-            transitionDuration={500}
-            menuItemStyles={{
-              button: ({ level, active, disabled }) => {
-                // only apply styles on first level elements of the tree
-                if (level === 0)
-                  return {
-                    color: disabled ? "#d1cfff" : "#025387", // Couleur de la police
-                    backgroundColor: active ? "#BDE5FF" : "#d1cfff",
-                  };
-              },
-            }}
-          >
-              
-                <div>
-                  {/* Champ de recherche */}
-                  <input
-                    className="RechercherIcone"
+        <Sidebar width="200px" backgroundColor="#d1cfff">
+          {/* Contenu de la sidebar */}
+          <div style={{ position: "relative" }}>
+            <Menu
+              transitionDuration={500}
+              menuItemStyles={{
+                button: ({ level, active, disabled }) => {
+                  // only apply styles on first level elements of the tree
+                  if (level === 0)
+                    return {
+                      color: disabled ? "#d1cfff" : "#025387", // Couleur de la police
+                      backgroundColor: active ? "#BDE5FF" : "#d1cfff",
+                    };
+                },
+              }}
+            >
+              <div>
+                {/* Champ de recherche */}
+                <input
+                  className="RechercherIcone"
+                  style={{
+                    marginTop: "5%",
+                    marginLeft: "5%",
+                    marginBottom: "5%",
+                  }}
+                  type="text"
+                  placeholder="Rechercher ..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+
+                {/* Parcours des catégories filtrées et affichage des sous-menus */}
+                {filteredIcons.map(([category, icons]) => (
+                  <SubMenu
+                    key={category}
                     style={{
-                      marginTop: "5%",
-                      marginLeft: "5%",
-                      marginBottom: "5%",
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                      fontSize: "80%",
                     }}
-                    type="text"
-                    placeholder="Rechercher ..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                  />
-
-                  {/* Parcours des catégories filtrées et affichage des sous-menus */}
-                  {filteredIcons.map(([category, icons]) => (
-                    <SubMenu
-                      key={category}
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        justifyContent: "center",
-                        fontSize: "80%",
-                      }}
-                      label={category}
-                    >
-                      {/* Affichage des icônes filtrées pour chaque catégorie */}
-                      {icons
-                        .filter((icon) =>
-                          icon.label
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        )
-                        .map((icon, index) => (
-                          <div
+                    label={category}
+                  >
+                    {/* Affichage des icônes filtrées pour chaque catégorie */}
+                    {icons
+                      .filter((icon) =>
+                        icon.label
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
+                      )
+                      .map((icon, index) => (
+                        <div
+                          key={index}
+                          style={{ textAlign: "center", margin: "10%" }}
+                        >
+                          <img
                             key={index}
-                            style={{ textAlign: "center", margin: "10%" }}
-                          >
-                            <img
-                              key={index}
-                              src={`icons/${icon.path}`}
-                              alt={icon.label}
-                              style={{
-                                width: "25%",
-                                height: "25%",
-                                marginLeft: "5%",
-                                marginRight: "5%",
-                                marginTop: "0.5%",
-                                marginBottom: "0.2%",
-                                cursor: "pointer",
-                                border:
-                                  selectedIcon === icon
-                                    ? "2px solid #17A71B"
-                                    : "none",
-                              }}
-                              onClick={() => setSelectedIcon(icon)}
-                            />
+                            src={`icons/${icon.path}`}
+                            alt={icon.label}
+                            style={{
+                              width: "25%",
+                              height: "25%",
+                              marginLeft: "5%",
+                              marginRight: "5%",
+                              marginTop: "0.5%",
+                              marginBottom: "0.2%",
+                              cursor: "pointer",
+                              border:
+                                selectedIcon === icon
+                                  ? "2px solid #17A71B"
+                                  : "none",
+                            }}
+                            onClick={() => setSelectedIcon(icon)}
+                          />
 
-                            <div style={{ fontSize: "10px", marginTop: "2%" }}>
-                              {icon.label}
-                            </div>
+                          <div style={{ fontSize: "10px", marginTop: "2%" }}>
+                            {icon.label}
                           </div>
-                        ))}
-                    </SubMenu>
-                  ))}
-                </div>
-              
-          </Menu>
-        </div>{" "}
-        <br />
-      </Sidebar>
+                        </div>
+                      ))}
+                  </SubMenu>
+                ))}
+              </div>
+            </Menu>
+          </div>{" "}
+          <br />
+        </Sidebar>
       )}
       {/* Carte */}
       <div
@@ -287,20 +276,19 @@ const Map = () => {
               iconSubmitValues={iconSubmitValues}
               itiZoneValues={itiZoneValues}
             />
-
-            <Button href="/interactiveMap" classe="buttonRetourAcc">
-              Réinitialiser le projet
-            </Button>
-
+            <ReasetProjet />
             <input
               style={{ fontSize: "Consolas,monaco,monospace", display: "none" }}
               id="fileInput"
               type="file"
               onChange={handleFileChange}
+              className="Import"
             />
-            <label htmlFor="fileInput" className="Import">
+
+            <button htmlFor="fileInput" className="Import">
               Importer un fichier
-            </label>
+            </button>
+
             {Object.values(iconSubmitValues).map((iconValues, index) => (
               <ul key={index}>
                 <li>

@@ -1,6 +1,6 @@
 .buttonHref {
   padding: 1em 2em;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: 1%;
   font-weight: bold;
@@ -42,16 +42,14 @@
   width: 250%;
 }
 
-
-
 .buttonRetourAcc {
   padding: 1em 2em;
   border: #70bdca;
   margin-left: 10px;
   margin-top: 3px;
-  margin-bottom:3px ;
+  margin-bottom: 3px;
   margin-right: 10px;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -92,11 +90,11 @@
 .buttonRetourAcc:hover::before {
   width: 250%;
 }
- 
+
 .buttonModeItineraire {
   padding: 1em 2em;
   border: none;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -138,10 +136,10 @@
   width: 250%;
 }
 
-.buttonAjouterIcone{
+.buttonAjouterIcone {
   padding: 1em 2em;
   border: none;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 5px;
@@ -183,9 +181,9 @@
   width: 250%;
 }
 
-.boutonSidebar{
+.boutonSidebar {
   padding: 1em 2em;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: 5px;
   font-weight: bold;
@@ -196,9 +194,9 @@
   transition: all 100ms;
   text-decoration: none;
   font-size: 8px;
-  margin-left:10%;
+  margin-left: 10%;
   bottom: -130%; /* Positionné à 5% du bas du conteneur parent (la sidebar) */
-  left: 0%; 
+  left: 0%;
   /* Positionné horizontalement au centre de la sidebar */ /* Centrage horizontal */
   position: absolute;
   overflow: hidden;
@@ -210,7 +208,6 @@
   transform: scale(1.1);
   outline: 2px solid #a9acff;
   box-shadow: 4px 5px 17px -4px #a9acff;
-  
 }
 
 .boutonSidebar::before {
@@ -230,13 +227,13 @@
   width: 250%;
 }
 
-.buttonItinary{
+.buttonItinary {
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
   --button_outline_color: #0007c4;
   font-size: 66%; /* Réduire la taille de la police */
   font-weight: bold;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
@@ -257,25 +254,23 @@
   transition: transform 0.1s ease;
 }
 
-.buttonItinary:hover  {
+.buttonItinary:hover {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
- 
 
-.buttonItinary:active  {
+.buttonItinary:active {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
 
-
-.Zone{
+.Zone {
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
   --button_outline_color: #0007c4;
   font-size: 66%; /* Réduire la taille de la police */
   font-weight: bold;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
@@ -296,18 +291,15 @@
   transition: transform 0.1s ease;
 }
 
-.Zone:hover  {
+.Zone:hover {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
- 
 
-.Zone:active  {
+.Zone:active {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
-
-
 
 /* Styles pour le bouton avec la classe "Back" */
 .Back {
@@ -351,8 +343,6 @@
 }
 
 
-
- 
 .mapboxgl-popup-close-button {
   font-size: 24px; /* Ajustez la taille de la croix selon vos préférences */
   line-height: 24px; /* Assurez-vous que la ligne correspond à la taille pour centrer la croix */
@@ -364,7 +354,9 @@
 }
 
 .mapboxgl-popup-close-button:hover {
-  transform: scale(1.1); /* Effet d'échelle au survol pour agrandir légèrement la croix */
+  transform: scale(
+    1.1
+  ); /* Effet d'échelle au survol pour agrandir légèrement la croix */
 }
 
 .form {
@@ -386,7 +378,7 @@
   height: 50%;
   width: 70%; /* Réduire la largeur */
   margin-top: 1%;
-  margin-bottom:6%;
+  margin-bottom: 6%;
 }
 
 .title {
@@ -404,7 +396,7 @@
 
 .input {
   width: 35%; /* Utiliser toute la largeur */
- 
+
   height: 100%; /* Réduire la hauteur */
   border-radius: 0.2em;
   border: 2px solid var(--main-color);
@@ -450,7 +442,8 @@
   fill: var(--main-color);
 }
 
-.button-log:active, .button-confirm:active {
+.button-log:active,
+.button-confirm:active {
   box-shadow: 0px 0px var(--main-color);
   transform: translate(3%, 3%);
 }
@@ -475,9 +468,9 @@
   border: #d1cfff;
   margin-left: 10%;
   margin-top: 5%;
-  margin-bottom:5% ;
+  margin-bottom: 5%;
   margin-right: 10%;
-  font-family: Consolas,monaco,monospace;
+  font-family: Consolas, monaco, monospace;
   border-radius: 5px;
   font-weight: bold;
   letter-spacing: 2px;

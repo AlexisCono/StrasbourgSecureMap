@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "StrasbourgSecureMap",
+    "productName": "Strasbourg Secure Map",
     "version": "1.0.0"
   },
   "tauri": {

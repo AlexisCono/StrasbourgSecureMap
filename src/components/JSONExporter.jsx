@@ -1,25 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const JSONExporter = ({ iconSubmitValues }) => {
+const JSONExporter = ({ iconSubmitValues, itiZoneValues }) => {
   // Fonction pour générer les données à sauvegarder dans un fichier JSON
   const generateJSONData = () => {
-    console.log(iconSubmitValues);
-    const jsonData = Object.values(iconSubmitValues).map((icon) => ({
+    // Générer les données pour les icônes
+    const iconsData = Object.values(iconSubmitValues).map((icon) => ({
       label: icon.label,
       path: icon.path,
       quantities: icon.quantities,
       startHours: icon.startHours,
       endHours: icon.endHours,
+      describe: icon.describe,
       coor: icon.coor,
     }));
 
-    const jsonObject = jsonData.reduce((acc, cur, idx) => {
+    const jsonIcon = iconsData.reduce((acc, cur, idx) => {
       acc[`icon${idx + 1}`] = cur;
       return acc;
     }, {}); // Créer un objet à partir de la liste JSON
 
-    return JSON.stringify(jsonObject, null, 2); // Convertit l'objet en chaîne JSON bien formatée
+    // Générer les données pour les zones et les itinéraires
+    let jsonItiZone = {};
+    if (itiZoneValues && itiZoneValues.features) {
+      const itiZoneData = itiZoneValues.features.map((itiZone, idx) => ({
+        [`itiZone${idx + 1}`]: itiZone,
+      }));
+
+      jsonItiZone = itiZoneData.reduce((acc, cur) => {
+        return { ...acc, ...cur };
+      }, {});
+    }
+
+    // Créer l'objet jsonData
+    const jsonData = {
+      icons: jsonIcon,
+      itiZones: jsonItiZone,
+    };
+
+    return JSON.stringify(jsonData, null, 2); // Convertit l'objet en chaîne JSON bien formatée
   };
 
   // Fonction pour télécharger le fichier JSON
@@ -29,7 +48,7 @@ const JSONExporter = ({ iconSubmitValues }) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "icon_data.json";
+    link.download = "sauvegarde_projet.json";
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -39,6 +58,7 @@ const JSONExporter = ({ iconSubmitValues }) => {
 
 JSONExporter.propTypes = {
   iconSubmitValues: PropTypes.object.isRequired,
+  itiZoneValues: PropTypes.object.isRequired,
 };
 
 export default JSONExporter;

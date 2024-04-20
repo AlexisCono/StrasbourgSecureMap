@@ -10,8 +10,32 @@ const drawInstance = new MapboxDraw({
   },
 });
 
-export function initializeDraw(map, setItiZoneValues, jsonDataItiZone) {
+export function initializeDraw(map, setItiZoneValues, jsonDataItiZone, setMode) {
   map.addControl(drawInstance, "top-left");
+
+  // Ajoutez vos propres contrôles
+  const customControl = new CustomControl();
+  map.addControl(customControl, "top-left");
+
+  // Écoutez l'événement de clic sur le bouton "line_string" de MapboxDraw
+  document.querySelector(".mapbox-gl-draw_line").addEventListener("click", () => {
+    setMode("line");
+  });
+
+  // Écoutez l'événement de clic sur le bouton "polygon" de MapboxDraw
+  document.querySelector(".mapbox-gl-draw_polygon").addEventListener("click", () => {
+    setMode("zone");
+  });
+
+  // Écoutez l'événement de clic sur le bouton "trash" de MapboxDraw
+  document.querySelector(".mapbox-gl-draw_trash").addEventListener("click", () => {
+    setMode(null);
+  });
+
+  // Écoutez l'événement de clic sur le bouton "custom"
+  document.querySelector(".custom-icon").addEventListener("click", () => {
+    setMode("addIcon");
+  });
 
   if (jsonDataItiZone) {
     Object.values(jsonDataItiZone).forEach((itiZone) => {
@@ -32,4 +56,33 @@ export function initializeDraw(map, setItiZoneValues, jsonDataItiZone) {
   map.on("draw.create", saveDrawings);
   map.on("draw.update", saveDrawings);
   map.on("draw.delete", saveDrawings);
+  
+}
+
+class CustomControl {
+  onAdd(map) {
+    this._map = map;
+    this._container = document.createElement("div");
+    this._container.className = "mapboxgl-ctrl mapboxgl-ctrl-group";
+
+    const customControlButton = document.createElement("button");
+    customControlButton.className = "mapboxgl-ctrl-icon custom-icon";
+
+    const customControlIcon = document.createElement("img");
+    customControlIcon.src = "../public/image/object.png"; // Remplacez par le chemin de votre image
+    customControlIcon.alt = "Icône personnalisée"; // Ajoutez un texte alternatif pour l'accessibilité
+    customControlIcon.style.width = "24px"; // Définissez la largeur de l'image
+    customControlIcon.style.height = "24px"; // Définissez la hauteur de l'image
+
+    customControlButton.appendChild(customControlIcon);
+
+    this._container.appendChild(customControlButton);
+
+    return this._container;
+  }
+
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+    this._map = undefined;
+  }
 }

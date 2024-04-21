@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { getReverseGeocoding } from "../useCustom/useReverseGeocoding";
+import { timeConvert } from "../function/timeConvert";
 
 //Configuration de pdfmake avec les polices
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -46,23 +47,17 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
 
     Object.values(iconSubmitValues).forEach((icon) => {
       contentIcones.push(
-        { text: icon.label, bold: true },
-        {
-          text: [
-            { text: "Quantité: ", italics: true },
-            { text: `${icon.quantities}` },
-          ],
-        },
+        { text: `${icon.label} x ${icon.quantities}`, bold: true },
         icon.startHours && {
           text: [
             { text: "Date de pose de l'objet: ", italics: true },
-            { text: icon.startHours },
+            { text: timeConvert(icon.startHours) },
           ],
         },
         icon.endHours && {
           text: [
             { text: "Date d'enlèvement de l'objet: ", italics: true },
-            { text: icon.endHours },
+            { text: timeConvert(icon.endHours) },
           ],
         },
         { text: icon.streetName },
@@ -128,7 +123,15 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
     pdfMake.createPdf(docDefinition).download(`${fileName}.pdf`);
   };
 
-  return <button style={{marginLeft:'8.3%'}} className='Telechargement' onClick={downloadPDF}>Télécharger les données PDF</button>;
+  return (
+    <button
+      style={{ marginLeft: "8.3%" }}
+      className="Telechargement"
+      onClick={downloadPDF}
+    >
+      Télécharger les données PDF
+    </button>
+  );
 };
 
 PDFExporter.propTypes = {

@@ -10,7 +10,7 @@ import "../styles/icons.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import ReasetProjet from "./ReasetProjet.jsx";
-import SidebarIcon from "./SideBarIcon.jsx";
+import { timeConvert } from "../function/timeConvert.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -318,18 +318,25 @@ const Map = () => {
               {Object.values(iconSubmitValues).map((iconValues, index) => (
                 <ul key={index}>
                   <li>
-                    <b>{iconValues.label}</b>
+                    <b>
+                      {iconValues.label} x {iconValues.quantities}
+                    </b>
                   </li>
-                  <li>Quantités: {iconValues.quantities}</li>
                   {iconValues.startHours && (
-                    <li>Pose: {iconValues.startHours}</li>
+                    <li>
+                      <em>Pose:</em> {timeConvert(iconValues.startHours)}
+                    </li>
                   )}
                   {iconValues.endHours && (
-                    <li>Enlèvement: {iconValues.endHours}</li>
+                    <li>
+                      <em>Enlèvement:</em> {timeConvert(iconValues.endHours)}
+                    </li>
                   )}
-                  <li>Rue: {iconValues.streetName}</li>
+                  <li>{iconValues.streetName}</li>
                   {iconValues.describe && iconValues.describe.trim() !== "" && (
-                    <li>Description: {iconValues.describe}</li>
+                    <li>
+                      <em>Description:</em> {iconValues.describe}
+                    </li>
                   )}
 
                   <br />

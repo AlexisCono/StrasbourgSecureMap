@@ -8,7 +8,7 @@ const drawInstance = new MapboxDraw({
     polygon: true,
     trash: true,
     custom: true, // Ajoutez votre nouvelle option à la barre des contrôles
-  }
+  },
 });
 
 export function initializeDraw(
@@ -28,7 +28,7 @@ export function initializeDraw(
   });
 
   map.on("draw.custom", () => {
-    setMode(currentMode => currentMode === "addIcon" ? null : "addIcon");
+    setMode((currentMode) => (currentMode === "addIcon" ? null : "addIcon"));
   });
 
   if (jsonDataItiZone) {
@@ -61,7 +61,7 @@ class CustomControl {
     customControlButton.className = "mapboxgl-ctrl-icon custom-icon";
 
     const customControlIcon = document.createElement("img");
-    customControlIcon.src = "../public/image/object.png"; // Remplacez par le chemin de votre image
+    customControlIcon.src = "../public/asset/object.png"; // Remplacez par le chemin de votre image
     customControlIcon.alt = ""; // Ajoutez un texte alternatif pour l'accessibilité
     customControlIcon.style.width = "24px"; // Définissez la largeur de l'image
     customControlIcon.style.height = "24px"; // Définissez la hauteur de l'image

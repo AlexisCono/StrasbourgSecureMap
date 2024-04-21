@@ -4,7 +4,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { getReverseGeocoding } from "../useCustom/useReverseGeocoding";
 import { timeConvert } from "../function/timeConvert";
-import logoImage from "../../public/image/logo3.png"; // Importez l'image depuis votre dossier public
+import logoImage from "../../public/asset/logoProjet.png"; // Importez l'image depuis votre dossier public
 
 //Configuration de pdfmake avec les polices
 pdfMake.vfs = pdfFonts.pdfMake.vfs;

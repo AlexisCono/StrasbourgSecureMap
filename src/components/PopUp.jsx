@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import "../styles/popUp.css";
+import "../styles/popUpStyle.css";
 import useReverseGeocoding from "../useCustom/useReverseGeocoding";
 
 const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {

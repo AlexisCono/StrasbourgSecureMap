@@ -14,7 +14,7 @@ import { timeConvert } from "../function/timeConvert.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
-// A décommenter à la fin !
+// A décommenter à la fin ! //
 // mapboxgl.accessToken = localStorage.getItem('mapboxApiKey');
 
 const Map = () => {

@@ -4,9 +4,28 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { getReverseGeocoding } from "../useCustom/useReverseGeocoding";
 import { timeConvert } from "../function/timeConvert";
+import logoImage from "../../public/image/logo3.png"; // Importez l'image depuis votre dossier public
 
 //Configuration de pdfmake avec les polices
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+// Fonction pour convertir l'image en données URL
+const getImageDataURL = (imgSrc) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = imgSrc;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const dataURL = canvas.toDataURL("image/png");
+      resolve(dataURL);
+    };
+    img.onerror = (error) => reject(error);
+  });
+};
 
 const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
   const [itiZoneValuesWithStreetName, setitiZoneValuesWithStreetName] =
@@ -100,36 +119,37 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
     // Si l'utilisateur clique sur Annuler ou laisse le champ vide, ne rien faire
     if (!fileName) return;
 
-    const docDefinition = {
-      // Utiliser le nom de fichier comme titre du document
-      header: {
-        text: fileName,
-        fontSize: 16,
-        bold: true,
-        alignment: "center",
-        margin: [0, 10, 0, 10],
-      },
-      content: generatePDFContent(),
-      styles: {
-        header: {
-          bold: true,
-          fontSize: 12,
-          margin: [0, 10, 0, 5],
-        },
-      },
-    };
+    getImageDataURL(logoImage)
+      .then((dataURL) => {
+        const docDefinition = {
+          header: {
+            text: fileName,
+            fontSize: 16,
+            bold: true,
+            alignment: "center",
+            margin: [0, 10, 5, 10],
+          },
 
-    // Télécharger le PDF avec le nom spécifié par l'utilisateur
-    pdfMake.createPdf(docDefinition).download(`${fileName}.pdf`);
+          content: generatePDFContent(),
+
+          footer: {
+            image: dataURL, // Utilisez les données URL de l'image
+            fit: [50, 35],
+            alignment: "left",
+            margin: [10, 5, 20, 5],
+          },
+        };
+
+        pdfMake.createPdf(docDefinition).download(`${fileName}.pdf`);
+      })
+      .catch((error) => {
+        console.error("Error loading image:", error);
+      });
   };
 
   return (
-    <button
-      style={{ marginLeft: "8.3%" }}
-      className="Telechargement"
-      onClick={downloadPDF}
-    >
-      Télécharger les données PDF
+    <button className="Telechargement" onClick={downloadPDF}>
+      Télécharger les détails du projet
     </button>
   );
 };

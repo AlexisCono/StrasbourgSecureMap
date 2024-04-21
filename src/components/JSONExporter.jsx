@@ -53,7 +53,11 @@ const JSONExporter = ({ iconSubmitValues, itiZoneValues }) => {
     URL.revokeObjectURL(url);
   };
 
-  return <button className="Telechargement" onClick={downloadJSON}>Télécharger les données JSON</button>;
+  return (
+    <button className="Telechargement" onClick={downloadJSON}>
+      Exporter les dpnnées du projet
+    </button>
+  );
 };
 
 JSONExporter.propTypes = {

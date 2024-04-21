@@ -519,11 +519,10 @@
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
   margin-top: 6%;
-  margin-right: 6%;
-  margin-left: 7%;
   margin-bottom: 3%;
   padding: 0.5em 0.2em; /* Réduire la taille du padding */
   box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
+  text-align: center; /* Centrer le texte à l'intérieur du bouton */
 }
 
 .Telechargement {
@@ -558,12 +557,11 @@
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
   margin-top: 6%;
-  margin-right: 6%;
-  margin-left: 14%;
   margin-bottom: 3%;
   padding: 0.5em 0.2em; /* Réduire la taille du padding */
   box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
   text-decoration: none;
+  text-align: center; /* Centrer le texte à l'intérieur du bouton */
 }
 
 .resetButton {
@@ -590,18 +588,18 @@
 .Import {
   --button_radius: 0.5em; /* Réduire le rayon du bouton */
   --button_color: #d1cfff;
-  --button_outline_color: #0007c4;
-  font-size: 70%; /* Réduire la taille de la police */
+  --button_outline_color: black;
+  font-size: 66%; /* Réduire la taille de la police */
   font-weight: bold;
   font-family: Consolas, monaco, monospace;
   border: none;
   border-radius: var(--button_radius);
   background: var(--button_outline_color);
   margin-top: 6%;
-  margin-left: 18%;
   margin-bottom: 3%;
   padding: 0.5em 0.2em; /* Réduire la taille du padding */
   box-shadow: 0 8px 8px rgba(9, 96, 227, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Ajouter plus d'ombre */
+  text-align: center; /* Centrer le texte à l'intérieur du bouton */
 }
 
 .Import {
@@ -623,6 +621,13 @@
 .Import:active {
   /* Push the button downwards when pressed */
   transform: translateY(0);
+}
+
+.parametreButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .btn-container {

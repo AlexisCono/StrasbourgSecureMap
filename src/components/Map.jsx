@@ -280,30 +280,31 @@ const Map = () => {
               }}
               label="Paramètres"
             >
-              <input
-                style={{
-                  fontSize: "Consolas,monaco,monospace",
-                  display: "none",
-                }}
-                id="fileInput"
-                type="file"
-                onChange={handleFileChange}
-                className="Import"
-              />
+              <div className="parametreButton">
+                <div>
+                  <input
+                    style={{
+                      display: "none",
+                    }}
+                    id="fileInput"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="fileInput" className="Import">
+                    Importer un fichier
+                  </label>
+                </div>
 
-              <label htmlFor="fileInput" className="Import">
-                Importer un fichier
-              </label>
-
-              <JSONExporter
-                iconSubmitValues={iconSubmitValues}
-                itiZoneValues={itiZoneValues}
-              />
-              <PDFExporter
-                iconSubmitValues={iconSubmitValues}
-                itiZoneValues={itiZoneValues}
-              />
-              <ReasetProjet />
+                <JSONExporter
+                  iconSubmitValues={iconSubmitValues}
+                  itiZoneValues={itiZoneValues}
+                />
+                <PDFExporter
+                  iconSubmitValues={iconSubmitValues}
+                  itiZoneValues={itiZoneValues}
+                />
+                <ReasetProjet />
+              </div>
             </SubMenu>
 
             <SubMenu

@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import "../styles/popUpStyle.css";
+import "../styles/popUp.css";
 import PopUp from "../components/PopUp";
 import { createRoot } from "react-dom/client";
 

@@ -11,6 +11,7 @@ const PopUp = ({ icon, onSubmit, coordKey, jsonDataIcon }) => {
     startHours: jsonDataIcon ? icon.startHours : "",
     endHours: jsonDataIcon ? icon.endHours : "",
     describe: jsonDataIcon ? icon.describe : "",
+    category: icon.category,
     coor: coordKey,
   });
 

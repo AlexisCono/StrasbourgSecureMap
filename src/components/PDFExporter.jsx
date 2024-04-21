@@ -58,38 +58,180 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
 
   // Fonction pour générer le contenu du PDF
   const generatePDFContent = () => {
-    const contentIcones = [];
+    const contentIconsBarriere = [];
+    const contentIconsBeton = [];
+    const contentIconsCar = [];
+    const contentIconesAnimation = [];
+    const contentIconsSecu = [];
+
     const contentZones = [];
     const contentItis = [];
     let zoneCount = 0;
     let itiCount = 0;
 
     Object.values(iconSubmitValues).forEach((icon) => {
-      contentIcones.push(
-        { text: `${icon.label} x ${icon.quantities}`, bold: true },
-        icon.startHours && {
-          text: [
-            { text: "Date de pose de l'objet: ", italics: true },
-            { text: timeConvert(icon.startHours) },
+      if (icon.category === "Barrières") {
+        contentIconsBarriere.push(
+          { text: `${icon.label} x ${icon.quantities}`, italics: true },
+          icon.startHours && {
+            text: [
+              { text: "Date de pose de l'objet: ", italics: true },
+              { text: timeConvert(icon.startHours) },
+            ],
+          },
+          icon.endHours && {
+            text: [
+              { text: "Date d'enlèvement de l'objet: ", italics: true },
+              { text: timeConvert(icon.endHours) },
+            ],
+          },
+          { text: icon.streetName },
+          icon.describe && [
+            { text: "Description: ", italics: true },
+            { text: icon.describe },
           ],
-        },
-        icon.endHours && {
-          text: [
-            { text: "Date d'enlèvement de l'objet: ", italics: true },
-            { text: timeConvert(icon.endHours) },
+          { text: "", margin: [0, 0, 0, 5] }
+        );
+      } else if (icon.category === "Élmts béton") {
+        contentIconsBeton.push(
+          { text: `${icon.label} x ${icon.quantities}`, italics: true },
+          icon.startHours && {
+            text: [
+              { text: "Date de pose de l'objet: ", italics: true },
+              { text: timeConvert(icon.startHours) },
+            ],
+          },
+          icon.endHours && {
+            text: [
+              { text: "Date d'enlèvement de l'objet: ", italics: true },
+              { text: timeConvert(icon.endHours) },
+            ],
+          },
+          { text: icon.streetName },
+          icon.describe && [
+            { text: "Description: ", italics: true },
+            { text: icon.describe },
           ],
-        },
-        { text: icon.streetName },
-        icon.describe && [
-          { text: "Description: ", italics: true },
-          { text: icon.describe },
-        ],
-
-        { text: "", margin: [0, 0, 0, 5] }
-      );
+          { text: "", margin: [0, 0, 0, 5] }
+        );
+      } else if (icon.category === "Véhicules") {
+        contentIconsCar.push(
+          { text: `${icon.label} x ${icon.quantities}`, italics: true },
+          icon.startHours && {
+            text: [
+              { text: "Date de pose de l'objet: ", italics: true },
+              { text: timeConvert(icon.startHours) },
+            ],
+          },
+          icon.endHours && {
+            text: [
+              { text: "Date d'enlèvement de l'objet: ", italics: true },
+              { text: timeConvert(icon.endHours) },
+            ],
+          },
+          { text: icon.streetName },
+          icon.describe && [
+            { text: "Description: ", italics: true },
+            { text: icon.describe },
+          ],
+          { text: "", margin: [0, 0, 0, 5] }
+        );
+      } else if (icon.category === "Sécurisation") {
+        contentIconsSecu.push(
+          { text: `${icon.label} x ${icon.quantities}`, italics: true },
+          icon.startHours && {
+            text: [
+              { text: "Date de pose de l'objet: ", italics: true },
+              { text: timeConvert(icon.startHours) },
+            ],
+          },
+          icon.endHours && {
+            text: [
+              { text: "Date d'enlèvement de l'objet: ", italics: true },
+              { text: timeConvert(icon.endHours) },
+            ],
+          },
+          { text: icon.streetName },
+          icon.describe && [
+            { text: "Description: ", italics: true },
+            { text: icon.describe },
+          ],
+          { text: "", margin: [0, 0, 0, 5] }
+        );
+      } else if (icon.category === "Animation") {
+        contentIconesAnimation.push(
+          { text: `${icon.label} x ${icon.quantities}`, italics: true },
+          icon.startHours && {
+            text: [
+              { text: "Date de pose de l'objet: ", italics: true },
+              { text: timeConvert(icon.startHours) },
+            ],
+          },
+          icon.endHours && {
+            text: [
+              { text: "Date d'enlèvement de l'objet: ", italics: true },
+              { text: timeConvert(icon.endHours) },
+            ],
+          },
+          { text: icon.streetName },
+          icon.describe && [
+            { text: "Description: ", italics: true },
+            { text: icon.describe },
+          ],
+          { text: "", margin: [0, 0, 0, 5] }
+        );
+      }
     });
 
-    contentIcones.push({ text: "", margin: [0, 0, 0, 20] });
+    if (contentIconsBarriere.length > 0) {
+      contentIconsBarriere.unshift({
+        text: "Barrières",
+        bold: true,
+        style: "header",
+      });
+      contentIconsBarriere.push({ text: "", margin: [0, 0, 0, 15] });
+    }
+    if (contentIconsBeton.length > 0) {
+      contentIconsBeton.unshift({
+        text: "Élmts béton",
+        bold: true,
+        style: "header",
+      });
+      contentIconsBeton.push({ text: "", margin: [0, 0, 0, 15] });
+    }
+    if (contentIconsCar.length > 0) {
+      contentIconsCar.unshift({
+        text: "Véhicules",
+        bold: true,
+        style: "header",
+      });
+      contentIconsCar.push({ text: "", margin: [0, 0, 0, 15] });
+    }
+    if (contentIconsSecu.length > 0) {
+      contentIconsSecu.unshift({
+        text: "Sécurisation",
+        bold: true,
+        style: "header",
+      });
+      contentIconsSecu.push({ text: "", margin: [0, 0, 0, 15] });
+    }
+    if (contentIconesAnimation.length > 0) {
+      contentIconesAnimation.unshift({
+        text: "Animation",
+        bold: true,
+        style: "header",
+      });
+      contentIconesAnimation.push({ text: "", margin: [0, 0, 0, 15] });
+    }
+
+    const contentIcons = contentIconsBarriere.concat(
+      contentIconsBeton,
+      contentIconsCar,
+      contentIconesAnimation,
+      contentIconsSecu
+    );
+
+    contentIcons.push({ text: "", margin: [0, 0, 0, 20] });
 
     itiZoneValuesWithStreetName.forEach((itiZone) => {
       if (itiZone.geometry.type === "Polygon") {
@@ -107,7 +249,7 @@ const PDFExporter = ({ iconSubmitValues, itiZoneValues }) => {
       }
       contentItis.push({ text: "", margin: [0, 0, 0, 20] });
     });
-    const content = contentIcones.concat(contentZones, contentItis);
+    const content = contentIcons.concat(contentZones, contentItis);
     return content;
   };
 

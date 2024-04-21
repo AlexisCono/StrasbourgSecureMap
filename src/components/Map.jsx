@@ -153,6 +153,34 @@ const Map = () => {
       )
   );
 
+  const generateIconValues = (iconValues, index) => {
+    return (
+      <ul key={index}>
+        <b>
+          {iconValues.label} x {iconValues.quantities}
+        </b>
+        <br />
+        {iconValues.startHours && (
+          <li>
+            <em>Pose:</em> {timeConvert(iconValues.startHours)}
+          </li>
+        )}
+        {iconValues.endHours && (
+          <li>
+            <em>Enlèvement:</em> {timeConvert(iconValues.endHours)}
+          </li>
+        )}
+        <li>{iconValues.streetName}</li>
+        {iconValues.describe && iconValues.describe.trim() !== "" && (
+          <li>
+            <em>Description:</em> {iconValues.describe}
+          </li>
+        )}
+        <br />
+      </ul>
+    );
+  };
+
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       {mode === "addIcon" && (
@@ -306,46 +334,97 @@ const Map = () => {
                 <ReasetProjet />
               </div>
             </SubMenu>
+          </Menu>
+        </div>
 
+        <Menu>
+          <div style={{ position: "relative" }}>
             <SubMenu
+              key="Barrières"
               style={{
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "center",
                 fontSize: "80%",
               }}
-              label="Détails"
+              label="Barrières"
             >
-              {Object.values(iconSubmitValues).map((iconValues, index) => (
-                <ul key={index}>
-                  <li>
-                    <b>
-                      {iconValues.label} x {iconValues.quantities}
-                    </b>
-                  </li>
-                  {iconValues.startHours && (
-                    <li>
-                      <em>Pose:</em> {timeConvert(iconValues.startHours)}
-                    </li>
-                  )}
-                  {iconValues.endHours && (
-                    <li>
-                      <em>Enlèvement:</em> {timeConvert(iconValues.endHours)}
-                    </li>
-                  )}
-                  <li>{iconValues.streetName}</li>
-                  {iconValues.describe && iconValues.describe.trim() !== "" && (
-                    <li>
-                      <em>Description:</em> {iconValues.describe}
-                    </li>
-                  )}
-
-                  <br />
-                </ul>
-              ))}
+              {Object.values(iconSubmitValues).map(
+                (iconValues, index) =>
+                  iconValues.category === "Barrières" &&
+                  generateIconValues(iconValues, index)
+              )}
             </SubMenu>
-          </Menu>
-        </div>
+
+            <SubMenu
+              key="Élmts béton"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "80%",
+              }}
+              label="Élmts béton"
+            >
+              {Object.values(iconSubmitValues).map(
+                (iconValues, index) =>
+                  iconValues.category === "Élmts béton" &&
+                  generateIconValues(iconValues, index)
+              )}
+            </SubMenu>
+
+            <SubMenu
+              key="Véhicules"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "80%",
+              }}
+              label="Véhicules"
+            >
+              {Object.values(iconSubmitValues).map(
+                (iconValues, index) =>
+                  iconValues.category === "Véhicules" &&
+                  generateIconValues(iconValues, index)
+              )}
+            </SubMenu>
+
+            <SubMenu
+              key="Sécurisation"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "80%",
+              }}
+              label="Sécurisation"
+            >
+              {Object.values(iconSubmitValues).map(
+                (iconValues, index) =>
+                  iconValues.category === "Sécurisation" &&
+                  generateIconValues(iconValues, index)
+              )}
+            </SubMenu>
+
+            <SubMenu
+              key="Animation"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "80%",
+              }}
+              label="Animation"
+            >
+              {Object.values(iconSubmitValues).map(
+                (iconValues, index) =>
+                  iconValues.category === "Animation" &&
+                  generateIconValues(iconValues, index)
+              )}
+            </SubMenu>
+          </div>
+        </Menu>
       </Sidebar>
     </div>
   );

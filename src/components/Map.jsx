@@ -10,6 +10,7 @@ import "../styles/icons.css";
 import { icons } from "../constants/icons.js";
 import { Sidebar, Menu, SubMenu } from "react-pro-sidebar";
 import ReasetProjet from "./ReasetProjet.jsx";
+import SidebarIcon from "./SideBarIcon.jsx";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -23,7 +24,8 @@ const Map = () => {
   const [iconSubmitValues, setIconSubmitValues] = useState({});
   const [itiZoneValues, setItiZoneValues] = useState({});
 
-  const [resetMap, setResetMap] = useState(false);
+  const searchText = "";
+  const [searchTerm, setSearchTerm] = useState("");
 
   const onIconSubmit = (iconValues) => {
     setIconSubmitValues((prevValues) => {
@@ -58,12 +60,11 @@ const Map = () => {
   };
 
   const [mode, setMode] = useState();
-  const searchText = "";
+
   const mapContainer = useRef(null);
   const map = useRef(null);
 
   // État local pour stocker le terme de recherche
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const lat = 7.7482;
@@ -103,7 +104,7 @@ const Map = () => {
 
     // Nettoyage de la carte lors du démontage du composant
     return () => map.current.remove();
-  }, [jsonDataItiZone, jsonDataIcon, resetMap]); // Effectue l'effet uniquement lors du montage initial
+  }, [jsonDataItiZone, jsonDataIcon]); // Effectue l'effet uniquement lors du montage initial
 
   useEffect(() => {
     // Ajout de l'événement de clic avec la gestion de l'icône ou du parcours
@@ -171,27 +172,31 @@ const Map = () => {
                 },
               }}
             >
-              <div>
-                {/* Champ de recherche */}
-                <input
-                  className="RechercherIcone"
-                  style={{
-                    marginTop: "5%",
-                    marginLeft: "5%",
-                    marginBottom: "5%",
-                  }}
-                  type="text"
-                  placeholder="Rechercher ..."
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
+              {/* Champ de recherche */}
+              <input
+                className="RechercherIcone"
+                style={{
+                  marginTop: "5%",
+                  marginLeft: "5%",
+                  marginBottom: "5%",
+                }}
+                type="text"
+                placeholder="Rechercher ..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
 
-                {/* Parcours des catégories filtrées et affichage des sous-menus */}
-                {filteredIcons.map(([category, icons]) => (
+              {/* Parcours des catégories filtrées et affichage des sous-menus */}
+              {filteredIcons.map(([category, icons]) => {
+                const categoryHasMatchingIcons = icons.some((icon) =>
+                  icon.label.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+
+                return (
                   <SubMenu
                     key={category}
                     style={{
-                      display: "flex",
+                      display: categoryHasMatchingIcons ? "flex" : "none",
                       flexWrap: "wrap",
                       justifyContent: "center",
                       fontSize: "80%",
@@ -236,11 +241,10 @@ const Map = () => {
                         </div>
                       ))}
                   </SubMenu>
-                ))}
-              </div>
+                );
+              })}
             </Menu>
-          </div>{" "}
-          <br />
+          </div>
         </Sidebar>
       )}
       {/* Carte */}
@@ -255,7 +259,6 @@ const Map = () => {
         {/* Contenu de la sidebar */}
         <div style={{ position: "relative" }}>
           <Menu
-            label="🗒️​ Détails"
             transitionDuration={500}
             menuItemStyles={{
               button: ({ level, active, disabled }) => {
@@ -268,47 +271,71 @@ const Map = () => {
               },
             }}
           >
-            <JSONExporter
-              iconSubmitValues={iconSubmitValues}
-              itiZoneValues={itiZoneValues}
-            />
-            <PDFExporter
-              iconSubmitValues={iconSubmitValues}
-              itiZoneValues={itiZoneValues}
-            />
-            <ReasetProjet />
-            <input
-              style={{ fontSize: "Consolas,monaco,monospace", display: "none" }}
-              id="fileInput"
-              type="file"
-              onChange={handleFileChange}
-              className="Import"
-            />
+            <SubMenu
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "80%",
+              }}
+              label="Paramètres"
+            >
+              <input
+                style={{
+                  fontSize: "Consolas,monaco,monospace",
+                  display: "none",
+                }}
+                id="fileInput"
+                type="file"
+                onChange={handleFileChange}
+                className="Import"
+              />
 
-            <button htmlFor="fileInput" className="Import">
-              Importer un fichier
-            </button>
+              <label htmlFor="fileInput" className="Import">
+                Importer un fichier
+              </label>
 
-            {Object.values(iconSubmitValues).map((iconValues, index) => (
-              <ul key={index}>
-                <li>
-                  <b>{iconValues.label}</b>
-                </li>
-                <li>Quantités: {iconValues.quantities}</li>
-                {iconValues.startHours && (
-                  <li>Pose: {iconValues.startHours}</li>
-                )}
-                {iconValues.endHours && (
-                  <li>Enlèvement: {iconValues.endHours}</li>
-                )}
-                <li>Rue: {iconValues.streetName}</li>
-                {iconValues.describe && iconValues.describe.trim() !== "" && (
-                  <li>Description: {iconValues.describe}</li>
-                )}
+              <JSONExporter
+                iconSubmitValues={iconSubmitValues}
+                itiZoneValues={itiZoneValues}
+              />
+              <PDFExporter
+                iconSubmitValues={iconSubmitValues}
+                itiZoneValues={itiZoneValues}
+              />
+              <ReasetProjet />
+            </SubMenu>
 
-                <br />
-              </ul>
-            ))}
+            <SubMenu
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                fontSize: "80%",
+              }}
+              label="Détails"
+            >
+              {Object.values(iconSubmitValues).map((iconValues, index) => (
+                <ul key={index}>
+                  <li>
+                    <b>{iconValues.label}</b>
+                  </li>
+                  <li>Quantités: {iconValues.quantities}</li>
+                  {iconValues.startHours && (
+                    <li>Pose: {iconValues.startHours}</li>
+                  )}
+                  {iconValues.endHours && (
+                    <li>Enlèvement: {iconValues.endHours}</li>
+                  )}
+                  <li>Rue: {iconValues.streetName}</li>
+                  {iconValues.describe && iconValues.describe.trim() !== "" && (
+                    <li>Description: {iconValues.describe}</li>
+                  )}
+
+                  <br />
+                </ul>
+              ))}
+            </SubMenu>
           </Menu>
         </div>
       </Sidebar>

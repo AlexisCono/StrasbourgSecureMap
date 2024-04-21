@@ -12,7 +12,7 @@ const ResetButton = () => {
   };
 
   return (
-    <a href="/interactiveMap" className="buttonRetourAcc" onClick={handleReset}>
+    <a href="/interactiveMap" className="resetButton" onClick={handleReset}>
       Réinitialiser le projet
     </a>
   );
